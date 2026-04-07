@@ -84,85 +84,26 @@ function initScrollAnimations() {
     opacity: 0, x: 30, duration: 0.8, delay: 0.2, ease: 'power2.out',
   });
 
-  // Experience timeline entries stagger
-  gsap.utils.toArray('.timeline-entry').forEach((entry, i) => {
-    gsap.from(entry, {
-      scrollTrigger: {
-        trigger: entry,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-      opacity: 0,
-      x: -30,
-      duration: 0.6,
-      delay: i * 0.1,
-      ease: 'power2.out',
-    });
-  });
-
-  // Education card
-  gsap.from('.education-card', {
-    scrollTrigger: {
-      trigger: '.education-card',
-      start: 'top 88%',
-    },
-    opacity: 0,
-    y: 20,
-    duration: 0.6,
-    ease: 'power2.out',
-  });
-
-  // Signature project cards stagger
-  gsap.from('.sig-card', {
-    scrollTrigger: {
-      trigger: '.sig-projects-grid',
-      start: 'top 80%',
-    },
-    opacity: 0,
-    y: 40,
-    duration: 0.6,
-    stagger: 0.12,
-    ease: 'power2.out',
-  });
-
   // Project cards stagger
-  gsap.from('.project-card', {
-    scrollTrigger: {
-      trigger: '.projects-grid',
-      start: 'top 80%',
-    },
-    opacity: 0,
-    y: 40,
-    duration: 0.6,
-    stagger: 0.1,
-    ease: 'power2.out',
+  ScrollTrigger.batch('.project-card', {
+    start: 'top 90%',
+    onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }),
   });
+  gsap.set('.project-card', { opacity: 0, y: 40 });
 
   // Client cards
-  gsap.from('.client-card', {
-    scrollTrigger: {
-      trigger: '.clients-grid',
-      start: 'top 82%',
-    },
-    opacity: 0,
-    y: 25,
-    duration: 0.5,
-    stagger: 0.08,
-    ease: 'power2.out',
+  ScrollTrigger.batch('.client-card', {
+    start: 'top 90%',
+    onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out' }),
   });
+  gsap.set('.client-card', { opacity: 0, y: 25 });
 
   // Stack pills
-  gsap.from('.stack-pill', {
-    scrollTrigger: {
-      trigger: '.stack-categories',
-      start: 'top 82%',
-    },
-    opacity: 0,
-    scale: 0.85,
-    duration: 0.4,
-    stagger: 0.03,
-    ease: 'back.out(1.5)',
+  ScrollTrigger.batch('.stack-pill', {
+    start: 'top 90%',
+    onEnter: batch => gsap.to(batch, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(1.5)' }),
   });
+  gsap.set('.stack-pill', { opacity: 0, scale: 0.85 });
 
   // Contact items
   gsap.from('.contact-item', {
