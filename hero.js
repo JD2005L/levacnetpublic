@@ -35,7 +35,12 @@
   renderer.toneMappingExposure = 1.0;
 
   const gl = renderer.getContext();
-  const hasFloatTex = !!gl.getExtension('OES_texture_float') || !!gl.getExtension('EXT_color_buffer_float');
+  // WebGL2 supports float render targets natively (RGBA32F) without extensions.
+  // On WebGL1 we need OES_texture_float.
+  const isWebGL2 = renderer.capabilities.isWebGL2;
+  const hasFloatTex = isWebGL2
+    || !!gl.getExtension('OES_texture_float')
+    || !!gl.getExtension('EXT_color_buffer_float');
 
   // ---------- Scenes / cameras ----------
   const bgScene = new THREE.Scene();
@@ -280,8 +285,8 @@
         // logo attractor (strong during intro lock)
         vec4 tgt = texture2D(uTargetTex, uv);
         vec3 toTgt = tgt.xyz - pos.xyz;
-        force += toTgt * 0.06 * uLogoLock;
-        vel.xyz *= mix(1.0, 0.82, uLogoLock); // extra damping while locking
+        force += toTgt * 0.35 * uLogoLock;
+        vel.xyz *= mix(1.0, 0.72, uLogoLock); // extra damping while locking
 
         vel.xyz += force * uDt;
         vel.xyz *= 0.965; // base damping
@@ -584,27 +589,27 @@
     bgUniforms.uMouse.value.set(mouse.x, mouse.y);
 
     // --- intro: camera dolly + opacity + logo lock schedule ---
-    // 0.0-0.6s: fade in
-    // 0.6-3.2s: particles swarm to form JAMES LEVAC text
-    // 3.2-4.6s: hold the name
-    // 4.6-6.0s: release into flow field, camera settles
-    const INTRO = 6.0;
+    // 0.00-0.35s: fade in
+    // 0.35-1.80s: particles swarm to form JAMES LEVAC text
+    // 1.80-3.00s: hold the name
+    // 3.00-4.00s: release into flow field, camera settles
+    const INTRO = 4.0;
     const tNorm = Math.min(elapsed / INTRO, 1);
     const easeInOutCubic = tNorm < 0.5 ? 4 * tNorm * tNorm * tNorm : 1 - Math.pow(-2 * tNorm + 2, 3) / 2;
     fxCam.position.z = CAM_Z_START + (CAM_Z_HOME - CAM_Z_START) * easeInOutCubic;
 
-    const fadeIn = Math.min(elapsed / 0.9, 1);
+    const fadeIn = Math.min(elapsed / 0.5, 1);
     bgUniforms.uIntro.value = fadeIn;
     if (particles) particles.material.uniforms.uOpacity.value = fadeIn;
     if (fallbackMat) fallbackMat.opacity = fadeIn * 0.85;
 
-    // logo lock ramp: rises 0.6->3.2, holds until 4.6, fades 4.6->6.0
+    // logo lock ramp: rises 0.35->1.80, holds until 3.00, fades 3.00->4.00
     let lock;
-    if (elapsed < 0.6)         lock = 0;
-    else if (elapsed < 3.2)    lock = (elapsed - 0.6) / 2.6;
-    else if (elapsed < 4.6)    lock = 1;
-    else if (elapsed < 6.0)    lock = 1 - (elapsed - 4.6) / 1.4;
-    else                       lock = 0;
+    if (elapsed < 0.35)         lock = 0;
+    else if (elapsed < 1.80)    lock = (elapsed - 0.35) / 1.45;
+    else if (elapsed < 3.00)    lock = 1;
+    else if (elapsed < 4.00)    lock = 1 - (elapsed - 3.00) / 1.00;
+    else                        lock = 0;
     lock = Math.max(0, Math.min(1, lock));
 
     // --- GPGPU step ---

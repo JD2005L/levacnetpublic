@@ -42,15 +42,16 @@ function heroEntrance() {
   // Fade in eyebrow
   gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power2.out' });
 
-  // Typewriter after delay
+  // Typewriter starts as the particle swarm releases (~3s) so the DOM
+  // name hands off from the particle reveal rather than competing with it.
   setTimeout(() => {
-    typeWriter(nameEl, 'James Levac', 80, () => {
+    typeWriter(nameEl, 'James Levac', 55, () => {
       // After name types in, reveal tagline + CTA
-      gsap.to(tagline, { opacity: 1, y: 0, duration: 0.7, delay: 0.2, ease: 'power2.out' });
-      gsap.to(ctaGroup, { opacity: 1, y: 0, duration: 0.7, delay: 0.5, ease: 'power2.out' });
-      gsap.to(scrollInd, { opacity: 1, duration: 0.8, delay: 1.2, ease: 'power2.out' });
+      gsap.to(tagline, { opacity: 1, y: 0, duration: 0.6, delay: 0.1, ease: 'power2.out' });
+      gsap.to(ctaGroup, { opacity: 1, y: 0, duration: 0.6, delay: 0.3, ease: 'power2.out' });
+      gsap.to(scrollInd, { opacity: 1, duration: 0.7, delay: 0.8, ease: 'power2.out' });
     });
-  }, 900);
+  }, 3000);
 }
 
 // === GSAP SCROLL TRIGGER REVEALS ===
