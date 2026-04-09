@@ -652,10 +652,45 @@ section {
 }
 
 .t-prompt { color: var(--accent); }
-.t-cmd { color: #e2e8f0; }
+.t-cmd { color: #e2e8f0; display: inline-block; }
 .t-comment { color: var(--text-muted); }
 .t-out { color: #a3e635; margin-left: 1.5rem; display: block; }
 .t-out-dim { color: var(--text-muted); margin-left: 1.5rem; display: block; }
+
+/* Terminal typewriter: each typed element starts with max-width: 0 and
+   grows to 32ch via steps() so characters appear one at a time (monospace
+   font + ch unit makes 1 step == 1 character). A per-element --i variable
+   in the HTML drives the stagger so lines appear sequentially. The
+   container itself is never faded (we override the generic .reveal opacity
+   rule), so only the text content types in. */
+.about-terminal.reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+.about-terminal .t-cmd,
+.about-terminal .t-out,
+.about-terminal .t-out-dim {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 0;
+  vertical-align: bottom;
+}
+.about-terminal.in-view .t-cmd,
+.about-terminal.in-view .t-out,
+.about-terminal.in-view .t-out-dim {
+  animation: terminal-type 0.28s steps(32, end) forwards;
+  animation-delay: calc(var(--i, 0) * 0.08s);
+}
+@keyframes terminal-type {
+  from { max-width: 0; }
+  to   { max-width: 32ch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-terminal .t-cmd,
+  .about-terminal .t-out,
+  .about-terminal .t-out-dim { max-width: none !important; animation: none !important; }
+}
 
 /* ===== PROJECTS ===== */
 #projects {

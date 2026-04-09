@@ -166,9 +166,30 @@ function heroEntrance() {
 // elements with .in-view when they cross the viewport, and CSS handles
 // the actual transition. No layout thrash, no scroll-handler overhead.
 function initScrollAnimations() {
+  // Terminal gets its own early-trigger observer so by the time the
+  // reader's eye actually reaches the terminal, the typing is almost
+  // finished — they're not left staring at an empty prompt.
+  const term = document.querySelector('.about-terminal');
+  if (term) {
+    term.classList.add('reveal');
+    if ('IntersectionObserver' in window) {
+      const termIo = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            termIo.unobserve(e.target);
+          }
+        }
+      }, { rootMargin: '0px 0px 30% 0px', threshold: 0 });
+      termIo.observe(term);
+    } else {
+      term.classList.add('in-view');
+    }
+  }
+
   const targets = document.querySelectorAll(
     '.section-label, .section-title, .section-subtitle, ' +
-    '.about-text, .about-terminal, ' +
+    '.about-text, ' +
     '.project-card, .client-card, .stack-pill, ' +
     '.contact-item, .contact-note'
   );
