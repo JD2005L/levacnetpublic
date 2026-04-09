@@ -58,49 +58,14 @@
       uniform vec2  uMouseVel;
       uniform float uIntro;
 
-      // -- hash / noise --
-      float hash(vec2 p) {
-        p = fract(p * vec2(234.34, 435.345));
-        p += dot(p, p + 34.23);
-        return fract(p.x * p.y);
-      }
-      float noise(in vec2 p) {
-        vec2 i = floor(p);
-        vec2 f = fract(p);
-        vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(
-          mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
-          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
-          u.y);
-      }
-      float fbm(vec2 p) {
-        float v = 0.0;
-        float a = 0.5;
-        mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
-        for (int i = 0; i < 5; i++) {
-          v += a * noise(p);
-          p = rot * p * 2.03 + vec2(1.3, 1.7);
-          a *= 0.5;
-        }
-        return v;
-      }
+      // Engineered grid: dark base, subtle perspective-grid lines that drift,
+      // a slow soft cyan glow following the cursor, and a vignette. No FBM,
+      // no palettes — clean and out of the way.
 
-      // IQ cosine palette
-      vec3 palette(float t) {
-        vec3 a = vec3(0.48, 0.50, 0.58);
-        vec3 b = vec3(0.50, 0.50, 0.55);
-        vec3 c = vec3(1.00, 1.00, 1.10);
-        vec3 d = vec3(0.10, 0.35, 0.68); // cyan -> magenta -> violet phase
-        return a + b * cos(6.28318 * (c * t + d));
-      }
-
-      float sampleField(vec2 p, float t) {
-        // domain warp (IQ style)
-        vec2 q = vec2(fbm(p + vec2(0.0, 0.0)),
-                      fbm(p + vec2(5.2, 1.3)));
-        vec2 r = vec2(fbm(p + 4.0 * q + vec2(1.7, 9.2) + 0.15 * t),
-                      fbm(p + 4.0 * q + vec2(8.3, 2.8) + 0.126 * t));
-        return fbm(p + 4.0 * r);
+      float grid(vec2 p, float spacing, float width) {
+        vec2 g = abs(fract(p / spacing - 0.5) - 0.5) * spacing;
+        float d = min(g.x, g.y);
+        return 1.0 - smoothstep(0.0, width, d);
       }
 
       void main() {
@@ -108,52 +73,27 @@
         vec2 p  = (uv - 0.5);
         p.x *= uRes.x / uRes.y;
 
-        // mouse-centered warp
+        // deep navy-black base
+        vec3 col = vec3(0.020, 0.028, 0.045);
+
+        // slow horizontal drift
+        vec2 gp = p + vec2(uTime * 0.015, 0.0);
+
+        // two grid scales for depth
+        float g1 = grid(gp, 0.09, 0.0018) * 0.18;
+        float g2 = grid(gp, 0.27, 0.0030) * 0.10;
+        vec3 gridCol = vec3(0.35, 0.55, 0.85);
+        col += (g1 + g2) * gridCol;
+
+        // cursor glow — soft cyan blob
         vec2 m = uMouse - 0.5;
         m.x *= uRes.x / uRes.y;
-        vec2 toM = p - m;
-        float md = length(toM);
-        float pull = exp(-md * 2.2) * 0.35;
-        p -= normalize(toM + 1e-5) * pull;
+        float md = length(p - m);
+        col += exp(-md * 3.5) * vec3(0.10, 0.22, 0.38) * 0.45;
 
-        // flow offset by mouse velocity for a "push" feel
-        vec2 flow = uMouseVel * 0.6;
-
-        float t = uTime * 0.12;
-        vec2 sp = p * 1.6 + flow;
-
-        // chromatic sampling — offset per channel for dispersion
-        float disp = 0.012 + md * 0.02;
-        float fr = sampleField(sp + vec2( disp, 0.0), t);
-        float fg = sampleField(sp,                     t + 0.05);
-        float fb = sampleField(sp + vec2(-disp, disp), t + 0.10);
-
-        vec3 col;
-        col.r = palette(fr + 0.00).r;
-        col.g = palette(fg + 0.05).g;
-        col.b = palette(fb + 0.10).b;
-
-        // deep-space base + gentle energy lift
-        float density = (fr + fg + fb) / 3.0;
-        col *= 0.08 + pow(density, 2.5) * 0.35;
-
-        // faint filaments only in the brightest pockets
-        float fil = smoothstep(0.75, 0.98, density);
-        col += fil * vec3(0.20, 0.35, 0.70) * 0.15;
-
-        // soft cursor halo
-        col += exp(-md * 5.5) * vec3(0.18, 0.32, 0.55) * 0.12;
-
-        // strong vignette to keep edges dark
-        float vig = smoothstep(1.10, 0.15, length(p));
-        col *= mix(0.25, 1.0, vig);
-
-        // subtle grain
-        float grain = hash(gl_FragCoord.xy + uTime) * 0.02 - 0.01;
-        col += grain;
-
-        // heavy mix toward deep base so it reads as "background"
-        col = mix(vec3(0.015, 0.02, 0.035), col, 0.55);
+        // radial vignette
+        float vig = smoothstep(1.15, 0.10, length(p));
+        col *= mix(0.40, 1.0, vig);
 
         // intro reveal
         col *= smoothstep(0.0, 1.0, uIntro);
