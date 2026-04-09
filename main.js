@@ -198,12 +198,18 @@ function runTerminalTyper() {
     });
   });
 
-  function runBucket(bucket) {
+  function runBucket(bucket, isFinal) {
     const cursor = document.createElement('span');
     cursor.className = 'typing-cursor';
 
     function typeLine(i) {
-      if (i >= bucket.length) return;
+      if (i >= bucket.length) {
+        // Section done. Non-final sections release their cursor so
+        // only the last section in the terminal keeps a persistent
+        // blinking cursor at the bottom.
+        if (!isFinal && cursor.parentNode) cursor.parentNode.removeChild(cursor);
+        return;
+      }
       const el = bucket[i];
       const text = el.dataset.text || '';
       el.appendChild(cursor);
@@ -231,8 +237,9 @@ function runTerminalTyper() {
 
   function start() {
     // Slight random offset so the four cursors don't strike in lockstep
-    buckets.forEach((bucket) => {
-      setTimeout(() => runBucket(bucket), Math.random() * 120);
+    const finalIndex = buckets.length - 1;
+    buckets.forEach((bucket, idx) => {
+      setTimeout(() => runBucket(bucket, idx === finalIndex), Math.random() * 120);
     });
   }
 
