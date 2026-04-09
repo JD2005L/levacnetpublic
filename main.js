@@ -9,7 +9,7 @@ window.addEventListener('scroll', () => {
 // === NAV SCROLL-SPY (active link tracking) ===
 // A single IntersectionObserver watches the five main sections and
 // marks the nav link whose section is currently closest to the
-// viewport centre as .active. Nothing runs on scroll — observer
+// viewport centre as .active. Nothing runs on scroll - observer
 // callbacks only fire on threshold crossings.
 function initNavSpy() {
   const sections = ['about', 'projects', 'clients', 'stack', 'contact']
@@ -90,7 +90,7 @@ function hyperspaceReveal() {
   }
 
   // name: each letter is its own projectile with random jitter
-  // (No filter: blur — filter animations cause GPU-process pressure
+  // (No filter: blur - filter animations cause GPU-process pressure
   // similar to WebGL and were stalling video decode in other tabs.)
   tl.fromTo(nameChars,
     {
