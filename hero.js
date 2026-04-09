@@ -3,8 +3,11 @@
 // mouse-warped chromatic aberration, overlaid with an additive particle
 // constellation that breathes, orbits, and reacts to the cursor.
 (function () {
+  console.log('[hero] v2 shader-nebula script loaded');
   const canvas = document.getElementById('hero-canvas');
-  if (!canvas || typeof THREE === 'undefined') return;
+  if (!canvas) { console.warn('[hero] #hero-canvas not found'); return; }
+  if (typeof THREE === 'undefined') { console.warn('[hero] THREE is undefined'); return; }
+  console.log('[hero] canvas found, THREE present, initializing renderer');
 
   let renderer;
   try {
@@ -392,5 +395,6 @@
     renderer.render(fxScene, fxCam);
   }
 
+  console.log('[hero] starting animation loop, COUNT=', COUNT);
   animate();
 })();
