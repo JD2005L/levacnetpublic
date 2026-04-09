@@ -290,52 +290,76 @@ nav.scrolled {
   transform: scale(1);
 }
 
-/* Ballast power-up flicker: opacity-only stutter into steady state.
-   Static text-shadow (not animated) gives the lit-up look without
-   per-frame repaints; keyframes only touch opacity, which is a
-   compositor-only property and cheap. */
-.section-title.reveal {
-  opacity: 0.08;
+/* Ballast power-up flicker for project cards: each card starts dimmed
+   and stutters up to full brightness with its own rhythm, like a bank
+   of old fluorescent tubes firing up slightly out of sync with each
+   other. Opacity-only keyframes with steps(1,end) — no repaints, no
+   compositor pressure, runs once per card via IntersectionObserver. */
+.project-card.reveal {
+  opacity: 0.12;
   transform: none;
   transition: none;
-  text-shadow: 0 0 24px rgba(120, 200, 255, 0.7), 0 0 50px rgba(80, 160, 255, 0.4);
 }
-.section-title.reveal.in-view {
-  animation: ballast-flicker 1.6s steps(1, end) forwards;
+.project-card.reveal.in-view {
+  animation: ballast-flicker-a 2.0s steps(1, end) forwards;
 }
-@keyframes ballast-flicker {
-  0%   { opacity: 0.08; }
-  6%   { opacity: 1; }
-  8%   { opacity: 0.10; }
-  12%  { opacity: 1; }
-  14%  { opacity: 0.15; }
-  18%  { opacity: 1; }
-  22%  { opacity: 0.12; }
+.project-card.reveal.in-view:nth-child(2)  { animation: ballast-flicker-b 2.3s steps(1, end) forwards; animation-delay: 0.15s; }
+.project-card.reveal.in-view:nth-child(3)  { animation: ballast-flicker-c 1.8s steps(1, end) forwards; animation-delay: 0.05s; }
+.project-card.reveal.in-view:nth-child(4)  { animation: ballast-flicker-b 2.1s steps(1, end) forwards; animation-delay: 0.28s; }
+.project-card.reveal.in-view:nth-child(5)  { animation: ballast-flicker-a 2.4s steps(1, end) forwards; animation-delay: 0.10s; }
+.project-card.reveal.in-view:nth-child(6)  { animation: ballast-flicker-c 2.0s steps(1, end) forwards; animation-delay: 0.22s; }
+.project-card.reveal.in-view:nth-child(7)  { animation: ballast-flicker-b 1.9s steps(1, end) forwards; animation-delay: 0.35s; }
+
+@keyframes ballast-flicker-a {
+  0%   { opacity: 0.12; }
+  5%   { opacity: 0.95; }
+  7%   { opacity: 0.12; }
+  11%  { opacity: 0.95; }
+  13%  { opacity: 0.15; }
+  19%  { opacity: 1; }
+  22%  { opacity: 0.20; }
   28%  { opacity: 1; }
-  32%  { opacity: 0.35; }
-  38%  { opacity: 1; }
-  46%  { opacity: 0.55; }
+  34%  { opacity: 0.40; }
+  40%  { opacity: 1; }
+  52%  { opacity: 0.70; }
+  60%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+@keyframes ballast-flicker-b {
+  0%   { opacity: 0.12; }
+  8%   { opacity: 0.95; }
+  10%  { opacity: 0.10; }
+  16%  { opacity: 1; }
+  19%  { opacity: 0.20; }
+  24%  { opacity: 0.95; }
+  27%  { opacity: 0.15; }
+  33%  { opacity: 1; }
+  38%  { opacity: 0.35; }
+  46%  { opacity: 1; }
+  58%  { opacity: 0.75; }
+  66%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+@keyframes ballast-flicker-c {
+  0%   { opacity: 0.12; }
+  4%   { opacity: 0.20; }
+  6%   { opacity: 1; }
+  9%   { opacity: 0.13; }
+  13%  { opacity: 0.95; }
+  16%  { opacity: 0.25; }
+  22%  { opacity: 1; }
+  29%  { opacity: 0.45; }
+  36%  { opacity: 1; }
+  44%  { opacity: 0.60; }
   52%  { opacity: 1; }
-  70%  { opacity: 0.85; }
-  80%  { opacity: 1; }
+  68%  { opacity: 0.85; }
+  76%  { opacity: 1; }
   100% { opacity: 1; }
 }
 
-.section-label.reveal {
-  opacity: 0.10;
-  transform: none;
-  transition: none;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
-}
-.section-label.reveal.in-view {
-  animation: ballast-flicker 1.1s steps(1, end) forwards;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .section-title.reveal,
-  .section-label.reveal { opacity: 1; }
-  .section-title.reveal.in-view,
-  .section-label.reveal.in-view { animation: none; }
+  .project-card.reveal,
+  .project-card.reveal.in-view { opacity: 1 !important; animation: none !important; }
 }
 
 .hero-tagline {
