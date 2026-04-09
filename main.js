@@ -160,58 +160,81 @@ function heroEntrance() {
 }
 
 // === TERMINAL TYPEWRITER ===
-// Walks every .t-out / .t-out-dim inside .about-terminal in document
-// order. For each line it streams one character at a time with a
-// variable delay (30-85ms base, plus extra pauses on spaces and
-// punctuation) and moves a single blinking cursor span from line to
-// line. Fires when the terminal crosses into the viewport.
+// Groups the green output lines by the preceding .terminal-line
+// (each $ command and its outputs is a "section") and runs one
+// independent typer per section, all in parallel, each with its
+// own blinking cursor. Within a section the lines still stream
+// sequentially so "cat specialties.txt" types its four rows in
+// order. Across sections everything happens at once so the whole
+// terminal is done in roughly the time the longest section takes.
 function runTerminalTyper() {
   const term = document.querySelector('.about-terminal');
   if (!term) return;
   term.classList.add('reveal');
 
-  const lines = Array.from(term.querySelectorAll('.t-out, .t-out-dim'));
-  if (!lines.length) return;
+  // Walk the direct children of .about-terminal. Every time we hit a
+  // .terminal-line we open a new section bucket. Every .t-out /
+  // .t-out-dim seen after that is added to the current section.
+  const sections = [];
+  let current = null;
+  Array.from(term.children).forEach((child) => {
+    if (child.classList && child.classList.contains('terminal-line')) {
+      current = [];
+      sections.push(current);
+    } else if (current && child.classList &&
+      (child.classList.contains('t-out') || child.classList.contains('t-out-dim'))) {
+      current.push(child);
+    }
+  });
+  // Drop any empty buckets (e.g. a terminal-line with no outputs)
+  const buckets = sections.filter((s) => s.length > 0);
+  if (!buckets.length) return;
 
-  // Snapshot each line's text and blank it out so it types in live.
-  const queue = lines.map((el) => {
-    const text = el.textContent;
-    el.textContent = '';
-    return { el, text };
+  // Snapshot each line's text and blank it out.
+  buckets.forEach((bucket) => {
+    bucket.forEach((el) => {
+      el.dataset.text = el.textContent;
+      el.textContent = '';
+    });
   });
 
-  const cursor = document.createElement('span');
-  cursor.className = 'typing-cursor';
+  function runBucket(bucket) {
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
 
-  function typeLine(i) {
-    if (i >= queue.length) return;
-    const { el, text } = queue[i];
-    el.appendChild(cursor);
-    let pos = 0;
-    function step() {
-      if (pos >= text.length) {
-        // brief pause between lines, like thinking before next command
-        setTimeout(() => typeLine(i + 1), 140 + Math.random() * 220);
-        return;
+    function typeLine(i) {
+      if (i >= bucket.length) return;
+      const el = bucket[i];
+      const text = el.dataset.text || '';
+      el.appendChild(cursor);
+      let pos = 0;
+      function step() {
+        if (pos >= text.length) {
+          // short pause, then advance to next line in this section
+          setTimeout(() => typeLine(i + 1), 140 + Math.random() * 200);
+          return;
+        }
+        const ch = text.charAt(pos);
+        cursor.insertAdjacentText('beforebegin', ch);
+        pos++;
+        // realistic human cadence
+        let d = 30 + Math.random() * 55;
+        if (ch === ' ') d += 30 + Math.random() * 60;
+        else if (ch === '.' || ch === ',' || ch === '/' || ch === '-') d += 45 + Math.random() * 85;
+        if (Math.random() < 0.04) d += 90 + Math.random() * 140;
+        setTimeout(step, d);
       }
-      const ch = text.charAt(pos);
-      // insert the character just before the cursor so the cursor
-      // stays at the typing position
-      cursor.insertAdjacentText('beforebegin', ch);
-      pos++;
-      // base variable keystroke 30-85ms
-      let d = 30 + Math.random() * 55;
-      // longer pauses on word/clause breaks for a human cadence
-      if (ch === ' ') d += 30 + Math.random() * 60;
-      else if (ch === '.' || ch === ',' || ch === '/' || ch === '-') d += 45 + Math.random() * 85;
-      // occasional longer "thinking" pause
-      if (Math.random() < 0.04) d += 90 + Math.random() * 140;
-      setTimeout(step, d);
+      step();
     }
-    step();
+    typeLine(0);
   }
 
-  function start() { typeLine(0); }
+  function start() {
+    // Slight random offset so the four cursors don't strike in lockstep
+    buckets.forEach((bucket) => {
+      setTimeout(() => runBucket(bucket), Math.random() * 120);
+    });
+  }
 
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
