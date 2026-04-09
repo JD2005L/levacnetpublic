@@ -26,7 +26,7 @@
     console.warn('[hero] WebGL unavailable', e);
     return;
   }
-  const DPR = Math.min(window.devicePixelRatio || 1, 1.75);
+  const DPR = Math.min(window.devicePixelRatio || 1, 1.25);
   renderer.setPixelRatio(DPR);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x03050b, 1);
@@ -72,23 +72,10 @@
       uniform float uIntro;
       uniform float uPulse;
 
-      // Gyroid SDF
-      float sdGyroid(vec3 p, float scale, float thick, float bias) {
-        p *= scale;
-        return abs(dot(sin(p), cos(p.zxy))) / scale - thick + bias;
-      }
+      // Single-octave gyroid SDF (kept minimal for perf)
       float map(vec3 p) {
-        float g1 = sdGyroid(p, 0.8,  0.03, 0.0);
-        float g2 = sdGyroid(p, 1.7,  0.02, 0.0) * 0.6;
-        return min(g1, g2);
-      }
-
-      vec3 calcNormal(vec3 p) {
-        const vec2 e = vec2(0.001, 0.0);
-        return normalize(vec3(
-          map(p + e.xyy) - map(p - e.xyy),
-          map(p + e.yxy) - map(p - e.yxy),
-          map(p + e.yyx) - map(p - e.yyx)));
+        p *= 0.85;
+        return abs(dot(sin(p), cos(p.zxy))) / 0.85 - 0.03;
       }
 
       void main() {
@@ -107,12 +94,15 @@
         float d = 0.0;
         vec3  p;
         float glow = 0.0;
-        for (int i = 0; i < 36; i++) {
+        // Reduced step count: 18 is enough for the atmospheric glow-only
+        // look since we don't shade the actual surface, only accumulate
+        // proximity haze.
+        for (int i = 0; i < 18; i++) {
           p = ro + rd * total;
           d = map(p);
-          glow += exp(-abs(d) * 8.0) * 0.015;
-          if (d < 0.001 || total > 6.0) break;
-          total += d * 0.9;
+          glow += exp(-abs(d) * 8.0) * 0.028;
+          if (d < 0.002 || total > 5.5) break;
+          total += d;
         }
 
         // deep navy-black base
@@ -148,7 +138,7 @@
   // Particles live in a TEX x TEX grid. Positions/velocities are updated by
   // shader passes each frame. Curl-noise provides organic flow.
   const SUPPORTS_GPGPU = hasFloatTex && typeof THREE.GPUComputationRenderer !== 'undefined';
-  const TEX = SUPPORTS_GPGPU ? (window.innerWidth < 700 ? 96 : 128) : 0;
+  const TEX = SUPPORTS_GPGPU ? (window.innerWidth < 700 ? 64 : 96) : 0;
   const PARTICLES = TEX * TEX;
   console.log('[hero] GPGPU supported:', SUPPORTS_GPGPU, 'particles:', PARTICLES);
 
@@ -452,11 +442,13 @@
     const fxPass = new THREE.RenderPass(fxScene, fxCam);
     fxPass.clear = false;
 
+    // Half-resolution bloom target: dramatically cheaper with nearly no
+    // visible quality loss at this bloom radius.
     bloomPass = new THREE.UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      0.9,  // strength
-      0.85, // radius
-      0.18  // threshold
+      new THREE.Vector2(window.innerWidth * 0.5, window.innerHeight * 0.5),
+      0.85, // strength
+      0.80, // radius
+      0.20  // threshold
     );
 
     composer.addPass(bgPass);
@@ -500,7 +492,7 @@
     fxCam.aspect = w / h; fxCam.updateProjectionMatrix();
     bgUniforms.uRes.value.set(w, h);
     if (composer) composer.setSize(w, h);
-    if (bloomPass) bloomPass.setSize(w, h);
+    if (bloomPass) bloomPass.setSize(w * 0.5, h * 0.5);
   });
 
   // ---------- GSAP Scroll: camera dolly ----------

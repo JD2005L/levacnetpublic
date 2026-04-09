@@ -219,14 +219,17 @@ nav.scrolled {
 }
 
 #hero-name {
+  font-family: 'Chakra Petch', 'Inter', system-ui, sans-serif;
   font-size: clamp(3.5rem, 9vw, 7rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-stretch: 100%;
+  letter-spacing: 0.02em;
   line-height: 1;
   color: var(--text);
   margin-bottom: 1.5rem;
   min-height: 1em;
-  text-shadow: 0 0 24px rgba(120, 180, 255, 0.18), 0 0 60px rgba(80, 140, 255, 0.08);
+  text-transform: uppercase;
+  text-shadow: 0 0 28px rgba(120, 200, 255, 0.22), 0 0 72px rgba(60, 140, 255, 0.10);
   visibility: hidden;
 }
 
