@@ -180,7 +180,17 @@ nav.scrolled {
   justify-content: center;
   z-index: 1;
   overflow: hidden;
+  perspective: 1500px;
 }
+
+.hero-content { transform-style: preserve-3d; }
+
+/* Elements that get revealed by hyperspaceReveal start hidden */
+.hero-eyebrow,
+#hero-name,
+.hero-tagline,
+.hero-cta-group,
+.scroll-indicator { will-change: transform, filter, opacity; }
 
 .hero-overlay {
   position: absolute;
@@ -217,24 +227,14 @@ nav.scrolled {
   margin-bottom: 1.5rem;
   min-height: 1em;
   text-shadow: 0 0 24px rgba(120, 180, 255, 0.18), 0 0 60px rgba(80, 140, 255, 0.08);
+  visibility: hidden;
 }
 
-/* Decrypt-reveal character states */
+/* Hyperspace-reveal characters: each letter is its own transform target */
 .name-char {
   display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  transition: color 0.45s ease, text-shadow 0.45s ease, font-family 0.1s;
-  color: #8ad8ff;
-  text-shadow: 0 0 14px rgba(120, 200, 255, 0.55), 0 0 32px rgba(60, 140, 255, 0.28);
-}
-.name-char-scrambling {
-  color: #8ad8ff;
-  opacity: 0.85;
-}
-.name-char-resolved {
-  font-family: inherit;
-  color: var(--text);
-  text-shadow: 0 0 20px rgba(120, 180, 255, 0.22), 0 0 48px rgba(80, 140, 255, 0.10);
+  will-change: transform, filter, opacity;
+  transform-origin: center center;
 }
 
 .hero-tagline {

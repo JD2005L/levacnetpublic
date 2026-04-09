@@ -6,85 +6,115 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 }, { passive: true });
 
-// === DECRYPT/SCRAMBLE REVEAL for hero name ===
-// Each character rapidly cycles through random glyphs then resolves to the
-// final letter in a staggered wave — feels like a decryption feed rather
-// than a typewriter.
-function decryptReveal(element, text, { duration = 1600, glyphSpeed = 40 } = {}) {
-  const GLYPHS = '!<>-_\\/[]{}—=+*^?#________ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  element.innerHTML = '';
-  // Build a span per character
-  const spans = Array.from(text).map((ch) => {
+// === HYPERSPACE REVEAL for hero content ===
+// Eyebrow, name (per-letter), tagline, and CTA buttons all drop out of
+// "lightspeed": they arrive huge and blurred from (slightly) in front of
+// the camera, decelerate hard into their rest positions, and unblur.
+// Each element (and each letter of the name) has its own stagger so the
+// group arrives in formation but not in lockstep.
+function splitIntoChars(el, text) {
+  el.innerHTML = '';
+  const spans = [];
+  for (const ch of text) {
     const s = document.createElement('span');
     s.className = 'name-char';
     s.textContent = ch === ' ' ? '\u00A0' : ch;
-    s.dataset.final = ch;
-    element.appendChild(s);
-    return s;
-  });
+    el.appendChild(s);
+    spans.push(s);
+  }
+  return spans;
+}
 
-  const start = performance.now();
-  const perChar = duration / text.length;
-  const settleDur = 380;
+function hyperspaceReveal() {
+  const eyebrow   = document.querySelector('.hero-eyebrow');
+  const nameEl    = document.getElementById('hero-name');
+  const tagline   = document.querySelector('.hero-tagline');
+  const ctaGroup  = document.querySelector('.hero-cta-group');
+  const ctas      = ctaGroup ? Array.from(ctaGroup.querySelectorAll('a, button')) : [];
+  const scrollInd = document.querySelector('.scroll-indicator');
 
-  return new Promise((resolve) => {
-    function tick() {
-      const now = performance.now();
-      const t = now - start;
-      let allDone = true;
-      spans.forEach((s, i) => {
-        const final = s.dataset.final;
-        if (final === ' ' || s.dataset.done === '1') return;
-        const localStart = i * perChar * 0.55;
-        const local = t - localStart;
-        if (local < 0) {
-          s.textContent = ' ';
-          allDone = false;
-          return;
-        }
-        if (local >= settleDur) {
-          s.textContent = final === ' ' ? '\u00A0' : final;
-          s.classList.add('name-char-resolved');
-          s.dataset.done = '1';
-          return;
-        }
-        // random glyph at glyph-speed intervals
-        const step = Math.floor(local / glyphSpeed);
-        const rnd = GLYPHS.charAt((step * 37 + i * 13) % GLYPHS.length);
-        s.textContent = rnd;
-        s.classList.add('name-char-scrambling');
-        allDone = false;
-      });
-      if (!allDone) requestAnimationFrame(tick);
-      else {
-        spans.forEach((s) => s.classList.remove('name-char-scrambling'));
-        resolve();
-      }
-    }
-    requestAnimationFrame(tick);
-  });
+  const nameChars = splitIntoChars(nameEl, 'James Levac');
+  nameEl.style.visibility = 'visible';
+
+  const tl = gsap.timeline();
+
+  // eyebrow leads
+  if (eyebrow) {
+    tl.fromTo(eyebrow,
+      { opacity: 0, scale: 5.5, filter: 'blur(14px)', y: -30 },
+      { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 1.0, ease: 'expo.out' },
+      0);
+  }
+
+  // name: each letter is its own projectile with random jitter
+  tl.fromTo(nameChars,
+    {
+      opacity: 0,
+      scale: () => 8 + Math.random() * 5,
+      filter: 'blur(22px)',
+      y: () => -50 + Math.random() * 40,
+      x: () => (Math.random() - 0.5) * 60,
+      rotation: () => (Math.random() - 0.5) * 20,
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)',
+      y: 0,
+      x: 0,
+      rotation: 0,
+      duration: 1.35,
+      ease: 'expo.out',
+      stagger: { each: 0.055, from: 'random' },
+    },
+    0.08);
+
+  // tagline arrives slightly after the name is mostly home
+  if (tagline) {
+    tl.fromTo(tagline,
+      { opacity: 0, scale: 4.5, filter: 'blur(14px)', y: 40 },
+      { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 1.1, ease: 'expo.out' },
+      0.55);
+  }
+
+  // CTA buttons each on their own stagger
+  if (ctas.length) {
+    tl.fromTo(ctas,
+      {
+        opacity: 0,
+        scale: () => 5 + Math.random() * 3,
+        filter: 'blur(16px)',
+        y: () => 50 + Math.random() * 30,
+        x: () => (Math.random() - 0.5) * 40,
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        filter: 'blur(0px)',
+        y: 0,
+        x: 0,
+        duration: 1.15,
+        ease: 'expo.out',
+        stagger: { each: 0.12, from: 'random' },
+      },
+      0.7);
+  }
+
+  if (scrollInd) {
+    tl.fromTo(scrollInd,
+      { opacity: 0, y: 20, filter: 'blur(6px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' },
+      1.55);
+  }
+
+  return tl;
 }
 
 // === HERO ENTRANCE SEQUENCE ===
 function heroEntrance() {
-  const eyebrow = document.querySelector('.hero-eyebrow');
-  const nameEl = document.getElementById('hero-name');
-  const tagline = document.querySelector('.hero-tagline');
-  const ctaGroup = document.querySelector('.hero-cta-group');
-  const scrollInd = document.querySelector('.scroll-indicator');
-
-  // Fade in eyebrow
-  gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power2.out' });
-
-  // Decrypt reveal kicks in as the particle swarm releases (~2.8s) so the
-  // DOM name hands off from the particle reveal rather than competing.
-  setTimeout(() => {
-    decryptReveal(nameEl, 'James Levac', { duration: 1400, glyphSpeed: 38 }).then(() => {
-      gsap.to(tagline, { opacity: 1, y: 0, duration: 0.6, delay: 0.1, ease: 'power2.out' });
-      gsap.to(ctaGroup, { opacity: 1, y: 0, duration: 0.6, delay: 0.3, ease: 'power2.out' });
-      gsap.to(scrollInd, { opacity: 1, duration: 0.7, delay: 0.8, ease: 'power2.out' });
-    });
-  }, 2800);
+  // Hyperspace exit fires as the particle swarm releases (~2.8s) so the
+  // DOM content decelerates in as the particles disperse into the field.
+  gsap.delayedCall(2.8, hyperspaceReveal);
 }
 
 // === GSAP SCROLL TRIGGER REVEALS ===
