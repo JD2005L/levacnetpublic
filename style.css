@@ -835,6 +835,11 @@ section {
 .card-link-static {
   cursor: default;
   pointer-events: none;
+  /* Allow long client labels to wrap rather than overlap the title */
+  white-space: normal;
+  text-align: right;
+  max-width: 45%;
+  line-height: 1.35;
 }
 
 .card-link:hover { color: var(--accent); }
