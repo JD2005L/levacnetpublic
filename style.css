@@ -99,73 +99,34 @@ body {
        has an organic crown rather than a flat horizon line. Each
        repeating layer is at a slightly different angle so the rays
        look like they're swaying past each other. --- */
-/* --- Aurora borealis floor: a small number of tall thin elliptical
-       glows rising from the bottom of the viewport. Each ellipse has
-       an extreme vertical aspect ratio so it reads as a single soft
-       wisp (not a stripe), the radial gradient gives it a naturally
-       soft lateral edge, and varying widths/heights/colours/positions
-       avoid the regular-pattern look of a barcode. --- */
+/* --- Aurora borealis: inline SVG with several wavy vertical curtain
+       paths, each filled with a green→teal→violet vertical gradient,
+       softened by a one-time feGaussianBlur in the SVG defs. The
+       blur is rasterized once when the browser decodes the data URI,
+       so it costs nothing at compositing time (unlike CSS filter:blur
+       on a live element). The result is the ethereal wispy look real
+       northern lights have, not blob ellipses. --- */
 .hero-aurora-floor {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 70%;
+  /* Cover most of the hero height so curtains can be tall */
+  top: 15%;
   pointer-events: none;
-  background-image:
-    /* Wisp 1: tall narrow bright green left-of-center */
-    radial-gradient(ellipse 6% 90% at 28% 105%,
-      rgba(120, 255, 170, 0.85) 0%,
-      rgba(90, 230, 150, 0.30) 25%,
-      rgba(60, 200, 130, 0.08) 55%,
-      rgba(0, 0, 0, 0) 80%),
-    /* Wisp 2: wider softer central column */
-    radial-gradient(ellipse 11% 95% at 47% 108%,
-      rgba(80, 240, 150, 0.65) 0%,
-      rgba(70, 210, 140, 0.22) 30%,
-      rgba(0, 0, 0, 0) 70%),
-    /* Wisp 3: thin tall teal right of center */
-    radial-gradient(ellipse 5% 85% at 60% 105%,
-      rgba(100, 255, 200, 0.75) 0%,
-      rgba(80, 220, 180, 0.22) 28%,
-      rgba(0, 0, 0, 0) 65%),
-    /* Wisp 4: medium far-right column */
-    radial-gradient(ellipse 8% 80% at 78% 110%,
-      rgba(70, 230, 170, 0.55) 0%,
-      rgba(60, 200, 150, 0.18) 30%,
-      rgba(0, 0, 0, 0) 65%),
-    /* Wisp 5: thin far-left wisp */
-    radial-gradient(ellipse 4% 70% at 12% 108%,
-      rgba(140, 255, 180, 0.55) 0%,
-      rgba(0, 0, 0, 0) 65%),
-    /* Wisp 6: very thin pink-magenta accent */
-    radial-gradient(ellipse 3% 60% at 88% 108%,
-      rgba(180, 140, 255, 0.40) 0%,
-      rgba(0, 0, 0, 0) 60%),
-    /* Wisp 7: stray green near right edge */
-    radial-gradient(ellipse 4% 65% at 92% 110%,
-      rgba(110, 255, 170, 0.45) 0%,
-      rgba(0, 0, 0, 0) 65%),
-    /* Wisp 8: subtle cyan column */
-    radial-gradient(ellipse 5% 75% at 38% 108%,
-      rgba(110, 240, 220, 0.45) 0%,
-      rgba(0, 0, 0, 0) 65%),
-    /* Foot glow: a low warm green wash anchoring all the wisps */
-    radial-gradient(ellipse 90% 22% at 50% 105%,
-      rgba(60, 220, 140, 0.40) 0%,
-      rgba(40, 160, 100, 0.12) 40%,
-      rgba(0, 0, 0, 0) 80%);
-  /* Vertical fade: keep the foot fully painted but dissolve the tops
-     of the wisps into the rest of the hero so there's no hard edge */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'><defs><linearGradient id='gA' x1='0' x2='0' y1='1' y2='0'><stop offset='0' stop-color='%237cff9a' stop-opacity='0.95'/><stop offset='0.18' stop-color='%235fff8a' stop-opacity='0.65'/><stop offset='0.45' stop-color='%233ad8b0' stop-opacity='0.30'/><stop offset='0.72' stop-color='%237c8fff' stop-opacity='0.10'/><stop offset='1' stop-color='%23a070ff' stop-opacity='0'/></linearGradient><linearGradient id='gB' x1='0' x2='0' y1='1' y2='0'><stop offset='0' stop-color='%23a8ffba' stop-opacity='0.85'/><stop offset='0.25' stop-color='%2360ffa0' stop-opacity='0.45'/><stop offset='0.6' stop-color='%2360c8ff' stop-opacity='0.15'/><stop offset='1' stop-color='%239070ff' stop-opacity='0'/></linearGradient><linearGradient id='gC' x1='0' x2='0' y1='1' y2='0'><stop offset='0' stop-color='%2360ffd0' stop-opacity='0.80'/><stop offset='0.3' stop-color='%2350e0c0' stop-opacity='0.30'/><stop offset='0.75' stop-color='%23a060ff' stop-opacity='0.10'/><stop offset='1' stop-color='%23a060ff' stop-opacity='0'/></linearGradient><filter id='soft' x='-50%25' y='-50%25' width='200%25' height='200%25'><feGaussianBlur stdDeviation='16'/></filter></defs><g filter='url(%23soft)'><path d='M 60 900 Q 30 600 90 300 Q 130 100 80 -50 L 180 -50 Q 230 100 190 300 Q 150 600 210 900 Z' fill='url(%23gA)'/><path d='M 250 900 Q 300 600 240 300 Q 200 100 270 -50 L 360 -50 Q 410 100 360 300 Q 310 600 380 900 Z' fill='url(%23gB)'/><path d='M 470 900 Q 430 600 480 300 Q 510 100 460 -50 L 580 -50 Q 620 100 580 300 Q 530 600 600 900 Z' fill='url(%23gC)'/><path d='M 720 900 Q 770 600 700 300 Q 670 100 740 -50 L 860 -50 Q 900 100 840 300 Q 790 600 870 900 Z' fill='url(%23gA)'/><path d='M 950 900 Q 920 600 980 300 Q 1010 100 950 -50 L 1080 -50 Q 1120 100 1060 300 Q 1010 600 1080 900 Z' fill='url(%23gB)'/><path d='M 1180 900 Q 1230 600 1170 300 Q 1140 100 1200 -50 L 1320 -50 Q 1360 100 1300 300 Q 1250 600 1320 900 Z' fill='url(%23gA)'/><path d='M 1380 900 Q 1340 600 1390 300 Q 1420 100 1370 -50 L 1490 -50 Q 1530 100 1470 300 Q 1430 600 1500 900 Z' fill='url(%23gC)'/></g></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: bottom;
   -webkit-mask-image: linear-gradient(180deg,
     rgba(0,0,0,0) 0%,
-    rgba(0,0,0,0.5) 30%,
-    rgba(0,0,0,0.95) 65%,
+    rgba(0,0,0,0.4) 25%,
+    rgba(0,0,0,0.85) 60%,
     rgba(0,0,0,1) 100%);
           mask-image: linear-gradient(180deg,
     rgba(0,0,0,0) 0%,
-    rgba(0,0,0,0.5) 30%,
-    rgba(0,0,0,0.95) 65%,
+    rgba(0,0,0,0.4) 25%,
+    rgba(0,0,0,0.85) 60%,
     rgba(0,0,0,1) 100%);
 }
 
