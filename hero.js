@@ -171,13 +171,13 @@
         // proximity highlight: particles near the projected cursor line get
         // a brightness and size boost, but do not move.
         float d  = distance(position.xy, uMouseW.xy);
-        float k  = exp(-d * d / (120.0 * 120.0)); // falloff
+        float k  = exp(-d * d / (130.0 * 130.0)); // falloff
         vGlow    = k;
-        vec3 tint = mix(vColor, vec3(0.55, 0.85, 1.05), k * 0.7);
+        vec3 tint = mix(vColor, vec3(0.55, 0.85, 1.05), k * 0.35);
         vColor    = tint;
 
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = aSize * uPR * (300.0 / -mv.z) * (1.0 + k * 1.8);
+        gl_PointSize = aSize * uPR * (300.0 / -mv.z) * (1.0 + k * 0.6);
         gl_Position = projectionMatrix * mv;
       }
     `,
@@ -189,9 +189,9 @@
         vec2 c = gl_PointCoord - 0.5;
         float d = length(c);
         float core = smoothstep(0.5, 0.0, d);
-        float halo = exp(-d * 3.2) * (1.35 + vGlow * 0.9);
-        float outer = exp(-d * 1.4) * 0.45;
-        vec3 col = vColor * (core * 1.2 + halo + outer);
+        float halo = exp(-d * 3.4) * (0.85 + vGlow * 0.35);
+        float outer = exp(-d * 1.5) * 0.28;
+        vec3 col = vColor * (core * 0.9 + halo + outer);
         float a = clamp(core + halo * 0.9 + outer * 0.6, 0.0, 1.0);
         gl_FragColor = vec4(col, a * uOpacity);
       }
@@ -214,7 +214,7 @@
   const lineMat = new THREE.LineBasicMaterial({
     vertexColors: true,
     transparent: true,
-    opacity: 0.12,
+    opacity: 0.28,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   });
@@ -232,6 +232,13 @@
     mouse.tx = t.clientX / window.innerWidth;
     mouse.ty = 1 - t.clientY / window.innerHeight;
   }, { passive: true });
+
+  // push cursor far off-screen when it leaves the window so hover effects
+  // don't persist stuck to the last edge the mouse touched
+  const OFF = -999;
+  document.addEventListener('mouseleave', () => { mouse.tx = OFF; mouse.ty = OFF; });
+  window.addEventListener('blur',          () => { mouse.tx = OFF; mouse.ty = OFF; });
+  document.addEventListener('touchend',    () => { mouse.tx = OFF; mouse.ty = OFF; });
 
   window.addEventListener('resize', () => {
     const w = window.innerWidth, h = window.innerHeight;
@@ -309,9 +316,15 @@
       let lc = 0;
       const md2 = MAX_D * MAX_D;
       const step = COUNT > 600 ? 2 : 1;
+      const mxW = pMat.uniforms.uMouseW.value.x;
+      const myW = pMat.uniforms.uMouseW.value.y;
+      const HOVER_R2 = 220 * 220;
       for (let i = 0; i < COUNT && lc < MAX_LINES; i += step) {
         const ax = pos[i * 3], ay = pos[i * 3 + 1], az = pos[i * 3 + 2];
         const ci = i * 3;
+        // proximity to mouse for endpoint A
+        const adx = ax - mxW, ady = ay - myW;
+        const aHover = Math.max(0, 1 - (adx * adx + ady * ady) / HOVER_R2);
         for (let j = i + step; j < COUNT && lc < MAX_LINES; j += step) {
           const dx = ax - pos[j * 3];
           const dy = ay - pos[j * 3 + 1];
@@ -327,12 +340,17 @@
             linePos[base + 5] = pos[j * 3 + 2];
             // fade with distance
             const k = 1 - d2 / md2;
-            lineCol[base]     = colors[ci]     * k;
-            lineCol[base + 1] = colors[ci + 1] * k;
-            lineCol[base + 2] = colors[ci + 2] * k;
-            lineCol[base + 3] = colors[j * 3]     * k;
-            lineCol[base + 4] = colors[j * 3 + 1] * k;
-            lineCol[base + 5] = colors[j * 3 + 2] * k;
+            // per-endpoint hover brightening
+            const bdx = pos[j * 3] - mxW, bdy = pos[j * 3 + 1] - myW;
+            const bHover = Math.max(0, 1 - (bdx * bdx + bdy * bdy) / HOVER_R2);
+            const aBoost = 1 + aHover * 3.2;
+            const bBoost = 1 + bHover * 3.2;
+            lineCol[base]     = colors[ci]     * k * aBoost;
+            lineCol[base + 1] = colors[ci + 1] * k * aBoost;
+            lineCol[base + 2] = colors[ci + 2] * k * aBoost;
+            lineCol[base + 3] = colors[j * 3]     * k * bBoost;
+            lineCol[base + 4] = colors[j * 3 + 1] * k * bBoost;
+            lineCol[base + 5] = colors[j * 3 + 2] * k * bBoost;
             lc++;
           }
         }
