@@ -77,7 +77,9 @@ function hyperspaceReveal() {
       0.55);
   }
 
-  // CTA buttons each on their own stagger
+  // CTA buttons each on their own stagger (parent must be visible, the
+  // children carry the actual reveal animation)
+  if (ctaGroup) gsap.set(ctaGroup, { opacity: 1 });
   if (ctas.length) {
     tl.fromTo(ctas,
       {
