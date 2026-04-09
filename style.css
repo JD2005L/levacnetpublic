@@ -290,97 +290,106 @@ nav.scrolled {
   transform: scale(1);
 }
 
-/* Horror-game broken-fluorescent flicker for project cards. Three
-   distinct chaotic keyframe patterns cycled across cards with per-card
-   delays so each fixture fires up on its own unreliable rhythm. Long
-   dead gaps, rapid micro-stutters, brief full-bright spikes that
-   immediately die back to near-black, a shaky ramp-up, and a final
-   "settled" state that still twitches once before locking on.
-   steps(1,end) = no interpolation between frames, hard switches only. */
+/* Realistic broken-fluorescent illumination: card content is always
+   rendered, a dark ::after overlay sits above it and its opacity
+   flickers away. Mimics a light source in the room turning on above
+   a physically present card, rather than the card itself appearing
+   from nothing. */
 .project-card.reveal {
-  opacity: 0.03;
+  /* Card content stays fully visible; overlay handles the dimming. */
+  opacity: 1;
   transform: none;
   transition: none;
 }
-.project-card.reveal.in-view {
-  animation: flicker-horror-a 2.1s steps(1, end) forwards;
+.project-card.reveal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #050810;
+  pointer-events: none;
+  opacity: 0.93;
+  z-index: 5;
+  border-radius: inherit;
 }
-.project-card.reveal.in-view:nth-child(2)  { animation: flicker-horror-b 2.3s steps(1, end) forwards; animation-delay: 0.09s; }
-.project-card.reveal.in-view:nth-child(3)  { animation: flicker-horror-c 2.0s steps(1, end) forwards; animation-delay: 0.21s; }
-.project-card.reveal.in-view:nth-child(4)  { animation: flicker-horror-b 2.2s steps(1, end) forwards; animation-delay: 0.05s; }
-.project-card.reveal.in-view:nth-child(5)  { animation: flicker-horror-a 2.4s steps(1, end) forwards; animation-delay: 0.28s; }
-.project-card.reveal.in-view:nth-child(6)  { animation: flicker-horror-c 2.15s steps(1, end) forwards; animation-delay: 0.13s; }
-.project-card.reveal.in-view:nth-child(7)  { animation: flicker-horror-b 2.05s steps(1, end) forwards; animation-delay: 0.35s; }
+.project-card.reveal.in-view::after {
+  animation: flicker-light-a 2.1s steps(1, end) forwards;
+}
+.project-card.reveal.in-view:nth-child(2)::after { animation: flicker-light-b 2.3s steps(1, end) forwards; animation-delay: 0.09s; }
+.project-card.reveal.in-view:nth-child(3)::after { animation: flicker-light-c 2.0s steps(1, end) forwards; animation-delay: 0.21s; }
+.project-card.reveal.in-view:nth-child(4)::after { animation: flicker-light-b 2.2s steps(1, end) forwards; animation-delay: 0.05s; }
+.project-card.reveal.in-view:nth-child(5)::after { animation: flicker-light-a 2.4s steps(1, end) forwards; animation-delay: 0.28s; }
+.project-card.reveal.in-view:nth-child(6)::after { animation: flicker-light-c 2.15s steps(1, end) forwards; animation-delay: 0.13s; }
+.project-card.reveal.in-view:nth-child(7)::after { animation: flicker-light-b 2.05s steps(1, end) forwards; animation-delay: 0.35s; }
 
-/* Fewer keyframes with longer holds at each state — reads as a more
-   "paced" flicker rather than a rapid-fire stutter, even though the
-   total sequence is shorter. */
-@keyframes flicker-horror-a {
-  0%   { opacity: 0.03; }
-  10%  { opacity: 0.03; }   /* hold dark */
-  12%  { opacity: 1; }      /* first strike */
-  14%  { opacity: 0.04; }
-  22%  { opacity: 0.04; }   /* dead gap */
-  25%  { opacity: 0.95; }
-  27%  { opacity: 0.06; }
-  36%  { opacity: 0.06; }   /* long dead gap */
-  40%  { opacity: 0.90; }
-  43%  { opacity: 0.20; }
-  48%  { opacity: 1; }
-  52%  { opacity: 0.35; }
-  58%  { opacity: 1; }
-  64%  { opacity: 0.65; }
-  70%  { opacity: 1; }
-  82%  { opacity: 1; }
-  84%  { opacity: 0.40; }  /* residual twitch */
-  86%  { opacity: 1; }
-  100% { opacity: 1; }
+/* Overlay opacity is INVERTED vs brightness: 0.93 = dark (lights off),
+   0 = lights on full. Holds at dark, brief strikes of near-0, shaky
+   ramp, residual twitch near the end, then full-on. */
+@keyframes flicker-light-a {
+  0%   { opacity: 0.93; }
+  10%  { opacity: 0.93; }  /* hold dark */
+  12%  { opacity: 0.00; }  /* first strike */
+  14%  { opacity: 0.90; }
+  22%  { opacity: 0.90; }  /* dead gap */
+  25%  { opacity: 0.05; }
+  27%  { opacity: 0.88; }
+  36%  { opacity: 0.88; }  /* long dead gap */
+  40%  { opacity: 0.08; }
+  43%  { opacity: 0.72; }
+  48%  { opacity: 0.00; }
+  52%  { opacity: 0.55; }
+  58%  { opacity: 0.00; }
+  64%  { opacity: 0.30; }
+  70%  { opacity: 0.00; }
+  82%  { opacity: 0.00; }
+  84%  { opacity: 0.48; }  /* residual twitch */
+  86%  { opacity: 0.00; }
+  100% { opacity: 0.00; }
 }
-@keyframes flicker-horror-b {
-  0%   { opacity: 0.03; }
-  8%   { opacity: 0.95; }
-  11%  { opacity: 0.04; }
-  20%  { opacity: 0.04; }   /* dead */
-  24%  { opacity: 1; }
-  27%  { opacity: 0.05; }
-  38%  { opacity: 0.05; }   /* long dead */
-  42%  { opacity: 0.90; }
-  45%  { opacity: 0.15; }
-  50%  { opacity: 1; }
-  55%  { opacity: 0.45; }
-  62%  { opacity: 1; }
-  68%  { opacity: 0.70; }
-  74%  { opacity: 1; }
-  86%  { opacity: 1; }
-  88%  { opacity: 0.50; }  /* residual twitch */
-  90%  { opacity: 1; }
-  100% { opacity: 1; }
+@keyframes flicker-light-b {
+  0%   { opacity: 0.93; }
+  8%   { opacity: 0.04; }
+  11%  { opacity: 0.92; }
+  20%  { opacity: 0.92; }  /* dead */
+  24%  { opacity: 0.00; }
+  27%  { opacity: 0.90; }
+  38%  { opacity: 0.90; }  /* long dead */
+  42%  { opacity: 0.08; }
+  45%  { opacity: 0.78; }
+  50%  { opacity: 0.00; }
+  55%  { opacity: 0.50; }
+  62%  { opacity: 0.00; }
+  68%  { opacity: 0.25; }
+  74%  { opacity: 0.00; }
+  86%  { opacity: 0.00; }
+  88%  { opacity: 0.42; }  /* residual twitch */
+  90%  { opacity: 0.00; }
+  100% { opacity: 0.00; }
 }
-@keyframes flicker-horror-c {
-  0%   { opacity: 0.03; }
-  6%   { opacity: 0.03; }   /* hold dark */
-  9%   { opacity: 0.90; }
-  12%  { opacity: 0.04; }
-  18%  { opacity: 0.04; }   /* dead */
-  22%  { opacity: 1; }
-  25%  { opacity: 0.06; }
-  34%  { opacity: 0.06; }   /* long dead */
-  38%  { opacity: 0.95; }
-  42%  { opacity: 0.25; }
-  47%  { opacity: 1; }
-  53%  { opacity: 0.50; }
-  60%  { opacity: 1; }
-  66%  { opacity: 0.75; }
-  72%  { opacity: 1; }
-  84%  { opacity: 1; }
-  86%  { opacity: 0.55; }  /* residual twitch */
-  88%  { opacity: 1; }
-  100% { opacity: 1; }
+@keyframes flicker-light-c {
+  0%   { opacity: 0.93; }
+  6%   { opacity: 0.93; }  /* hold dark */
+  9%   { opacity: 0.06; }
+  12%  { opacity: 0.90; }
+  18%  { opacity: 0.90; }  /* dead */
+  22%  { opacity: 0.00; }
+  25%  { opacity: 0.88; }
+  34%  { opacity: 0.88; }  /* long dead */
+  38%  { opacity: 0.03; }
+  42%  { opacity: 0.65; }
+  47%  { opacity: 0.00; }
+  53%  { opacity: 0.45; }
+  60%  { opacity: 0.00; }
+  66%  { opacity: 0.22; }
+  72%  { opacity: 0.00; }
+  84%  { opacity: 0.00; }
+  86%  { opacity: 0.38; }  /* residual twitch */
+  88%  { opacity: 0.00; }
+  100% { opacity: 0.00; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-card.reveal,
-  .project-card.reveal.in-view { opacity: 1 !important; animation: none !important; }
+  .project-card.reveal::after,
+  .project-card.reveal.in-view::after { opacity: 0 !important; animation: none !important; }
 }
 
 .hero-tagline {
