@@ -155,10 +155,11 @@
 
   const pMat = new THREE.ShaderMaterial({
     uniforms: {
-      uTime:    { value: 0 },
-      uPR:      { value: DPR },
-      uMouseW:  { value: new THREE.Vector3(9999, 9999, 0) },
-      uOpacity: { value: 0 },
+      uTime:     { value: 0 },
+      uPR:       { value: DPR },
+      uMouseW:   { value: new THREE.Vector3(9999, 9999, 0) },
+      uOpacity:  { value: 0 },
+      uHover:    { value: 0 },
     },
     vertexShader: /* glsl */ `
       attribute vec3  aColor;
@@ -167,11 +168,12 @@
       varying float vGlow;
       uniform float uPR;
       uniform vec3  uMouseW;
+      uniform float uHover;
       void main() {
         // proximity highlight: particles near the projected cursor line get
         // a brightness and size boost, but do not move.
         float d  = distance(position.xy, uMouseW.xy);
-        float k  = exp(-d * d / (130.0 * 130.0)); // falloff
+        float k  = exp(-d * d / (130.0 * 130.0)) * uHover; // falloff, gated by hover fade
         vGlow    = k;
         vec3 tint = mix(vColor, vec3(0.55, 0.85, 1.05), k * 0.35);
         vColor    = tint;
@@ -248,14 +250,9 @@
     setTargetFromEvent(t.clientX, t.clientY);
   }, { passive: true });
 
-  // Push the virtual cursor just outside the normalized viewport so hover
-  // highlight releases. Using a bounded value (not -999) keeps the lerp
-  // cheap, and `present=false` makes the next move snap back instantly.
-  function releaseCursor() {
-    mouse.tx = -2;
-    mouse.ty = -2;
-    mouse.present = false;
-  }
+  // When the mouse leaves the window, keep its position where it was but
+  // flag it absent so the hover factor fades smoothly to zero in animate().
+  function releaseCursor() { mouse.present = false; }
   document.addEventListener('mouseleave', releaseCursor);
   window.addEventListener('blur',          releaseCursor);
   document.addEventListener('touchend',    releaseCursor);
@@ -294,6 +291,9 @@
     pMat.uniforms.uTime.value = elapsed;
     // project cursor to the particle plane (z=0) for proximity highlight
     pMat.uniforms.uMouseW.value.set((mouse.x - 0.5) * 900, (mouse.y - 0.5) * 560, 0);
+    // smooth hover fade (0 when absent, 1 when present)
+    const hoverTarget = mouse.present ? 1 : 0;
+    pMat.uniforms.uHover.value += (hoverTarget - pMat.uniforms.uHover.value) * 0.06;
 
     // === Intro: 2.8s easeInOutCubic, camera dolly + opacity fade ===
     const INTRO_DUR = 2.8;
@@ -339,6 +339,7 @@
       const mxW = pMat.uniforms.uMouseW.value.x;
       const myW = pMat.uniforms.uMouseW.value.y;
       const HOVER_R2 = 220 * 220;
+      const hoverAmt = pMat.uniforms.uHover.value; // 0..1 smoothed
       for (let i = 0; i < COUNT && lc < MAX_LINES; i += step) {
         const ax = pos[i * 3], ay = pos[i * 3 + 1], az = pos[i * 3 + 2];
         const ci = i * 3;
@@ -363,8 +364,8 @@
             // per-endpoint hover brightening
             const bdx = pos[j * 3] - mxW, bdy = pos[j * 3 + 1] - myW;
             const bHover = Math.max(0, 1 - (bdx * bdx + bdy * bdy) / HOVER_R2);
-            const aBoost = 1 + aHover * 3.2;
-            const bBoost = 1 + bHover * 3.2;
+            const aBoost = 1 + aHover * 3.2 * hoverAmt;
+            const bBoost = 1 + bHover * 3.2 * hoverAmt;
             lineCol[base]     = colors[ci]     * k * aBoost;
             lineCol[base + 1] = colors[ci + 1] * k * aBoost;
             lineCol[base + 2] = colors[ci + 2] * k * aBoost;
