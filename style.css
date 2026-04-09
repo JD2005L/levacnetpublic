@@ -99,24 +99,35 @@ body {
        has an organic crown rather than a flat horizon line. Each
        repeating layer is at a slightly different angle so the rays
        look like they're swaying past each other. --- */
-/* --- Aurora borealis: inline SVG drawn as a horizontal ribbon with a
-       smooth horizontal colour spectrum (green → cyan → blue → violet
-       → magenta → green), soft top and bottom edges, and a few
-       translucent vertical streaks inside the ribbon for the
-       characteristic shimmer of real aurora curtains. The whole layer
-       is heavily Gaussian-blurred (one-time, in SVG defs) so the
-       result is ethereal and ribbon-shaped, not spike-shaped. --- */
+/* --- Aurora borealis: a soft horizon ribbon at the bottom of the hero
+       with desaturated pastel bands, subtle inner shimmer, and a slow
+       horizontal drift that gives the colours some movement. The
+       ribbon is intentionally low-contrast and confined to roughly the
+       bottom third so it sits behind the content like a real aurora
+       on the horizon rather than a saturated band cutting the screen
+       in half. --- */
 .hero-aurora-floor {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -30%;
+  right: -30%;
   bottom: 0;
-  top: 25%;
+  /* sit in the lower third of the hero only */
+  height: 38%;
   pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'><defs><linearGradient id='spectrum' x1='0' x2='1' y1='0' y2='0'><stop offset='0' stop-color='%2360ff90'/><stop offset='0.18' stop-color='%2350e8c0'/><stop offset='0.36' stop-color='%2360b8ff'/><stop offset='0.54' stop-color='%237c80ff'/><stop offset='0.72' stop-color='%23c060ff'/><stop offset='0.86' stop-color='%23ff60c8'/><stop offset='1' stop-color='%23ff90a0'/></linearGradient><linearGradient id='vfade' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='white' stop-opacity='0'/><stop offset='0.18' stop-color='white' stop-opacity='0.35'/><stop offset='0.42' stop-color='white' stop-opacity='1'/><stop offset='0.74' stop-color='white' stop-opacity='1'/><stop offset='1' stop-color='white' stop-opacity='0.05'/></linearGradient><linearGradient id='shimmer' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='white' stop-opacity='0'/><stop offset='0.5' stop-color='white' stop-opacity='0.55'/><stop offset='1' stop-color='white' stop-opacity='0'/></linearGradient><mask id='ribbon'><rect x='0' y='180' width='1600' height='620' fill='url(%23vfade)'/></mask><filter id='soft' x='-30%25' y='-30%25' width='160%25' height='160%25'><feGaussianBlur stdDeviation='28'/></filter></defs><g filter='url(%23soft)' mask='url(%23ribbon)'><rect x='0' y='180' width='1600' height='620' fill='url(%23spectrum)' opacity='0.85'/><rect x='120' y='180' width='14' height='620' fill='url(%23shimmer)'/><rect x='240' y='180' width='10' height='620' fill='url(%23shimmer)'/><rect x='360' y='180' width='16' height='620' fill='url(%23shimmer)'/><rect x='480' y='180' width='12' height='620' fill='url(%23shimmer)'/><rect x='600' y='180' width='18' height='620' fill='url(%23shimmer)'/><rect x='760' y='180' width='14' height='620' fill='url(%23shimmer)'/><rect x='880' y='180' width='10' height='620' fill='url(%23shimmer)'/><rect x='1000' y='180' width='16' height='620' fill='url(%23shimmer)'/><rect x='1140' y='180' width='12' height='620' fill='url(%23shimmer)'/><rect x='1280' y='180' width='14' height='620' fill='url(%23shimmer)'/><rect x='1400' y='180' width='18' height='620' fill='url(%23shimmer)'/></g></svg>");
-  background-size: 100% 100%;
+  /* Wider than the viewport so the horizontal drift never reveals an edge */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2400 600' preserveAspectRatio='none'><defs><linearGradient id='spectrum' x1='0' x2='1' y1='0' y2='0'><stop offset='0' stop-color='%2398f0c0'/><stop offset='0.14' stop-color='%2380e8d0'/><stop offset='0.28' stop-color='%2388c8f0'/><stop offset='0.42' stop-color='%23a0b0f0'/><stop offset='0.56' stop-color='%23b8a0f0'/><stop offset='0.70' stop-color='%23d098e8'/><stop offset='0.84' stop-color='%23e898d0'/><stop offset='1' stop-color='%2398e8c0'/></linearGradient><linearGradient id='vfade' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='white' stop-opacity='0'/><stop offset='0.30' stop-color='white' stop-opacity='0.18'/><stop offset='0.55' stop-color='white' stop-opacity='0.55'/><stop offset='0.80' stop-color='white' stop-opacity='0.85'/><stop offset='1' stop-color='white' stop-opacity='0.55'/></linearGradient><linearGradient id='shimmer' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='white' stop-opacity='0'/><stop offset='0.55' stop-color='white' stop-opacity='0.25'/><stop offset='1' stop-color='white' stop-opacity='0'/></linearGradient><mask id='ribbon'><rect x='0' y='100' width='2400' height='500' fill='url(%23vfade)'/></mask><filter id='soft' x='-30%25' y='-30%25' width='160%25' height='160%25'><feGaussianBlur stdDeviation='34'/></filter></defs><g filter='url(%23soft)' mask='url(%23ribbon)'><rect x='0' y='100' width='2400' height='500' fill='url(%23spectrum)' opacity='0.55'/><rect x='160' y='100' width='14' height='500' fill='url(%23shimmer)'/><rect x='320' y='100' width='10' height='500' fill='url(%23shimmer)'/><rect x='480' y='100' width='16' height='500' fill='url(%23shimmer)'/><rect x='640' y='100' width='12' height='500' fill='url(%23shimmer)'/><rect x='800' y='100' width='18' height='500' fill='url(%23shimmer)'/><rect x='960' y='100' width='14' height='500' fill='url(%23shimmer)'/><rect x='1120' y='100' width='10' height='500' fill='url(%23shimmer)'/><rect x='1280' y='100' width='16' height='500' fill='url(%23shimmer)'/><rect x='1440' y='100' width='12' height='500' fill='url(%23shimmer)'/><rect x='1600' y='100' width='18' height='500' fill='url(%23shimmer)'/><rect x='1760' y='100' width='14' height='500' fill='url(%23shimmer)'/><rect x='1920' y='100' width='10' height='500' fill='url(%23shimmer)'/><rect x='2080' y='100' width='16' height='500' fill='url(%23shimmer)'/><rect x='2240' y='100' width='14' height='500' fill='url(%23shimmer)'/></g></svg>");
+  background-size: 160% 100%;
   background-repeat: no-repeat;
-  background-position: bottom;
+  background-position: 0% bottom;
+  opacity: 0.80;
+  /* Slow horizontal drift for organic colour movement. transform on a
+     single static element is the cheap compositor path; no filter, no
+     mix-blend-mode, no per-frame work beyond translate. */
+  animation: aurora-drift 80s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(-3%, 0, 0); }
+  100% { transform: translate3d( 3%, 0, 0); }
 }
 
 /* --- Subtle SVG grid overlay (static, no animation) --- */
