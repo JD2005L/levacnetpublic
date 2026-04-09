@@ -226,9 +226,16 @@ nav.scrolled {
 
 .nav-cta::after { display: none !important; }
 
-.nav-cta:hover {
+.nav-cta:hover,
+.nav-cta.active {
   background: var(--accent-dim) !important;
-  box-shadow: 0 0 20px var(--accent-glow);
+  box-shadow: 0 0 20px var(--accent-glow), 0 0 42px rgba(0, 212, 255, 0.35);
+}
+
+.nav-cta.active {
+  /* override the generic .nav-links a.active text-shadow so only the
+     border/background glow reads, not a glowing label */
+  text-shadow: none;
 }
 
 /* ===== HERO ===== */
