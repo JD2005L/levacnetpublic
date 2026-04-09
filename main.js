@@ -159,6 +159,76 @@ function heroEntrance() {
   gsap.delayedCall(1.4, hyperspaceReveal);
 }
 
+// === TERMINAL TYPEWRITER ===
+// Walks every .t-out / .t-out-dim inside .about-terminal in document
+// order. For each line it streams one character at a time with a
+// variable delay (30-85ms base, plus extra pauses on spaces and
+// punctuation) and moves a single blinking cursor span from line to
+// line. Fires when the terminal crosses into the viewport.
+function runTerminalTyper() {
+  const term = document.querySelector('.about-terminal');
+  if (!term) return;
+  term.classList.add('reveal');
+
+  const lines = Array.from(term.querySelectorAll('.t-out, .t-out-dim'));
+  if (!lines.length) return;
+
+  // Snapshot each line's text and blank it out so it types in live.
+  const queue = lines.map((el) => {
+    const text = el.textContent;
+    el.textContent = '';
+    return { el, text };
+  });
+
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+
+  function typeLine(i) {
+    if (i >= queue.length) return;
+    const { el, text } = queue[i];
+    el.appendChild(cursor);
+    let pos = 0;
+    function step() {
+      if (pos >= text.length) {
+        // brief pause between lines, like thinking before next command
+        setTimeout(() => typeLine(i + 1), 140 + Math.random() * 220);
+        return;
+      }
+      const ch = text.charAt(pos);
+      // insert the character just before the cursor so the cursor
+      // stays at the typing position
+      cursor.insertAdjacentText('beforebegin', ch);
+      pos++;
+      // base variable keystroke 30-85ms
+      let d = 30 + Math.random() * 55;
+      // longer pauses on word/clause breaks for a human cadence
+      if (ch === ' ') d += 30 + Math.random() * 60;
+      else if (ch === '.' || ch === ',' || ch === '/' || ch === '-') d += 45 + Math.random() * 85;
+      // occasional longer "thinking" pause
+      if (Math.random() < 0.04) d += 90 + Math.random() * 140;
+      setTimeout(step, d);
+    }
+    step();
+  }
+
+  function start() { typeLine(0); }
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          io.unobserve(term);
+          start();
+          return;
+        }
+      }
+    }, { rootMargin: '0px 0px -20% 0px', threshold: 0.25 });
+    io.observe(term);
+  } else {
+    start();
+  }
+}
+
 // === SCROLL REVEALS via IntersectionObserver ===
 // ScrollTrigger was causing tab-wide freezes on page load (many trigger
 // instances forcing synchronous layout measurements during init).
@@ -166,26 +236,12 @@ function heroEntrance() {
 // elements with .in-view when they cross the viewport, and CSS handles
 // the actual transition. No layout thrash, no scroll-handler overhead.
 function initScrollAnimations() {
-  // Terminal observer: trigger only when the terminal is actually
-  // visible in the viewport so the typing animation starts as the
-  // reader's eye arrives on it, not before.
-  const term = document.querySelector('.about-terminal');
-  if (term) {
-    term.classList.add('reveal');
-    if ('IntersectionObserver' in window) {
-      const termIo = new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add('in-view');
-            termIo.unobserve(e.target);
-          }
-        }
-      }, { rootMargin: '0px 0px -20% 0px', threshold: 0.25 });
-      termIo.observe(term);
-    } else {
-      term.classList.add('in-view');
-    }
-  }
+  // Terminal typewriter: iterate every green output line in document
+  // order and stream characters one at a time with variable delays to
+  // emulate a real typing rhythm. A single blinking cursor element
+  // moves from line to line so each section appears to be actively
+  // typed. Triggers when the terminal is actually visible.
+  runTerminalTyper();
 
   const targets = document.querySelectorAll(
     '.section-label, .section-title, .section-subtitle, ' +

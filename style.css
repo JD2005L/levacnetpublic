@@ -666,33 +666,36 @@ section {
 .t-prompt { color: var(--accent); }
 .t-cmd { color: #e2e8f0; display: inline-block; }
 .t-comment { color: var(--text-muted); }
-.t-out { color: #a3e635; margin-left: 1.5rem; display: block; }
-.t-out-dim { color: var(--text-muted); margin-left: 1.5rem; display: block; }
+.t-out { color: #a3e635; margin-left: 1.5rem; display: block; min-height: 1.4em; }
+.t-out-dim { color: var(--text-muted); margin-left: 1.5rem; display: block; min-height: 1.4em; }
 
-/* Terminal typewriter: only the green output lines are typed, and
-   they all start at once (triggered when the terminal is visible).
-   Each output has a --len CSS variable set in the HTML equal to its
-   character count; duration and steps() are both derived from --len
-   so longer lines finish later. ~0.08s per character ≈ realistic
-   human typing cadence. Prompts and commands render instantly. */
+/* Terminal typewriter: a JS typer walks through each .t-out /
+   .t-out-dim in order and streams characters with variable delay,
+   moving a single blinking .typing-cursor from line to line. The
+   CSS here just resets the container reveal and styles the cursor. */
 .about-terminal.reveal {
   opacity: 1;
   transform: none;
   transition: none;
 }
-.about-terminal .t-out,
-.about-terminal .t-out-dim {
-  overflow: hidden;
-  white-space: nowrap;
-  max-width: 0;
+
+.typing-cursor {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1em;
+  vertical-align: -0.18em;
+  background: #a3e635;
+  margin-left: 1px;
+  box-shadow: 0 0 8px rgba(163, 230, 53, 0.55);
+  animation: typing-blink 0.95s steps(1, end) infinite;
 }
-.about-terminal.in-view .t-out,
-.about-terminal.in-view .t-out-dim {
-  animation: terminal-type calc(var(--len, 20) * 0.08s) steps(var(--len, 20), end) forwards;
+.t-out-dim .typing-cursor {
+  background: var(--text-muted);
+  box-shadow: 0 0 6px rgba(200, 200, 200, 0.35);
 }
-@keyframes terminal-type {
-  from { max-width: 0; }
-  to   { max-width: calc(var(--len, 20) * 1ch); }
+@keyframes typing-blink {
+  0%, 50%   { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
 }
 
 /* ===== PROJECTS ===== */
