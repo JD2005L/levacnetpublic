@@ -312,14 +312,14 @@ nav.scrolled {
   border-radius: inherit;
 }
 .project-card.reveal.in-view::after {
-  animation: flicker-light-a 2.1s steps(1, end) forwards;
+  animation: flicker-light-a 1.05s steps(1, end) forwards;
 }
-.project-card.reveal.in-view:nth-child(2)::after { animation: flicker-light-b 2.3s steps(1, end) forwards; animation-delay: 0.09s; }
-.project-card.reveal.in-view:nth-child(3)::after { animation: flicker-light-c 2.0s steps(1, end) forwards; animation-delay: 0.21s; }
-.project-card.reveal.in-view:nth-child(4)::after { animation: flicker-light-b 2.2s steps(1, end) forwards; animation-delay: 0.05s; }
-.project-card.reveal.in-view:nth-child(5)::after { animation: flicker-light-a 2.4s steps(1, end) forwards; animation-delay: 0.28s; }
-.project-card.reveal.in-view:nth-child(6)::after { animation: flicker-light-c 2.15s steps(1, end) forwards; animation-delay: 0.13s; }
-.project-card.reveal.in-view:nth-child(7)::after { animation: flicker-light-b 2.05s steps(1, end) forwards; animation-delay: 0.35s; }
+.project-card.reveal.in-view:nth-child(2)::after { animation: flicker-light-b 1.15s steps(1, end) forwards; animation-delay: 0.05s; }
+.project-card.reveal.in-view:nth-child(3)::after { animation: flicker-light-c 1.00s steps(1, end) forwards; animation-delay: 0.11s; }
+.project-card.reveal.in-view:nth-child(4)::after { animation: flicker-light-b 1.10s steps(1, end) forwards; animation-delay: 0.03s; }
+.project-card.reveal.in-view:nth-child(5)::after { animation: flicker-light-a 1.20s steps(1, end) forwards; animation-delay: 0.15s; }
+.project-card.reveal.in-view:nth-child(6)::after { animation: flicker-light-c 1.08s steps(1, end) forwards; animation-delay: 0.07s; }
+.project-card.reveal.in-view:nth-child(7)::after { animation: flicker-light-b 1.03s steps(1, end) forwards; animation-delay: 0.18s; }
 
 /* Overlay opacity is INVERTED vs brightness: 0.93 = dark (lights off),
    0 = lights on full. Holds at dark, brief strikes of near-0, shaky
