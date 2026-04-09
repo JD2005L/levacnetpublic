@@ -166,9 +166,9 @@ function heroEntrance() {
 // elements with .in-view when they cross the viewport, and CSS handles
 // the actual transition. No layout thrash, no scroll-handler overhead.
 function initScrollAnimations() {
-  // Terminal gets its own early-trigger observer so by the time the
-  // reader's eye actually reaches the terminal, the typing is almost
-  // finished — they're not left staring at an empty prompt.
+  // Terminal observer: trigger only when the terminal is actually
+  // visible in the viewport so the typing animation starts as the
+  // reader's eye arrives on it, not before.
   const term = document.querySelector('.about-terminal');
   if (term) {
     term.classList.add('reveal');
@@ -180,7 +180,7 @@ function initScrollAnimations() {
             termIo.unobserve(e.target);
           }
         }
-      }, { rootMargin: '0px 0px 30% 0px', threshold: 0 });
+      }, { rootMargin: '0px 0px -20% 0px', threshold: 0.25 });
       termIo.observe(term);
     } else {
       term.classList.add('in-view');
