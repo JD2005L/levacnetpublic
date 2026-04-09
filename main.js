@@ -6,29 +6,63 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 }, { passive: true });
 
-// === TYPEWRITER for hero name ===
-function typeWriter(element, text, speed = 85, onDone) {
+// === DECRYPT/SCRAMBLE REVEAL for hero name ===
+// Each character rapidly cycles through random glyphs then resolves to the
+// final letter in a staggered wave — feels like a decryption feed rather
+// than a typewriter.
+function decryptReveal(element, text, { duration = 1600, glyphSpeed = 40 } = {}) {
+  const GLYPHS = '!<>-_\\/[]{}—=+*^?#________ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   element.innerHTML = '';
-  const cursor = document.createElement('span');
-  cursor.className = 'cursor';
-  element.appendChild(cursor);
+  // Build a span per character
+  const spans = Array.from(text).map((ch) => {
+    const s = document.createElement('span');
+    s.className = 'name-char';
+    s.textContent = ch === ' ' ? '\u00A0' : ch;
+    s.dataset.final = ch;
+    element.appendChild(s);
+    return s;
+  });
 
-  let i = 0;
-  function type() {
-    if (i < text.length) {
-      cursor.insertAdjacentText('beforebegin', text.charAt(i));
-      i++;
-      setTimeout(type, speed + Math.random() * 40);
-    } else {
-      if (onDone) onDone();
-      // Remove cursor after a short delay
-      setTimeout(() => {
-        cursor.style.animation = 'none';
-        cursor.style.opacity = '0';
-      }, 3500);
+  const start = performance.now();
+  const perChar = duration / text.length;
+  const settleDur = 380;
+
+  return new Promise((resolve) => {
+    function tick() {
+      const now = performance.now();
+      const t = now - start;
+      let allDone = true;
+      spans.forEach((s, i) => {
+        const final = s.dataset.final;
+        if (final === ' ' || s.dataset.done === '1') return;
+        const localStart = i * perChar * 0.55;
+        const local = t - localStart;
+        if (local < 0) {
+          s.textContent = ' ';
+          allDone = false;
+          return;
+        }
+        if (local >= settleDur) {
+          s.textContent = final === ' ' ? '\u00A0' : final;
+          s.classList.add('name-char-resolved');
+          s.dataset.done = '1';
+          return;
+        }
+        // random glyph at glyph-speed intervals
+        const step = Math.floor(local / glyphSpeed);
+        const rnd = GLYPHS.charAt((step * 37 + i * 13) % GLYPHS.length);
+        s.textContent = rnd;
+        s.classList.add('name-char-scrambling');
+        allDone = false;
+      });
+      if (!allDone) requestAnimationFrame(tick);
+      else {
+        spans.forEach((s) => s.classList.remove('name-char-scrambling'));
+        resolve();
+      }
     }
-  }
-  setTimeout(type, 100);
+    requestAnimationFrame(tick);
+  });
 }
 
 // === HERO ENTRANCE SEQUENCE ===
@@ -42,16 +76,15 @@ function heroEntrance() {
   // Fade in eyebrow
   gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power2.out' });
 
-  // Typewriter starts as the particle swarm releases (~3s) so the DOM
-  // name hands off from the particle reveal rather than competing with it.
+  // Decrypt reveal kicks in as the particle swarm releases (~2.8s) so the
+  // DOM name hands off from the particle reveal rather than competing.
   setTimeout(() => {
-    typeWriter(nameEl, 'James Levac', 55, () => {
-      // After name types in, reveal tagline + CTA
+    decryptReveal(nameEl, 'James Levac', { duration: 1400, glyphSpeed: 38 }).then(() => {
       gsap.to(tagline, { opacity: 1, y: 0, duration: 0.6, delay: 0.1, ease: 'power2.out' });
       gsap.to(ctaGroup, { opacity: 1, y: 0, duration: 0.6, delay: 0.3, ease: 'power2.out' });
       gsap.to(scrollInd, { opacity: 1, duration: 0.7, delay: 0.8, ease: 'power2.out' });
     });
-  }, 3000);
+  }, 2800);
 }
 
 // === GSAP SCROLL TRIGGER REVEALS ===

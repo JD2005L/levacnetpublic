@@ -277,6 +277,7 @@
         force -= pos.xyz * 0.00025;
 
         // cursor force: repel within radius, attract outside subtly
+        // (uMouseW is already supplied in particle-local space)
         vec3 toCursor = uMouseW - pos.xyz;
         float dc = length(toCursor) + 1e-4;
         float repel = exp(-dc * dc / (260.0 * 260.0));
@@ -405,6 +406,9 @@
 
     particles = new THREE.Points(geo, mat);
     particles.frustumCulled = false;
+    // shift the whole particle system down so it sits over the hero content
+    // vertical middle rather than the upper third
+    particles.position.y = -140;
     fxScene.add(particles);
   }
 
@@ -620,9 +624,10 @@
       velVar.material.uniforms.uLogoLock.value = lock;
 
       // project cursor to particle plane in world units
+      // compensate for particles.position.y shift so cursor aligns on-screen
       velVar.material.uniforms.uMouseW.value.set(
         (mouse.x - 0.5) * 900,
-        (mouse.y - 0.5) * 560,
+        (mouse.y - 0.5) * 560 - particles.position.y,
         0
       );
       velVar.material.uniforms.uMouseActive.value = mouse.present ? 1.0 : 0.0;
