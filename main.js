@@ -35,8 +35,14 @@ function hyperspaceReveal() {
 
   const nameChars = splitIntoChars(nameEl, 'James Levac');
   nameEl.style.visibility = 'visible';
+  // Add the warping glow class now so the scaled-up letters start their
+  // trip with a thick halo that reads as motion blur. It stays on for
+  // most of the animation, then fades back to crisp text.
+  nameEl.classList.add('warping');
 
-  const tl = gsap.timeline();
+  const tl = gsap.timeline({
+    onComplete: () => nameEl.classList.remove('warping'),
+  });
 
   // eyebrow leads
   if (eyebrow) {
