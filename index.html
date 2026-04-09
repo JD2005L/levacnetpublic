@@ -26,8 +26,38 @@
 </head>
 <body>
 
-  <!-- Static CSS background (canvas removed to avoid GPU-process pressure) -->
-  <div id="hero-bg" aria-hidden="true"></div>
+  <!-- CSS-only animated hero background: aurora mesh + particle field + grid -->
+  <div id="hero-bg" aria-hidden="true">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="aurora aurora-4"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-scanline"></div>
+    <div class="hero-particles">
+      <span style="--x:5%;  --d:14s; --delay:-2s;  --s:2px"></span>
+      <span style="--x:12%; --d:18s; --delay:-6s;  --s:1px"></span>
+      <span style="--x:19%; --d:22s; --delay:-10s; --s:3px"></span>
+      <span style="--x:26%; --d:16s; --delay:-1s;  --s:2px"></span>
+      <span style="--x:33%; --d:25s; --delay:-8s;  --s:1px"></span>
+      <span style="--x:40%; --d:19s; --delay:-4s;  --s:2px"></span>
+      <span style="--x:47%; --d:23s; --delay:-12s; --s:3px"></span>
+      <span style="--x:54%; --d:17s; --delay:-3s;  --s:1px"></span>
+      <span style="--x:61%; --d:21s; --delay:-7s;  --s:2px"></span>
+      <span style="--x:68%; --d:26s; --delay:-11s; --s:3px"></span>
+      <span style="--x:75%; --d:15s; --delay:-5s;  --s:2px"></span>
+      <span style="--x:82%; --d:20s; --delay:-9s;  --s:1px"></span>
+      <span style="--x:89%; --d:24s; --delay:-13s; --s:2px"></span>
+      <span style="--x:96%; --d:18s; --delay:-2s;  --s:1px"></span>
+      <span style="--x:9%;  --d:27s; --delay:-14s; --s:2px"></span>
+      <span style="--x:23%; --d:20s; --delay:-6s;  --s:1px"></span>
+      <span style="--x:37%; --d:16s; --delay:-9s;  --s:3px"></span>
+      <span style="--x:51%; --d:22s; --delay:-11s; --s:2px"></span>
+      <span style="--x:65%; --d:19s; --delay:-4s;  --s:1px"></span>
+      <span style="--x:79%; --d:25s; --delay:-8s;  --s:2px"></span>
+      <span style="--x:93%; --d:17s; --delay:-13s; --s:3px"></span>
+    </div>
+  </div>
 
 
   <!-- ===== NAV ===== -->

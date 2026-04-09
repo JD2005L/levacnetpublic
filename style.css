@@ -39,24 +39,151 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
 /* ===== CANVAS (Three.js) ===== */
-/* Static layered hero background: radial glow + SVG grid, no JS, no WebGL */
+/* ===================================================================
+ * CSS-only animated hero background
+ * - 4 aurora "blobs" (large radial gradients) that drift via transform
+ * - SVG grid overlay (static, very subtle)
+ * - Horizontal scanline that sweeps vertically
+ * - 21 floating particle specks rising upward
+ * All animations use transform/opacity only (compositor fast path),
+ * so they don't pressure the GPU process the way WebGL did.
+ * =================================================================== */
+
 #hero-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
   background-color: #04060c;
+  /* base floor glow (static) */
   background-image:
-    radial-gradient(ellipse 60% 50% at 50% 45%,
-      rgba(60, 140, 255, 0.18) 0%,
-      rgba(30, 70, 160, 0.08) 35%,
-      rgba(0, 0, 0, 0) 70%),
-    radial-gradient(ellipse 80% 80% at 50% 100%,
-      rgba(10, 30, 70, 0.5) 0%,
-      rgba(0, 0, 0, 0) 70%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M 80 0 L 0 0 0 80' fill='none' stroke='rgba(120,180,255,0.055)' stroke-width='1'/></svg>");
-  background-size: auto, auto, 80px 80px;
-  background-repeat: no-repeat, no-repeat, repeat;
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(10, 30, 80, 0.55) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+/* --- Aurora blobs: each is a large radial gradient pinned to an
+       absolutely positioned div, animated with a long, slow transform
+       loop. Overlap creates a shifting mesh-gradient look. --- */
+.aurora {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  top: 50%;
+  left: 50%;
+  margin: -35vmax;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  will-change: transform;
+}
+.aurora-1 {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(40, 120, 255, 0.40) 0%,
+    rgba(40, 120, 255, 0.12) 28%,
+    rgba(0, 0, 0, 0) 55%);
+  animation: aurora-a 38s ease-in-out infinite alternate;
+}
+.aurora-2 {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(140, 60, 255, 0.30) 0%,
+    rgba(90, 30, 200, 0.10) 30%,
+    rgba(0, 0, 0, 0) 58%);
+  animation: aurora-b 46s ease-in-out infinite alternate;
+}
+.aurora-3 {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(30, 200, 200, 0.28) 0%,
+    rgba(30, 150, 200, 0.10) 32%,
+    rgba(0, 0, 0, 0) 60%);
+  animation: aurora-c 52s ease-in-out infinite alternate;
+}
+.aurora-4 {
+  background: radial-gradient(circle at 50% 50%,
+    rgba(255, 80, 180, 0.22) 0%,
+    rgba(200, 50, 150, 0.08) 34%,
+    rgba(0, 0, 0, 0) 62%);
+  animation: aurora-d 60s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-a {
+  0%   { transform: translate(-18%, -22%) scale(1.05); }
+  50%  { transform: translate( 12%,  10%) scale(1.15); }
+  100% { transform: translate( 22%, -14%) scale(1.00); }
+}
+@keyframes aurora-b {
+  0%   { transform: translate( 20%,  18%) scale(1.10); }
+  50%  { transform: translate(-15%, -10%) scale(0.95); }
+  100% { transform: translate(  5%,  22%) scale(1.18); }
+}
+@keyframes aurora-c {
+  0%   { transform: translate(  0%, -24%) scale(0.95); }
+  50%  { transform: translate( 25%,  12%) scale(1.20); }
+  100% { transform: translate(-20%,  18%) scale(1.05); }
+}
+@keyframes aurora-d {
+  0%   { transform: translate(-22%,  20%) scale(1.12); }
+  50%  { transform: translate( 18%, -18%) scale(0.92); }
+  100% { transform: translate( 10%,  14%) scale(1.20); }
+}
+
+/* --- Subtle SVG grid overlay --- */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M 80 0 L 0 0 0 80' fill='none' stroke='rgba(120,180,255,0.055)' stroke-width='1'/></svg>");
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 80%);
+}
+
+/* --- Scanline: a thin horizontal gradient bar that sweeps vertically --- */
+.hero-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(80, 160, 255, 0.05) 50%,
+    rgba(0, 0, 0, 0) 100%);
+  mix-blend-mode: screen;
+  will-change: transform;
+  animation: scanline-sweep 9s linear infinite;
+}
+@keyframes scanline-sweep {
+  0%   { transform: translateY(-200px); }
+  100% { transform: translateY(100vh); }
+}
+
+/* --- Rising particle specks (pure CSS, no JS) --- */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+}
+.hero-particles span {
+  position: absolute;
+  bottom: -10px;
+  left: var(--x);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: rgba(140, 200, 255, 0.85);
+  box-shadow: 0 0 6px rgba(120, 180, 255, 0.7);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: particle-rise var(--d) linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes particle-rise {
+  0%   { transform: translateY(0)        translateX(0);    opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translateY(-50vh)    translateX(20px); opacity: 0.8; }
+  90%  { opacity: 0.25; }
+  100% { transform: translateY(-100vh)   translateX(-10px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora, .hero-scanline, .hero-particles span { animation: none; }
 }
 
 
