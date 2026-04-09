@@ -19,17 +19,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Three.js CDN + postprocessing + GPU compute -->
+  <!-- Three.js CDN (stripped: no postprocessing, no GPGPU, kept light) -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/shaders/CopyShader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/shaders/FilmShader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/ShaderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/postprocessing/FilmPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/misc/GPUComputationRenderer.js"></script>
 
   <!-- GSAP + ScrollTrigger CDN -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -42,11 +33,6 @@
   <!-- Three.js Canvas (fixed background) -->
   <canvas id="hero-canvas"></canvas>
 
-  <!-- Audio-reactive toggle -->
-  <button id="audio-toggle" type="button" aria-pressed="false" title="Audio-reactive mode">
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4M7 7v10M11 4v16M15 7v10M19 10v4"/></svg>
-    <span>Audio</span>
-  </button>
 
   <!-- ===== NAV ===== -->
   <nav>

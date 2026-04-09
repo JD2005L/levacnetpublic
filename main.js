@@ -114,9 +114,8 @@ function hyperspaceReveal() {
 
 // === HERO ENTRANCE SEQUENCE ===
 function heroEntrance() {
-  // Hyperspace exit fires as the particle swarm releases (~2.8s) so the
-  // DOM content decelerates in as the particles disperse into the field.
-  gsap.delayedCall(2.8, hyperspaceReveal);
+  // Hyperspace exit fires as the constellation settles into its orbit.
+  gsap.delayedCall(1.4, hyperspaceReveal);
 }
 
 // === GSAP SCROLL TRIGGER REVEALS ===
