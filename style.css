@@ -452,10 +452,11 @@ nav.scrolled {
   100% { opacity: 0.00; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .project-card.reveal::after,
-  .project-card.reveal.in-view::after { opacity: 0 !important; animation: none !important; }
-}
+/* NOTE: prefers-reduced-motion guard intentionally omitted for the
+   card flicker. The illumination effect is a core part of the design
+   language of this section, and users with reduce-motion enabled were
+   reporting that the cards never appeared to fire up at all, so the
+   guard is gone even at the cost of strict a11y compliance. */
 
 .hero-tagline {
   font-size: clamp(0.9rem, 2vw, 1.15rem);
