@@ -19,18 +19,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Three.js CDN (light hero) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
-
-  <!-- GSAP only (no ScrollTrigger — it was causing tab-wide freezes) -->
+  <!-- GSAP only. No WebGL / Three.js — its GPU usage was stalling other tabs. -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Three.js Canvas (fixed background) -->
-  <canvas id="hero-canvas"></canvas>
+  <!-- Static CSS background (canvas removed to avoid GPU-process pressure) -->
+  <div id="hero-bg" aria-hidden="true"></div>
 
 
   <!-- ===== NAV ===== -->

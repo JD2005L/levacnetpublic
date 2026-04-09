@@ -39,14 +39,24 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
 /* ===== CANVAS (Three.js) ===== */
-#hero-canvas {
+/* Static layered hero background: radial glow + SVG grid, no JS, no WebGL */
+#hero-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
+  background-color: #04060c;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 50% 45%,
+      rgba(60, 140, 255, 0.18) 0%,
+      rgba(30, 70, 160, 0.08) 35%,
+      rgba(0, 0, 0, 0) 70%),
+    radial-gradient(ellipse 80% 80% at 50% 100%,
+      rgba(10, 30, 70, 0.5) 0%,
+      rgba(0, 0, 0, 0) 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><path d='M 80 0 L 0 0 0 80' fill='none' stroke='rgba(120,180,255,0.055)' stroke-width='1'/></svg>");
+  background-size: auto, auto, 80px 80px;
+  background-repeat: no-repeat, no-repeat, repeat;
 }
 
 
