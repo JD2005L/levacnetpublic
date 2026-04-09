@@ -110,8 +110,10 @@
 
   // ===== Scene B: particle lattice (additive) =====
   const fxScene = new THREE.Scene();
-  const fxCam = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
-  fxCam.position.z = 520;
+  const fxCam = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 4000);
+  const CAM_Z_START = 1600;
+  const CAM_Z_END   = 520;
+  fxCam.position.z = CAM_Z_START;
 
   const COUNT = window.innerWidth < 700 ? 180 : 380;
   const SPREAD = 700;
@@ -142,7 +144,7 @@
     colors[i * 3 + 1] = 0.35 + 0.50 * Math.sin(6.28 * t + 1.2);
     colors[i * 3 + 2] = 0.85 + 0.15 * Math.sin(6.28 * t + 2.4);
 
-    sizes[i]  = 3 + Math.random() * 5;
+    sizes[i]  = 5 + Math.random() * 7;
     phases[i] = Math.random() * Math.PI * 2;
   }
 
@@ -153,9 +155,10 @@
 
   const pMat = new THREE.ShaderMaterial({
     uniforms: {
-      uTime:   { value: 0 },
-      uPR:     { value: DPR },
-      uMouseW: { value: new THREE.Vector3(9999, 9999, 0) },
+      uTime:    { value: 0 },
+      uPR:      { value: DPR },
+      uMouseW:  { value: new THREE.Vector3(9999, 9999, 0) },
+      uOpacity: { value: 0 },
     },
     vertexShader: /* glsl */ `
       attribute vec3  aColor;
@@ -181,13 +184,16 @@
     fragmentShader: /* glsl */ `
       varying vec3  vColor;
       varying float vGlow;
+      uniform float uOpacity;
       void main() {
         vec2 c = gl_PointCoord - 0.5;
         float d = length(c);
         float core = smoothstep(0.5, 0.0, d);
-        float glow = exp(-d * 6.0) * (0.9 + vGlow * 0.8);
-        vec3 col = vColor * (core + glow);
-        gl_FragColor = vec4(col, core + glow * 0.8);
+        float halo = exp(-d * 3.2) * (1.35 + vGlow * 0.9);
+        float outer = exp(-d * 1.4) * 0.45;
+        vec3 col = vColor * (core * 1.2 + halo + outer);
+        float a = clamp(core + halo * 0.9 + outer * 0.6, 0.0, 1.0);
+        gl_FragColor = vec4(col, a * uOpacity);
       }
     `,
     transparent: true,
@@ -262,9 +268,18 @@
     // project cursor to the particle plane (z=0) for proximity highlight
     pMat.uniforms.uMouseW.value.set((mouse.x - 0.5) * 900, (mouse.y - 0.5) * 560, 0);
 
+    // === Intro: 2.8s easeInOutCubic, camera dolly + opacity fade ===
+    const INTRO_DUR = 2.8;
+    const tNorm = Math.min(elapsed / INTRO_DUR, 1);
+    const introEase = tNorm < 0.5
+      ? 4 * tNorm * tNorm * tNorm
+      : 1 - Math.pow(-2 * tNorm + 2, 3) / 2;
+    fxCam.position.z = CAM_Z_START + (CAM_Z_END - CAM_Z_START) * introEase;
+    pMat.uniforms.uOpacity.value = introEase;
+    lineMat.opacity = 0.12 * introEase;
+
     // particle motion (orbital only — no cursor gravity)
     const pos = pGeo.attributes.position.array;
-    const introEase = 1 - Math.pow(1 - Math.min(elapsed / 2.0, 1), 4); // easeOutQuart
 
     for (let i = 0; i < COUNT; i++) {
       const o = origins[i];
@@ -277,12 +292,15 @@
       const tz = r * Math.sin(o.b);
 
       const ix = i * 3;
+      // particles settle into their orbit with the same eased curve
       const cx = tx * introEase;
       const cy = ty * introEase;
       const cz = tz * introEase;
-      pos[ix]     += (cx - pos[ix])     * 0.12;
-      pos[ix + 1] += (cy - pos[ix + 1]) * 0.12;
-      pos[ix + 2] += (cz - pos[ix + 2]) * 0.12;
+      // tighter lerp once settled, looser during intro for smoother dolly feel
+      const lerp = 0.08 + introEase * 0.06;
+      pos[ix]     += (cx - pos[ix])     * lerp;
+      pos[ix + 1] += (cy - pos[ix + 1]) * lerp;
+      pos[ix + 2] += (cz - pos[ix + 2]) * lerp;
     }
     pGeo.attributes.position.needsUpdate = true;
 

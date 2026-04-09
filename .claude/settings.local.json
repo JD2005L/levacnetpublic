@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_HomeLab_MCP__proxmox_list_containers",
+      "mcp__homelab__proxmox_list_containers",
+      "mcp__homelab__ssh_command",
+      "mcp__homelab__pihole_stats",
+      "mcp__homelab__playbooks_list",
+      "mcp__homelab__playbook_get",
+      "mcp__homelab__preview_sites_instructions",
+      "mcp__homelab__mcp_capabilities_overview",
+      "mcp__homelab__deploy_workflows_list",
+      "mcp__homelab__deploy_ct314_levacnetpublic_status",
+      "mcp__homelab__deploy_ct314_levacnetpublic_sync"
+    ]
+  }
+}
