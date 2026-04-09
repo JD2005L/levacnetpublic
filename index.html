@@ -19,12 +19,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Three.js CDN (stripped: no postprocessing, no GPGPU, kept light) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
-
-  <!-- GSAP + ScrollTrigger CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- CDN scripts DISABLED for isolation test -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script> -->
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -435,9 +433,19 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="hero.js"></script>
-  <script src="main.js"></script>
+  <!-- Scripts DISABLED for isolation test -->
+  <!-- <script src="hero.js"></script> -->
+  <!-- <script src="main.js"></script> -->
+  <script>
+    // Minimal: reveal hidden hero elements immediately so the page is
+    // usable without GSAP, but load nothing else.
+    document.addEventListener('DOMContentLoaded', () => {
+      const els = document.querySelectorAll('.hero-eyebrow, #hero-name, .hero-tagline, .hero-cta-group, .scroll-indicator, .project-card, .client-card, .stack-pill');
+      els.forEach(el => { el.style.opacity = '1'; el.style.visibility = 'visible'; el.style.transform = 'none'; el.style.filter = 'none'; });
+      const canvas = document.getElementById('hero-canvas');
+      if (canvas) canvas.style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
