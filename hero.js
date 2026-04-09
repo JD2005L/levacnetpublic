@@ -222,23 +222,43 @@
   fxScene.add(lineSeg);
 
   // ===== Input =====
-  const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, vx: 0, vy: 0, px: 0.5, py: 0.5 };
-  window.addEventListener('mousemove', (e) => {
-    mouse.tx = e.clientX / window.innerWidth;
-    mouse.ty = 1 - e.clientY / window.innerHeight;
-  });
+  const mouse = {
+    x: 0.5, y: 0.5, tx: 0.5, ty: 0.5,
+    vx: 0, vy: 0, px: 0.5, py: 0.5,
+    present: false,
+  };
+
+  function setTargetFromEvent(cx, cy) {
+    const nx = cx / window.innerWidth;
+    const ny = 1 - cy / window.innerHeight;
+    if (!mouse.present) {
+      // returning from off-screen — snap so animation resumes instantly
+      mouse.x = mouse.px = nx;
+      mouse.y = mouse.py = ny;
+      mouse.vx = mouse.vy = 0;
+      mouse.present = true;
+    }
+    mouse.tx = nx;
+    mouse.ty = ny;
+  }
+
+  window.addEventListener('mousemove', (e) => setTargetFromEvent(e.clientX, e.clientY));
   window.addEventListener('touchmove', (e) => {
     const t = e.touches[0];
-    mouse.tx = t.clientX / window.innerWidth;
-    mouse.ty = 1 - t.clientY / window.innerHeight;
+    setTargetFromEvent(t.clientX, t.clientY);
   }, { passive: true });
 
-  // push cursor far off-screen when it leaves the window so hover effects
-  // don't persist stuck to the last edge the mouse touched
-  const OFF = -999;
-  document.addEventListener('mouseleave', () => { mouse.tx = OFF; mouse.ty = OFF; });
-  window.addEventListener('blur',          () => { mouse.tx = OFF; mouse.ty = OFF; });
-  document.addEventListener('touchend',    () => { mouse.tx = OFF; mouse.ty = OFF; });
+  // Push the virtual cursor just outside the normalized viewport so hover
+  // highlight releases. Using a bounded value (not -999) keeps the lerp
+  // cheap, and `present=false` makes the next move snap back instantly.
+  function releaseCursor() {
+    mouse.tx = -2;
+    mouse.ty = -2;
+    mouse.present = false;
+  }
+  document.addEventListener('mouseleave', releaseCursor);
+  window.addEventListener('blur',          releaseCursor);
+  document.addEventListener('touchend',    releaseCursor);
 
   window.addEventListener('resize', () => {
     const w = window.innerWidth, h = window.innerHeight;
