@@ -152,26 +152,40 @@
   pGeo.setAttribute('aSize',    new THREE.BufferAttribute(sizes, 1));
 
   const pMat = new THREE.ShaderMaterial({
-    uniforms: { uTime: { value: 0 }, uPR: { value: DPR } },
+    uniforms: {
+      uTime:   { value: 0 },
+      uPR:     { value: DPR },
+      uMouseW: { value: new THREE.Vector3(9999, 9999, 0) },
+    },
     vertexShader: /* glsl */ `
       attribute vec3  aColor;
       attribute float aSize;
-      varying vec3 vColor;
+      varying vec3  vColor;
+      varying float vGlow;
       uniform float uPR;
+      uniform vec3  uMouseW;
       void main() {
-        vColor = aColor;
+        // proximity highlight: particles near the projected cursor line get
+        // a brightness and size boost, but do not move.
+        float d  = distance(position.xy, uMouseW.xy);
+        float k  = exp(-d * d / (120.0 * 120.0)); // falloff
+        vGlow    = k;
+        vec3 tint = mix(vColor, vec3(0.55, 0.85, 1.05), k * 0.7);
+        vColor    = tint;
+
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = aSize * uPR * (300.0 / -mv.z);
+        gl_PointSize = aSize * uPR * (300.0 / -mv.z) * (1.0 + k * 1.8);
         gl_Position = projectionMatrix * mv;
       }
     `,
     fragmentShader: /* glsl */ `
-      varying vec3 vColor;
+      varying vec3  vColor;
+      varying float vGlow;
       void main() {
         vec2 c = gl_PointCoord - 0.5;
         float d = length(c);
         float core = smoothstep(0.5, 0.0, d);
-        float glow = exp(-d * 6.0) * 0.9;
+        float glow = exp(-d * 6.0) * (0.9 + vGlow * 0.8);
         vec3 col = vColor * (core + glow);
         gl_FragColor = vec4(col, core + glow * 0.8);
       }
@@ -245,35 +259,24 @@
     uniforms.uIntro.value = Math.min(elapsed / 1.4, 1);
 
     pMat.uniforms.uTime.value = elapsed;
+    // project cursor to the particle plane (z=0) for proximity highlight
+    pMat.uniforms.uMouseW.value.set((mouse.x - 0.5) * 900, (mouse.y - 0.5) * 560, 0);
 
-    // particle motion
+    // particle motion (orbital only — no cursor gravity)
     const pos = pGeo.attributes.position.array;
     const introEase = 1 - Math.pow(1 - Math.min(elapsed / 2.0, 1), 4); // easeOutQuart
-    const mx = (mouse.x - 0.5) * 600;
-    const my = (mouse.y - 0.5) * 400;
 
     for (let i = 0; i < COUNT; i++) {
       const o = origins[i];
-      // slow orbital drift
       o.a += 0.0015;
       o.b += 0.0009;
       const R = o.R, r = o.r;
       const breathe = 1 + Math.sin(elapsed * 0.9 + phases[i]) * 0.06;
-      let tx = (R + r * Math.cos(o.b)) * Math.cos(o.a) * breathe;
-      let ty = (R + r * Math.cos(o.b)) * Math.sin(o.a) * 0.55 * breathe;
-      let tz = r * Math.sin(o.b);
-
-      // cursor gravity
-      const dx = mx - tx, dy = my - ty;
-      const d2 = dx * dx + dy * dy;
-      if (d2 < 90000) {
-        const f = (1 - d2 / 90000) * 0.25;
-        tx += dx * f;
-        ty += dy * f;
-      }
+      const tx = (R + r * Math.cos(o.b)) * Math.cos(o.a) * breathe;
+      const ty = (R + r * Math.cos(o.b)) * Math.sin(o.a) * 0.55 * breathe;
+      const tz = r * Math.sin(o.b);
 
       const ix = i * 3;
-      // intro: lerp from center to target
       const cx = tx * introEase;
       const cy = ty * introEase;
       const cz = tz * introEase;
@@ -321,9 +324,7 @@
       lineGeo.setDrawRange(0, lc * 2);
     }
 
-    // parallax camera
-    fxCam.position.x += ((mouse.x - 0.5) * 120 - fxCam.position.x) * 0.03;
-    fxCam.position.y += ((mouse.y - 0.5) *  80 - fxCam.position.y) * 0.03;
+    // autonomous rotation (no mouse parallax)
     pts.rotation.z = Math.sin(elapsed * 0.1) * 0.15;
     pts.rotation.x = Math.cos(elapsed * 0.08) * 0.1;
     lineSeg.rotation.copy(pts.rotation);
