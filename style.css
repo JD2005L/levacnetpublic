@@ -87,33 +87,54 @@ body {
   background-size: 80px 80px;
 }
 
-/* --- Rising particle specks (pure CSS, no JS) --- */
-.hero-particles {
+/* --- Starfield: specks flying outward from screen center toward the
+       viewer, simulating forward travel through space. Each speck
+       starts at the center tiny and dim, then translates along its
+       --a angle while scaling up and brightening, exiting past the
+       viewport edge. Pure CSS keyframes, compositor-only. --- */
+.hero-starfield {
   position: absolute;
   inset: 0;
 }
-.hero-particles span {
+.hero-starfield span {
   position: absolute;
-  bottom: -10px;
-  left: var(--x);
+  top: 50%;
+  left: 50%;
   width: var(--s);
   height: var(--s);
+  margin-left: calc(var(--s) / -2);
+  margin-top:  calc(var(--s) / -2);
   border-radius: 50%;
-  background: rgba(140, 200, 255, 0.85);
+  background: #cfe6ff;
   opacity: 0;
-  animation: particle-rise var(--d) linear infinite;
+  /* Each speck moves outward along its own angle. Final translate
+     distance is large so it's guaranteed to fly past the viewport. */
+  transform: rotate(var(--a)) translateX(0) scale(0.1);
+  animation: star-fly var(--d) linear infinite;
   animation-delay: var(--delay);
 }
-@keyframes particle-rise {
-  0%   { transform: translateY(0)        translateX(0);    opacity: 0; }
-  10%  { opacity: 0.9; }
-  50%  { transform: translateY(-50vh)    translateX(20px); opacity: 0.8; }
-  90%  { opacity: 0.25; }
-  100% { transform: translateY(-100vh)   translateX(-10px); opacity: 0; }
+@keyframes star-fly {
+  0% {
+    transform: rotate(var(--a)) translateX(0) scale(0.1);
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.2;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateX(120vmax) scale(3.2);
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-mesh, .hero-particles span { animation: none; }
+  .hero-mesh, .hero-starfield span { animation: none; }
 }
 
 
