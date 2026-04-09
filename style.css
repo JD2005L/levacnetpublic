@@ -91,60 +91,74 @@ body {
      the GPU compositor enough to stall video in other tabs. */
 }
 
-/* --- Aurora borealis floor: characteristic green curtain across the
-       lower third of the hero, with irregular warm-green/teal/pink
-       pockets and a soft vertical fade so it sits behind the content
-       without competing with it. Static — multiple radial gradients
-       stacked on a single absolutely positioned div. --- */
+/* --- Aurora borealis floor: vertical curtain streaks instead of
+       blurred colour blobs. Stacks several near-vertical
+       repeating-linear-gradients (the "rays" that make real aurora
+       look like falling curtains) over a soft green base glow, then
+       masks the whole thing with an SVG wavy top edge so the curtain
+       has an organic crown rather than a flat horizon line. Each
+       repeating layer is at a slightly different angle so the rays
+       look like they're swaying past each other. --- */
 .hero-aurora-floor {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -10%;
+  right: -10%;
   bottom: 0;
-  height: 55%;
+  height: 62%;
   pointer-events: none;
   background-image:
-    /* main central green column, tall and bright */
-    radial-gradient(ellipse 35% 70% at 50% 110%,
-      rgba(80, 255, 160, 0.55) 0%,
-      rgba(60, 230, 140, 0.28) 30%,
-      rgba(40, 180, 120, 0.10) 55%,
+    /* Tight bright vertical rays */
+    repeating-linear-gradient(91deg,
+      rgba(80, 255, 150, 0)    0px,
+      rgba(80, 255, 150, 0)    9px,
+      rgba(120, 255, 170, 0.55) 10px,
+      rgba(80, 255, 150, 0)    12px,
+      rgba(80, 255, 150, 0)    24px),
+    /* Medium teal rays leaning the other way */
+    repeating-linear-gradient(89deg,
+      rgba(60, 220, 180, 0)    0px,
+      rgba(60, 220, 180, 0)    18px,
+      rgba(80, 235, 200, 0.40) 19px,
+      rgba(60, 220, 180, 0)    21px,
+      rgba(60, 220, 180, 0)    44px),
+    /* Wide soft glow streaks */
+    repeating-linear-gradient(90.6deg,
+      rgba(140, 255, 170, 0)   0px,
+      rgba(140, 255, 170, 0.18) 36px,
+      rgba(140, 255, 170, 0)   38px,
+      rgba(140, 255, 170, 0)   90px),
+    /* Cyan accent rays leaning slightly */
+    repeating-linear-gradient(88deg,
+      rgba(120, 220, 240, 0)   0px,
+      rgba(120, 220, 240, 0)   55px,
+      rgba(120, 220, 240, 0.22) 57px,
+      rgba(120, 220, 240, 0)   60px,
+      rgba(120, 220, 240, 0)   140px),
+    /* Bright base glow at the foot of the curtain */
+    radial-gradient(ellipse 70% 35% at 50% 102%,
+      rgba(120, 255, 170, 0.55) 0%,
+      rgba(80, 220, 140, 0.28) 30%,
+      rgba(40, 160, 100, 0.10) 55%,
       rgba(0, 0, 0, 0) 80%),
-    /* left-side teal pocket */
-    radial-gradient(ellipse 28% 60% at 22% 105%,
-      rgba(60, 220, 180, 0.40) 0%,
-      rgba(40, 180, 160, 0.16) 35%,
-      rgba(0, 0, 0, 0) 70%),
-    /* right-side cyan pocket */
-    radial-gradient(ellipse 30% 65% at 78% 108%,
-      rgba(80, 210, 220, 0.38) 0%,
-      rgba(60, 170, 200, 0.14) 38%,
-      rgba(0, 0, 0, 0) 72%),
-    /* pink rim along the peak (the rare upper-edge aurora tint) */
-    radial-gradient(ellipse 40% 12% at 50% 38%,
-      rgba(255, 120, 200, 0.22) 0%,
-      rgba(200, 80, 180, 0.08) 50%,
-      rgba(0, 0, 0, 0) 100%),
-    /* warm yellow-green leftmost wisp */
-    radial-gradient(ellipse 18% 50% at 8% 112%,
-      rgba(180, 240, 120, 0.28) 0%,
-      rgba(0, 0, 0, 0) 70%),
-    /* warm yellow-green rightmost wisp */
-    radial-gradient(ellipse 18% 50% at 94% 110%,
-      rgba(160, 240, 140, 0.26) 0%,
+    /* Wider warm green base wash */
+    radial-gradient(ellipse 100% 60% at 50% 115%,
+      rgba(60, 200, 130, 0.35) 0%,
       rgba(0, 0, 0, 0) 70%);
-  /* Soft vertical fade so the top edge of the aurora dissolves into
-     the mesh instead of cutting off with a hard line. */
-  -webkit-mask-image: linear-gradient(180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.6) 35%,
-    rgba(0, 0, 0, 1) 70%,
-    rgba(0, 0, 0, 1) 100%);
-          mask-image: linear-gradient(180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.6) 35%,
-    rgba(0, 0, 0, 1) 70%,
-    rgba(0, 0, 0, 1) 100%);
+  /* Wavy top edge mask: an SVG path drawn across the top of the layer
+     so the curtain doesn't terminate in a flat line. The bottom of the
+     mask stays solid so the floor stays fully painted. */
+  -webkit-mask-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='none'><path d='M 0 380 C 80 280 160 420 240 320 S 400 460 480 340 S 640 480 720 360 S 880 460 960 320 S 1120 440 1200 360 L 1200 800 L 0 800 Z' fill='white'/></svg>"),
+    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,1) 100%);
+  -webkit-mask-size: 100% 100%, 100% 100%;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-composite: source-in;
+          mask-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='none'><path d='M 0 380 C 80 280 160 420 240 320 S 400 460 480 340 S 640 480 720 360 S 880 460 960 320 S 1120 440 1200 360 L 1200 800 L 0 800 Z' fill='white'/></svg>"),
+    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,1) 100%);
+          mask-size: 100% 100%, 100% 100%;
+          mask-repeat: no-repeat, no-repeat;
+          mask-composite: intersect;
 }
 
 /* --- Subtle SVG grid overlay (static, no animation) --- */
