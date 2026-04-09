@@ -1,0 +1,512 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - link "780-760-1002" [ref=e5] [cursor=pointer]:
+        - /url: tel:780-760-1002
+      - generic [ref=e6]: "|"
+      - link "info@harmanirentals.com" [ref=e7] [cursor=pointer]:
+        - /url: mailto:info@harmanirentals.com
+    - link "LinkedIn" [ref=e9] [cursor=pointer]:
+      - /url: https://www.linkedin.com/company/harmani-rentals/posts/?feedView=all
+  - banner [ref=e10]:
+    - generic [ref=e11]:
+      - link "Harmani Rentals homepage" [ref=e12] [cursor=pointer]:
+        - /url: /
+        - img "Harmani Rentals" [ref=e13]
+      - navigation "Main navigation" [ref=e14]:
+        - list [ref=e15]:
+          - listitem [ref=e16]:
+            - link "Home" [ref=e17] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e18]:
+            - button "Our Company ▼" [ref=e19] [cursor=pointer]
+          - listitem [ref=e20]:
+            - link "Rentals" [ref=e21] [cursor=pointer]:
+              - /url: /Rentals
+          - listitem [ref=e22]:
+            - link "Condo Deconversion" [ref=e23] [cursor=pointer]:
+              - /url: /CondoDeconversion
+          - listitem [ref=e24]:
+            - link "Resources" [ref=e25] [cursor=pointer]:
+              - /url: /Resources
+      - link "Contact Us" [ref=e27] [cursor=pointer]:
+        - /url: /Contact
+  - main [ref=e28]:
+    - generic [ref=e33]:
+      - heading "Find Your Ideal Rental Home in Edmonton" [level=1] [ref=e34]:
+        - text: Find Your Ideal Rental Home in
+        - generic [ref=e36]: Edmonton
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]: City
+          - combobox "City" [ref=e40] [cursor=pointer]:
+            - option "All Cities" [selected]
+            - option "Calgary"
+            - option "Edmonton"
+            - option "Fort McMurray"
+        - generic [ref=e41]:
+          - generic [ref=e42]: Bedrooms
+          - combobox "Bedrooms" [ref=e43] [cursor=pointer]:
+            - option "Any" [selected]
+            - option "Studio"
+            - option "1 Bedroom"
+            - option "2 Bedrooms"
+            - option "3+ Bedrooms"
+        - generic [ref=e44]:
+          - generic [ref=e45]: Neighborhood
+          - combobox "Neighborhood" [ref=e46] [cursor=pointer]:
+            - option "All Areas" [selected]
+            - option "Beltline"
+            - option "Castle Downs"
+            - option "Central"
+            - option "Lower Mount Royal"
+            - option "Millwoods"
+            - option "Oliver"
+            - option "South Calgary"
+            - option "Southwest"
+            - option "West"
+            - option "Whyte"
+        - generic [ref=e47]:
+          - generic [ref=e48]: Availability
+          - combobox "Availability" [ref=e49] [cursor=pointer]:
+            - option "All Properties" [selected]
+            - option "Available Now"
+      - generic [ref=e50]:
+        - generic [ref=e52]:
+          - strong [ref=e53]: "43"
+          - text: properties found
+        - link "View Properties" [ref=e54] [cursor=pointer]:
+          - /url: /Rentals
+          - img [ref=e55]
+          - generic [ref=e58]: View Properties
+      - paragraph [ref=e59]: Affordable, Comfortable, and Backed by Exceptional Service
+    - region "Introducing brand new, spacious residences in Castle Downs" [ref=e60]:
+      - generic [ref=e64]:
+        - generic [ref=e65]: Now Leasing
+        - img "Kaia Residences" [ref=e66]
+        - heading "Introducing brand new, spacious residences in Castle Downs" [level=2] [ref=e67]
+        - paragraph [ref=e68]: Thoughtfully designed and beautifully finished, these homes offer the perfect balance of comfort, style, and everyday living.
+        - generic [ref=e69]:
+          - link "Visit rentkaia.ca" [ref=e70] [cursor=pointer]:
+            - /url: https://rentkaia.ca/
+          - link "View More Info" [ref=e71] [cursor=pointer]:
+            - /url: /Rentals?building=34
+    - generic [ref=e73]:
+      - img "Harmani Rentals Property Management" [ref=e76]
+      - generic [ref=e77]:
+        - heading "About Harmani Rentals" [level=2] [ref=e78]
+        - paragraph [ref=e79]: Harmani Rentals is a full-service rental company located in Edmonton, Alberta, dedicated to providing exceptional property management services. We specialize in residential and multi-family rental properties, offering quality living spaces for tenants while delivering outstanding value for property owners.
+        - paragraph [ref=e80]: Our comprehensive approach includes 24/7 security, regular maintenance, professional cleaning, landscaping, and efficient property management. With locations in Edmonton, Calgary, and Fort McMurray, we're proud to serve Alberta's rental community with integrity and excellence.
+        - link "Learn More About Us" [ref=e82] [cursor=pointer]:
+          - /url: ""
+    - generic [ref=e84]:
+      - generic [ref=e85]:
+        - heading "Services We Offer" [level=2] [ref=e86]
+        - paragraph [ref=e87]: Comprehensive property management solutions for rental properties across Alberta
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - img "Secure Sites" [ref=e91]
+          - img [ref=e93]
+          - heading "Secure Sites" [level=3] [ref=e96]
+          - paragraph [ref=e97]: 24/7 security monitoring and access control systems to ensure resident safety and property protection.
+        - generic [ref=e98]:
+          - img "On-site Maintenance" [ref=e100]
+          - img [ref=e102]
+          - heading "On-site Maintenance" [level=3] [ref=e104]
+          - paragraph [ref=e105]: Rapid-response, fast-tracked maintenance for all repairs, with simple online request forms to get help quickly.
+        - generic [ref=e106]:
+          - img "On-site Cleaning" [ref=e108]
+          - img [ref=e110]
+          - heading "On-site Cleaning" [level=3] [ref=e113]
+          - paragraph [ref=e114]: Regular cleaning of common areas and professional move-in/move-out cleaning services.
+        - generic [ref=e115]:
+          - img "Property Management" [ref=e117]
+          - img [ref=e119]
+          - heading "Property Management" [level=3] [ref=e122]
+          - paragraph [ref=e123]: Full-service property management including tenant screening, rent collection, and financial reporting.
+        - generic [ref=e124]:
+          - img "Landscaping" [ref=e126]
+          - img [ref=e128]
+          - heading "Landscaping" [level=3] [ref=e130]
+          - paragraph [ref=e131]: Professional grounds maintenance including lawn care, snow removal, and seasonal landscaping.
+        - generic [ref=e132]:
+          - img "Garbage Removal" [ref=e134]
+          - img [ref=e136]
+          - heading "Garbage Removal" [level=3] [ref=e138]
+          - paragraph [ref=e139]: Efficient waste management services with regular pickup schedules and recycling programs.
+    - generic [ref=e141]:
+      - generic [ref=e142]:
+        - heading "Featured Rental Properties" [level=2] [ref=e143]
+        - paragraph [ref=e144]: Quality rental homes across Alberta's major cities
+      - generic [ref=e145]:
+        - button "Previous properties" [ref=e146] [cursor=pointer]:
+          - img [ref=e147]
+        - generic [ref=e150]:
+          - article [ref=e151]:
+            - link "Bella Vista Apartments Available Now Bella Vista Apartments 22 Units 1, 2 Bedrooms Central, Edmonton" [ref=e152] [cursor=pointer]:
+              - /url: /Rentals?building=2
+              - generic [ref=e153]:
+                - img "Bella Vista Apartments" [ref=e154]
+                - generic [ref=e155]: Available Now
+              - generic [ref=e156]:
+                - heading "Bella Vista Apartments" [level=3] [ref=e157]
+                - generic [ref=e158]:
+                  - generic [ref=e159]:
+                    - img [ref=e160]
+                    - text: 22 Units
+                  - generic [ref=e162]:
+                    - img [ref=e163]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e166]:
+                  - img [ref=e167]
+                  - generic [ref=e170]: Central, Edmonton
+          - article [ref=e171]:
+            - link "Chateau Apartments Available Now Chateau Apartments 50 Units 1 Bedroom Southwest, Edmonton" [ref=e172] [cursor=pointer]:
+              - /url: /Rentals?building=4
+              - generic [ref=e173]:
+                - img "Chateau Apartments" [ref=e174]
+                - generic [ref=e175]: Available Now
+              - generic [ref=e176]:
+                - heading "Chateau Apartments" [level=3] [ref=e177]
+                - generic [ref=e178]:
+                  - generic [ref=e179]:
+                    - img [ref=e180]
+                    - text: 50 Units
+                  - generic [ref=e182]:
+                    - img [ref=e183]
+                    - text: 1 Bedroom
+                - paragraph [ref=e186]:
+                  - img [ref=e187]
+                  - generic [ref=e190]: Southwest, Edmonton
+          - article [ref=e191]:
+            - link "Che plex Available Now Che plex 6 Units 1, 2 Bedrooms South Calgary, Calgary" [ref=e192] [cursor=pointer]:
+              - /url: /Rentals?building=38
+              - generic [ref=e193]:
+                - img "Che plex" [ref=e194]
+                - generic [ref=e195]: Available Now
+              - generic [ref=e196]:
+                - heading "Che plex" [level=3] [ref=e197]
+                - generic [ref=e198]:
+                  - generic [ref=e199]:
+                    - img [ref=e200]
+                    - text: 6 Units
+                  - generic [ref=e202]:
+                    - img [ref=e203]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e206]:
+                  - img [ref=e207]
+                  - generic [ref=e210]: South Calgary, Calgary
+          - article [ref=e211]:
+            - link "College Plaza Available Now College Plaza 21 Units 1, 2 Bedrooms Central, Edmonton" [ref=e212] [cursor=pointer]:
+              - /url: /Rentals?building=5
+              - generic [ref=e213]:
+                - img "College Plaza" [ref=e214]
+                - generic [ref=e215]: Available Now
+              - generic [ref=e216]:
+                - heading "College Plaza" [level=3] [ref=e217]
+                - generic [ref=e218]:
+                  - generic [ref=e219]:
+                    - img [ref=e220]
+                    - text: 21 Units
+                  - generic [ref=e222]:
+                    - img [ref=e223]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e226]:
+                  - img [ref=e227]
+                  - generic [ref=e230]: Central, Edmonton
+          - article [ref=e231]:
+            - link "Hampton Manor Available Now Hampton Manor 27 Units 1 Bedroom Oliver, Edmonton" [ref=e232] [cursor=pointer]:
+              - /url: /Rentals?building=43
+              - generic [ref=e233]:
+                - img "Hampton Manor" [ref=e234]
+                - generic [ref=e235]: Available Now
+              - generic [ref=e236]:
+                - heading "Hampton Manor" [level=3] [ref=e237]
+                - generic [ref=e238]:
+                  - generic [ref=e239]:
+                    - img [ref=e240]
+                    - text: 27 Units
+                  - generic [ref=e242]:
+                    - img [ref=e243]
+                    - text: 1 Bedroom
+                - paragraph [ref=e246]:
+                  - img [ref=e247]
+                  - generic [ref=e250]: Oliver, Edmonton
+          - article [ref=e251]:
+            - link "Hardisty Apartments Available Now Hardisty Apartments 12 Units 1, 2, 3 Bedrooms Southwest, Edmonton" [ref=e252] [cursor=pointer]:
+              - /url: /Rentals?building=6
+              - generic [ref=e253]:
+                - img "Hardisty Apartments" [ref=e254]
+                - generic [ref=e255]: Available Now
+              - generic [ref=e256]:
+                - heading "Hardisty Apartments" [level=3] [ref=e257]
+                - generic [ref=e258]:
+                  - generic [ref=e259]:
+                    - img [ref=e260]
+                    - text: 12 Units
+                  - generic [ref=e262]:
+                    - img [ref=e263]
+                    - text: 1, 2, 3 Bedrooms
+                - paragraph [ref=e266]:
+                  - img [ref=e267]
+                  - generic [ref=e270]: Southwest, Edmonton
+          - article [ref=e271]:
+            - link "Lovinac Manor Available Now Lovinac Manor 23 Units 1, 2 Bedrooms Central, Edmonton" [ref=e272] [cursor=pointer]:
+              - /url: /Rentals?building=9
+              - generic [ref=e273]:
+                - img "Lovinac Manor" [ref=e274]
+                - generic [ref=e275]: Available Now
+              - generic [ref=e276]:
+                - heading "Lovinac Manor" [level=3] [ref=e277]
+                - generic [ref=e278]:
+                  - generic [ref=e279]:
+                    - img [ref=e280]
+                    - text: 23 Units
+                  - generic [ref=e282]:
+                    - img [ref=e283]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e286]:
+                  - img [ref=e287]
+                  - generic [ref=e290]: Central, Edmonton
+          - article [ref=e291]:
+            - link "Pepperwood Village Available Now Pepperwood Village 84 Units 1 Bedroom Millwoods, Edmonton" [ref=e292] [cursor=pointer]:
+              - /url: /Rentals?building=10
+              - generic [ref=e293]:
+                - img "Pepperwood Village" [ref=e294]
+                - generic [ref=e295]: Available Now
+              - generic [ref=e296]:
+                - heading "Pepperwood Village" [level=3] [ref=e297]
+                - generic [ref=e298]:
+                  - generic [ref=e299]:
+                    - img [ref=e300]
+                    - text: 84 Units
+                  - generic [ref=e302]:
+                    - img [ref=e303]
+                    - text: 1 Bedroom
+                - paragraph [ref=e306]:
+                  - img [ref=e307]
+                  - generic [ref=e310]: Millwoods, Edmonton
+          - article [ref=e311]:
+            - link "Regal Arms Available Now Regal Arms 21 Units 1, 2 Bedrooms Central, Edmonton" [ref=e312] [cursor=pointer]:
+              - /url: /Rentals?building=24
+              - generic [ref=e313]:
+                - img "Regal Arms" [ref=e314]
+                - generic [ref=e315]: Available Now
+              - generic [ref=e316]:
+                - heading "Regal Arms" [level=3] [ref=e317]
+                - generic [ref=e318]:
+                  - generic [ref=e319]:
+                    - img [ref=e320]
+                    - text: 21 Units
+                  - generic [ref=e322]:
+                    - img [ref=e323]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e326]:
+                  - img [ref=e327]
+                  - generic [ref=e330]: Central, Edmonton
+          - article [ref=e331]:
+            - link "Ridgewood Gardens Available Now Ridgewood Gardens 180 Units 1, 2 Bedrooms Millwoods, Edmonton" [ref=e332] [cursor=pointer]:
+              - /url: /Rentals?building=11
+              - generic [ref=e333]:
+                - img "Ridgewood Gardens" [ref=e334]
+                - generic [ref=e335]: Available Now
+              - generic [ref=e336]:
+                - heading "Ridgewood Gardens" [level=3] [ref=e337]
+                - generic [ref=e338]:
+                  - generic [ref=e339]:
+                    - img [ref=e340]
+                    - text: 180 Units
+                  - generic [ref=e342]:
+                    - img [ref=e343]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e346]:
+                  - img [ref=e347]
+                  - generic [ref=e350]: Millwoods, Edmonton
+          - article [ref=e351]:
+            - link "Ted Manor Available Now Ted Manor 9 Units 1, 2 Bedrooms Central, Edmonton" [ref=e352] [cursor=pointer]:
+              - /url: /Rentals?building=30
+              - generic [ref=e353]:
+                - img "Ted Manor" [ref=e354]
+                - generic [ref=e355]: Available Now
+              - generic [ref=e356]:
+                - heading "Ted Manor" [level=3] [ref=e357]
+                - generic [ref=e358]:
+                  - generic [ref=e359]:
+                    - img [ref=e360]
+                    - text: 9 Units
+                  - generic [ref=e362]:
+                    - img [ref=e363]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e366]:
+                  - img [ref=e367]
+                  - generic [ref=e370]: Central, Edmonton
+          - article [ref=e371]:
+            - link "The Edge of Jasper Available Now The Edge of Jasper 42 Units 1, 2 Bedrooms Central, Edmonton" [ref=e372] [cursor=pointer]:
+              - /url: /Rentals?building=31
+              - generic [ref=e373]:
+                - img "The Edge of Jasper" [ref=e374]
+                - generic [ref=e375]: Available Now
+              - generic [ref=e376]:
+                - heading "The Edge of Jasper" [level=3] [ref=e377]
+                - generic [ref=e378]:
+                  - generic [ref=e379]:
+                    - img [ref=e380]
+                    - text: 42 Units
+                  - generic [ref=e382]:
+                    - img [ref=e383]
+                    - text: 1, 2 Bedrooms
+                - paragraph [ref=e386]:
+                  - img [ref=e387]
+                  - generic [ref=e390]: Central, Edmonton
+          - article [ref=e391]:
+            - link "White House Available Now White House 20 Units Studio, 1, 2, 3 Bedrooms Central, Edmonton" [ref=e392] [cursor=pointer]:
+              - /url: /Rentals?building=33
+              - generic [ref=e393]:
+                - img "White House" [ref=e394]
+                - generic [ref=e395]: Available Now
+              - generic [ref=e396]:
+                - heading "White House" [level=3] [ref=e397]
+                - generic [ref=e398]:
+                  - generic [ref=e399]:
+                    - img [ref=e400]
+                    - text: 20 Units
+                  - generic [ref=e402]:
+                    - img [ref=e403]
+                    - text: Studio, 1, 2, 3 Bedrooms
+                - paragraph [ref=e406]:
+                  - img [ref=e407]
+                  - generic [ref=e410]: Central, Edmonton
+          - article [ref=e411]:
+            - link "Wood Manor Available Now Wood Manor 27 Units 2, 3 Bedrooms Central, Edmonton" [ref=e412] [cursor=pointer]:
+              - /url: /Rentals?building=12
+              - generic [ref=e413]:
+                - img "Wood Manor" [ref=e414]
+                - generic [ref=e415]: Available Now
+              - generic [ref=e416]:
+                - heading "Wood Manor" [level=3] [ref=e417]
+                - generic [ref=e418]:
+                  - generic [ref=e419]:
+                    - img [ref=e420]
+                    - text: 27 Units
+                  - generic [ref=e422]:
+                    - img [ref=e423]
+                    - text: 2, 3 Bedrooms
+                - paragraph [ref=e426]:
+                  - img [ref=e427]
+                  - generic [ref=e430]: Central, Edmonton
+          - article [ref=e431]:
+            - link "Woodland Manor Available Now Woodland Manor 16 Units 1 Bedroom Central, Edmonton" [ref=e432] [cursor=pointer]:
+              - /url: /Rentals?building=42
+              - generic [ref=e433]:
+                - img "Woodland Manor" [ref=e434]
+                - generic [ref=e435]: Available Now
+              - generic [ref=e436]:
+                - heading "Woodland Manor" [level=3] [ref=e437]
+                - generic [ref=e438]:
+                  - generic [ref=e439]:
+                    - img [ref=e440]
+                    - text: 16 Units
+                  - generic [ref=e442]:
+                    - img [ref=e443]
+                    - text: 1 Bedroom
+                - paragraph [ref=e446]:
+                  - img [ref=e447]
+                  - generic [ref=e450]: Central, Edmonton
+          - article [ref=e451]:
+            - link "Kaia Place Coming Soon Kaia Place 83 Units 1, 2, 3 Bedrooms Castle Downs, Edmonton" [ref=e452] [cursor=pointer]:
+              - /url: /Rentals?building=34
+              - generic [ref=e453]:
+                - img "Kaia Place" [ref=e454]
+                - generic [ref=e455]: Coming Soon
+              - generic [ref=e456]:
+                - heading "Kaia Place" [level=3] [ref=e457]
+                - generic [ref=e458]:
+                  - generic [ref=e459]:
+                    - img [ref=e460]
+                    - text: 83 Units
+                  - generic [ref=e462]:
+                    - img [ref=e463]
+                    - text: 1, 2, 3 Bedrooms
+                - paragraph [ref=e466]:
+                  - img [ref=e467]
+                  - generic [ref=e470]: Castle Downs, Edmonton
+        - button "Next properties" [ref=e471] [cursor=pointer]:
+          - img [ref=e472]
+      - generic [ref=e474]:
+        - button "Go to group 1" [ref=e475] [cursor=pointer]
+        - button "Go to group 2" [ref=e476] [cursor=pointer]
+        - button "Go to group 3" [ref=e477] [cursor=pointer]
+        - button "Go to group 4" [ref=e478] [cursor=pointer]
+        - button "Go to group 5" [ref=e479] [cursor=pointer]
+        - button "Go to group 6" [ref=e480] [cursor=pointer]
+      - link "View All Properties" [ref=e482] [cursor=pointer]:
+        - /url: /Rentals
+    - generic [ref=e484]:
+      - generic [ref=e485]:
+        - heading "What Our Clients Say About Us" [level=2] [ref=e486]
+        - paragraph [ref=e487]: Trusted by property owners and tenants across Alberta
+      - generic [ref=e489]:
+        - generic [ref=e490]:
+          - img [ref=e491]
+          - paragraph [ref=e493]: "\"Harmani Rentals has consistently delivered exceptional property management services. Their attention to detail and efficiency is at the highest standard. We're proud to work with such a professional team.\""
+        - generic [ref=e494]:
+          - generic [ref=e496]: GJ
+          - generic [ref=e497]:
+            - heading "Graham Johnson" [level=4] [ref=e498]
+            - paragraph [ref=e499]: Riverdale Property Management
+  - contentinfo [ref=e500]:
+    - generic [ref=e501]:
+      - generic [ref=e502]:
+        - img "Harmani Rentals" [ref=e503]
+        - paragraph [ref=e504]: A full-service rental company located in Edmonton, Alberta, dedicated to providing exceptional property management services across the province.
+        - link "LinkedIn" [ref=e506] [cursor=pointer]:
+          - /url: https://www.linkedin.com/company/harmani-rentals/
+          - img [ref=e507]
+      - generic [ref=e509]:
+        - heading "Quick Links" [level=4] [ref=e510]
+        - list [ref=e511]:
+          - listitem [ref=e512]:
+            - link "Home" [ref=e513] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e514]:
+            - link "About Us" [ref=e515] [cursor=pointer]:
+              - /url: ""
+          - listitem [ref=e516]:
+            - link "Our Team" [ref=e517] [cursor=pointer]:
+              - /url: /About/OurTeam
+          - listitem [ref=e518]:
+            - link "For Rent" [ref=e519] [cursor=pointer]:
+              - /url: /Rentals
+          - listitem [ref=e520]:
+            - link "Resources" [ref=e521] [cursor=pointer]:
+              - /url: /Resources
+          - listitem [ref=e522]:
+            - link "Contact Us" [ref=e523] [cursor=pointer]:
+              - /url: /Contact
+      - generic [ref=e524]:
+        - heading "Locations" [level=4] [ref=e525]
+        - list [ref=e526]:
+          - listitem [ref=e527]:
+            - link "Edmonton" [ref=e528] [cursor=pointer]:
+              - /url: /Rentals?city=Edmonton
+          - listitem [ref=e529]:
+            - link "Calgary" [ref=e530] [cursor=pointer]:
+              - /url: /Rentals?city=Calgary
+          - listitem [ref=e531]:
+            - link "Fort McMurray" [ref=e532] [cursor=pointer]:
+              - /url: /Rentals?city=Fort%20McMurray
+      - generic [ref=e533]:
+        - heading "Contact Us" [level=4] [ref=e534]
+        - generic [ref=e535]:
+          - generic [ref=e536]:
+            - img [ref=e537]
+            - link "780-760-1002" [ref=e539] [cursor=pointer]:
+              - /url: tel:780-760-1002
+          - generic [ref=e540]:
+            - img [ref=e541]
+            - link "info@harmanirentals.com" [ref=e544] [cursor=pointer]:
+              - /url: mailto:info@harmanirentals.com
+        - link "View Harmani Rentals location on Google Maps" [ref=e546] [cursor=pointer]:
+          - /url: https://www.google.com/maps/search/?api=1&query=Harmani+Rentals+Edmonton+AB
+          - img "Map location of Harmani Rentals in Edmonton" [ref=e547]
+    - generic [ref=e548]: © 2026 Harmani Rentals. All rights reserved.
