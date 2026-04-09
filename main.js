@@ -6,6 +6,43 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 }, { passive: true });
 
+// === NAV SCROLL-SPY (active link tracking) ===
+// A single IntersectionObserver watches the five main sections and
+// marks the nav link whose section is currently closest to the
+// viewport centre as .active. Nothing runs on scroll — observer
+// callbacks only fire on threshold crossings.
+function initNavSpy() {
+  const sections = ['about', 'projects', 'clients', 'stack', 'contact']
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  const links = new Map();
+  document.querySelectorAll('.nav-links a').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('#') && href.length > 1) links.set(href.slice(1), a);
+  });
+  if (!sections.length || !links.size) return;
+
+  const visible = new Map(); // id -> intersection ratio
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) visible.set(e.target.id, e.intersectionRatio);
+      else visible.delete(e.target.id);
+    }
+    // pick the section with the highest visibility
+    let bestId = null;
+    let bestRatio = 0;
+    for (const [id, r] of visible) {
+      if (r > bestRatio) { bestRatio = r; bestId = id; }
+    }
+    links.forEach((a, id) => a.classList.toggle('active', id === bestId));
+  }, {
+    // an "active zone" that favours the section crossing the middle
+    rootMargin: '-40% 0px -50% 0px',
+    threshold: [0, 0.01, 0.25, 0.5, 0.75, 1],
+  });
+  sections.forEach((s) => io.observe(s));
+}
+
 // === HYPERSPACE REVEAL for hero content ===
 // Eyebrow, name (per-letter), tagline, and CTA buttons all drop out of
 // "lightspeed": they arrive huge and blurred from (slightly) in front of
@@ -158,4 +195,5 @@ function initScrollAnimations() {
 document.addEventListener('DOMContentLoaded', () => {
   heroEntrance();
   initScrollAnimations();
+  initNavSpy();
 });
