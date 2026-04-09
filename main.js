@@ -41,17 +41,18 @@ function hyperspaceReveal() {
   // eyebrow leads
   if (eyebrow) {
     tl.fromTo(eyebrow,
-      { opacity: 0, scale: 5.5, filter: 'blur(14px)', y: -30 },
-      { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 1.0, ease: 'expo.out' },
+      { opacity: 0, scale: 5.5, y: -30 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: 'expo.out' },
       0);
   }
 
   // name: each letter is its own projectile with random jitter
+  // (No filter: blur — filter animations cause GPU-process pressure
+  // similar to WebGL and were stalling video decode in other tabs.)
   tl.fromTo(nameChars,
     {
       opacity: 0,
       scale: () => 8 + Math.random() * 5,
-      filter: 'blur(22px)',
       y: () => -50 + Math.random() * 40,
       x: () => (Math.random() - 0.5) * 60,
       rotation: () => (Math.random() - 0.5) * 20,
@@ -59,7 +60,6 @@ function hyperspaceReveal() {
     {
       opacity: 1,
       scale: 1,
-      filter: 'blur(0px)',
       y: 0,
       x: 0,
       rotation: 0,
@@ -72,8 +72,8 @@ function hyperspaceReveal() {
   // tagline arrives slightly after the name is mostly home
   if (tagline) {
     tl.fromTo(tagline,
-      { opacity: 0, scale: 4.5, filter: 'blur(14px)', y: 40 },
-      { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 1.1, ease: 'expo.out' },
+      { opacity: 0, scale: 4.5, y: 40 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'expo.out' },
       0.55);
   }
 
@@ -85,14 +85,12 @@ function hyperspaceReveal() {
       {
         opacity: 0,
         scale: () => 5 + Math.random() * 3,
-        filter: 'blur(16px)',
         y: () => 50 + Math.random() * 30,
         x: () => (Math.random() - 0.5) * 40,
       },
       {
         opacity: 1,
         scale: 1,
-        filter: 'blur(0px)',
         y: 0,
         x: 0,
         duration: 1.15,
@@ -104,8 +102,8 @@ function hyperspaceReveal() {
 
   if (scrollInd) {
     tl.fromTo(scrollInd,
-      { opacity: 0, y: 20, filter: 'blur(6px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' },
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
       1.55);
   }
 
