@@ -303,145 +303,78 @@ nav.scrolled {
   transition: none;
 }
 .project-card.reveal.in-view {
-  animation: flicker-horror-a 4.2s steps(1, end) forwards;
+  animation: flicker-horror-a 2.1s steps(1, end) forwards;
 }
-.project-card.reveal.in-view:nth-child(2)  { animation: flicker-horror-b 4.6s steps(1, end) forwards; animation-delay: 0.18s; }
-.project-card.reveal.in-view:nth-child(3)  { animation: flicker-horror-c 4.0s steps(1, end) forwards; animation-delay: 0.42s; }
-.project-card.reveal.in-view:nth-child(4)  { animation: flicker-horror-b 4.4s steps(1, end) forwards; animation-delay: 0.10s; }
-.project-card.reveal.in-view:nth-child(5)  { animation: flicker-horror-a 4.8s steps(1, end) forwards; animation-delay: 0.55s; }
-.project-card.reveal.in-view:nth-child(6)  { animation: flicker-horror-c 4.3s steps(1, end) forwards; animation-delay: 0.25s; }
-.project-card.reveal.in-view:nth-child(7)  { animation: flicker-horror-b 4.1s steps(1, end) forwards; animation-delay: 0.70s; }
+.project-card.reveal.in-view:nth-child(2)  { animation: flicker-horror-b 2.3s steps(1, end) forwards; animation-delay: 0.09s; }
+.project-card.reveal.in-view:nth-child(3)  { animation: flicker-horror-c 2.0s steps(1, end) forwards; animation-delay: 0.21s; }
+.project-card.reveal.in-view:nth-child(4)  { animation: flicker-horror-b 2.2s steps(1, end) forwards; animation-delay: 0.05s; }
+.project-card.reveal.in-view:nth-child(5)  { animation: flicker-horror-a 2.4s steps(1, end) forwards; animation-delay: 0.28s; }
+.project-card.reveal.in-view:nth-child(6)  { animation: flicker-horror-c 2.15s steps(1, end) forwards; animation-delay: 0.13s; }
+.project-card.reveal.in-view:nth-child(7)  { animation: flicker-horror-b 2.05s steps(1, end) forwards; animation-delay: 0.35s; }
 
+/* Fewer keyframes with longer holds at each state — reads as a more
+   "paced" flicker rather than a rapid-fire stutter, even though the
+   total sequence is shorter. */
 @keyframes flicker-horror-a {
   0%   { opacity: 0.03; }
-  2%   { opacity: 0.08; }
-  3%   { opacity: 0.03; }
-  5%   { opacity: 0.06; }
-  6%   { opacity: 0.03; }
-  9%   { opacity: 1; }    /* first strike */
-  9.5% { opacity: 0.04; }
-  10%  { opacity: 0.08; }
-  11%  { opacity: 0.03; }
-  14%  { opacity: 0.03; }  /* dead gap */
-  15%  { opacity: 0.95; }
-  15.5%{ opacity: 0.05; }
-  16%  { opacity: 0.90; }
-  16.5%{ opacity: 0.04; }
-  17%  { opacity: 0.05; }
-  21%  { opacity: 0.05; }  /* dead gap */
-  22%  { opacity: 1; }
-  22.5%{ opacity: 0.06; }
-  23%  { opacity: 0.03; }
-  28%  { opacity: 0.03; }  /* long dead gap */
-  29%  { opacity: 0.85; }
-  29.5%{ opacity: 0.08; }
-  30%  { opacity: 0.90; }
-  30.5%{ opacity: 0.04; }
-  31%  { opacity: 1; }
-  31.8%{ opacity: 0.08; }
-  32.5%{ opacity: 0.95; }
-  33%  { opacity: 0.10; }
-  34%  { opacity: 0.90; }
-  35%  { opacity: 0.25; }
-  37%  { opacity: 1; }
-  38%  { opacity: 0.30; }
-  40%  { opacity: 0.95; }
-  42%  { opacity: 0.55; }
-  44%  { opacity: 1; }
-  46%  { opacity: 0.70; }
+  10%  { opacity: 0.03; }   /* hold dark */
+  12%  { opacity: 1; }      /* first strike */
+  14%  { opacity: 0.04; }
+  22%  { opacity: 0.04; }   /* dead gap */
+  25%  { opacity: 0.95; }
+  27%  { opacity: 0.06; }
+  36%  { opacity: 0.06; }   /* long dead gap */
+  40%  { opacity: 0.90; }
+  43%  { opacity: 0.20; }
   48%  { opacity: 1; }
-  55%  { opacity: 1; }
-  56%  { opacity: 0.35; } /* residual twitch */
-  57%  { opacity: 1; }
-  72%  { opacity: 1; }
-  73%  { opacity: 0.75; }
-  74%  { opacity: 1; }
+  52%  { opacity: 0.35; }
+  58%  { opacity: 1; }
+  64%  { opacity: 0.65; }
+  70%  { opacity: 1; }
+  82%  { opacity: 1; }
+  84%  { opacity: 0.40; }  /* residual twitch */
+  86%  { opacity: 1; }
   100% { opacity: 1; }
 }
 @keyframes flicker-horror-b {
   0%   { opacity: 0.03; }
-  4%   { opacity: 0.95; }
-  4.5% { opacity: 0.03; }
-  7%   { opacity: 0.03; }   /* dead */
-  8%   { opacity: 0.07; }
-  9%   { opacity: 0.04; }
-  12%  { opacity: 1; }
-  12.3%{ opacity: 0.06; }
-  12.8%{ opacity: 0.90; }
-  13.2%{ opacity: 0.04; }
-  17%  { opacity: 0.04; }   /* dead */
-  18%  { opacity: 0.08; }
-  19%  { opacity: 0.04; }
-  23%  { opacity: 1; }
-  23.5%{ opacity: 0.06; }
-  24%  { opacity: 0.95; }
-  24.4%{ opacity: 0.05; }
-  25%  { opacity: 0.08; }
-  31%  { opacity: 0.08; }   /* long dead */
-  32%  { opacity: 0.90; }
-  32.5%{ opacity: 0.10; }
-  33%  { opacity: 1; }
-  33.5%{ opacity: 0.05; }
-  34%  { opacity: 0.95; }
-  35%  { opacity: 0.15; }
-  36%  { opacity: 0.90; }
-  37%  { opacity: 0.25; }
-  39%  { opacity: 1; }
-  41%  { opacity: 0.40; }
-  43%  { opacity: 1; }
-  46%  { opacity: 0.65; }
-  49%  { opacity: 1; }
-  58%  { opacity: 1; }
-  59%  { opacity: 0.40; } /* residual twitch */
-  60%  { opacity: 1; }
-  77%  { opacity: 1; }
-  78%  { opacity: 0.80; }
-  79%  { opacity: 1; }
+  8%   { opacity: 0.95; }
+  11%  { opacity: 0.04; }
+  20%  { opacity: 0.04; }   /* dead */
+  24%  { opacity: 1; }
+  27%  { opacity: 0.05; }
+  38%  { opacity: 0.05; }   /* long dead */
+  42%  { opacity: 0.90; }
+  45%  { opacity: 0.15; }
+  50%  { opacity: 1; }
+  55%  { opacity: 0.45; }
+  62%  { opacity: 1; }
+  68%  { opacity: 0.70; }
+  74%  { opacity: 1; }
+  86%  { opacity: 1; }
+  88%  { opacity: 0.50; }  /* residual twitch */
+  90%  { opacity: 1; }
   100% { opacity: 1; }
 }
 @keyframes flicker-horror-c {
   0%   { opacity: 0.03; }
-  1%   { opacity: 0.06; }
-  2%   { opacity: 0.03; }
-  3%   { opacity: 0.90; }
-  3.3% { opacity: 0.05; }
-  3.6% { opacity: 0.04; }
-  6%   { opacity: 1; }
-  6.5% { opacity: 0.03; }
-  7%   { opacity: 0.08; }
-  8%   { opacity: 0.04; }
-  13%  { opacity: 0.04; }  /* dead */
-  14%  { opacity: 1; }
-  14.3%{ opacity: 0.06; }
-  14.6%{ opacity: 0.05; }
-  15%  { opacity: 0.95; }
-  15.3%{ opacity: 0.05; }
-  20%  { opacity: 0.05; }  /* dead */
-  21%  { opacity: 0.10; }
-  22%  { opacity: 0.05; }
-  26%  { opacity: 0.95; }
-  26.4%{ opacity: 0.06; }
-  27%  { opacity: 1; }
-  27.5%{ opacity: 0.08; }
-  28%  { opacity: 0.05; }
-  33%  { opacity: 0.05; }  /* long dead */
-  34%  { opacity: 0.90; }
-  35%  { opacity: 0.20; }
-  37%  { opacity: 1; }
-  38%  { opacity: 0.15; }
-  40%  { opacity: 0.95; }
-  42%  { opacity: 0.45; }
-  44%  { opacity: 1; }
-  47%  { opacity: 0.60; }
-  50%  { opacity: 1; }
-  53%  { opacity: 0.80; }
-  55%  { opacity: 1; }
-  64%  { opacity: 1; }
-  65%  { opacity: 0.45; } /* residual twitch */
-  66%  { opacity: 1; }
+  6%   { opacity: 0.03; }   /* hold dark */
+  9%   { opacity: 0.90; }
+  12%  { opacity: 0.04; }
+  18%  { opacity: 0.04; }   /* dead */
+  22%  { opacity: 1; }
+  25%  { opacity: 0.06; }
+  34%  { opacity: 0.06; }   /* long dead */
+  38%  { opacity: 0.95; }
+  42%  { opacity: 0.25; }
+  47%  { opacity: 1; }
+  53%  { opacity: 0.50; }
+  60%  { opacity: 1; }
+  66%  { opacity: 0.75; }
+  72%  { opacity: 1; }
   84%  { opacity: 1; }
-  85%  { opacity: 0.70; }
-  86%  { opacity: 1; }
+  86%  { opacity: 0.55; }  /* residual twitch */
+  88%  { opacity: 1; }
   100% { opacity: 1; }
 }
 
