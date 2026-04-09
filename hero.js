@@ -220,20 +220,15 @@
     bgUniforms.uRes.value.set(w, h);
   });
 
-  // ---------- GSAP Scroll: camera dolly ----------
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-    ScrollTrigger.create({
-      trigger: '#hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 0.6,
-      onUpdate: (self) => {
-        const p = self.progress;
-        fxCam.position.z = CAM_Z_HOME + p * 600;
-      },
-    });
+  // Scroll-driven camera dolly (plain scroll event, no ScrollTrigger)
+  let scrollProgress = 0;
+  function updateScrollProgress() {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    const h = hero.offsetHeight || window.innerHeight;
+    scrollProgress = Math.max(0, Math.min(1, window.scrollY / h));
   }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
 
   // ---------- Pause when off-screen ----------
   let visible = true;
@@ -268,11 +263,12 @@
     bgUniforms.uTime.value = elapsed;
     bgUniforms.uMouse.value.set(mouse.x, mouse.y);
 
-    // Intro: 2.8s camera dolly + fade
+    // Intro: 2.8s camera dolly + fade (then add scroll offset)
     const INTRO = 2.8;
     const tNorm = Math.min(elapsed / INTRO, 1);
     const easeInOutCubic = tNorm < 0.5 ? 4 * tNorm * tNorm * tNorm : 1 - Math.pow(-2 * tNorm + 2, 3) / 2;
-    fxCam.position.z = CAM_Z_START + (CAM_Z_HOME - CAM_Z_START) * easeInOutCubic;
+    const introZ = CAM_Z_START + (CAM_Z_HOME - CAM_Z_START) * easeInOutCubic;
+    fxCam.position.z = introZ + scrollProgress * 600;
 
     const fadeIn = Math.min(elapsed / 0.9, 1);
     bgUniforms.uIntro.value = fadeIn;

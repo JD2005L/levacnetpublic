@@ -118,82 +118,36 @@ function heroEntrance() {
   gsap.delayedCall(1.4, hyperspaceReveal);
 }
 
-// === GSAP SCROLL TRIGGER REVEALS ===
+// === SCROLL REVEALS via IntersectionObserver ===
+// ScrollTrigger was causing tab-wide freezes on page load (many trigger
+// instances forcing synchronous layout measurements during init).
+// Replaced with a single lightweight IntersectionObserver that tags
+// elements with .in-view when they cross the viewport, and CSS handles
+// the actual transition. No layout thrash, no scroll-handler overhead.
 function initScrollAnimations() {
-  // Register ScrollTrigger
-  gsap.registerPlugin(ScrollTrigger);
+  const targets = document.querySelectorAll(
+    '.section-label, .section-title, .section-subtitle, ' +
+    '.about-text, .about-terminal, ' +
+    '.project-card, .client-card, .stack-pill, ' +
+    '.contact-item, .contact-note'
+  );
+  targets.forEach((el) => el.classList.add('reveal'));
 
-  // Section labels + titles
-  gsap.utils.toArray('.section-label, .section-title, .section-subtitle').forEach(el => {
-    gsap.from(el, {
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 88%',
-        toggleActions: 'play none none none',
-      },
-      opacity: 0,
-      y: 25,
-      duration: 0.7,
-      ease: 'power2.out',
-    });
-  });
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach((el) => el.classList.add('in-view'));
+    return;
+  }
 
-  // About grid
-  gsap.from('.about-text', {
-    scrollTrigger: { trigger: '.about-grid', start: 'top 80%' },
-    opacity: 0, x: -30, duration: 0.8, ease: 'power2.out',
-  });
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    }
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
 
-  gsap.from('.about-terminal', {
-    scrollTrigger: { trigger: '.about-grid', start: 'top 80%' },
-    opacity: 0, x: 30, duration: 0.8, delay: 0.2, ease: 'power2.out',
-  });
-
-  // Project cards stagger
-  ScrollTrigger.batch('.project-card', {
-    start: 'top 90%',
-    onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }),
-  });
-  gsap.set('.project-card', { opacity: 0, y: 40 });
-
-  // Client cards
-  ScrollTrigger.batch('.client-card', {
-    start: 'top 90%',
-    onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out' }),
-  });
-  gsap.set('.client-card', { opacity: 0, y: 25 });
-
-  // Stack pills
-  ScrollTrigger.batch('.stack-pill', {
-    start: 'top 90%',
-    onEnter: batch => gsap.to(batch, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(1.5)' }),
-  });
-  gsap.set('.stack-pill', { opacity: 0, scale: 0.85 });
-
-  // Contact items
-  gsap.from('.contact-item', {
-    scrollTrigger: {
-      trigger: '.contact-items',
-      start: 'top 85%',
-    },
-    opacity: 0,
-    x: -20,
-    duration: 0.5,
-    stagger: 0.1,
-    ease: 'power2.out',
-  });
-
-  gsap.from('.contact-note', {
-    scrollTrigger: {
-      trigger: '.contact-grid',
-      start: 'top 82%',
-    },
-    opacity: 0,
-    x: 20,
-    duration: 0.7,
-    delay: 0.3,
-    ease: 'power2.out',
-  });
+  targets.forEach((el) => io.observe(el));
 }
 
 // === INIT ===

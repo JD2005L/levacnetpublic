@@ -203,8 +203,24 @@ nav.scrolled {
 /* Hyperspace-reveal characters: each letter is its own transform target */
 .name-char {
   display: inline-block;
-  will-change: transform, filter, opacity;
   transform-origin: center center;
+}
+
+/* Lightweight scroll-reveal (IntersectionObserver adds .in-view) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+.stack-pill.reveal {
+  transform: scale(0.9);
+}
+.stack-pill.reveal.in-view {
+  transform: scale(1);
 }
 
 .hero-tagline {
