@@ -70,11 +70,23 @@ body {
   inset: -10%;
   background-color: transparent;
   background-image:
-    radial-gradient(ellipse 45% 40% at 20% 30%, rgba(60, 140, 255, 0.32) 0%, rgba(0,0,0,0) 60%),
-    radial-gradient(ellipse 50% 45% at 80% 20%, rgba(140, 80, 255, 0.24) 0%, rgba(0,0,0,0) 60%),
-    radial-gradient(ellipse 40% 35% at 70% 70%, rgba(40, 200, 200, 0.22) 0%, rgba(0,0,0,0) 60%),
-    radial-gradient(ellipse 45% 40% at 25% 80%, rgba(80, 120, 255, 0.22) 0%, rgba(0,0,0,0) 60%);
-  opacity: 0.9;
+    /* bright cyan core-left */
+    radial-gradient(ellipse 55% 45% at 18% 28%, rgba(70, 180, 255, 0.58) 0%, rgba(0,0,0,0) 60%),
+    /* violet upper-right */
+    radial-gradient(ellipse 55% 50% at 82% 18%, rgba(170, 90, 255, 0.48) 0%, rgba(0,0,0,0) 60%),
+    /* teal lower-right */
+    radial-gradient(ellipse 48% 42% at 75% 72%, rgba(40, 220, 210, 0.42) 0%, rgba(0,0,0,0) 60%),
+    /* indigo lower-left */
+    radial-gradient(ellipse 50% 45% at 22% 78%, rgba(90, 130, 255, 0.40) 0%, rgba(0,0,0,0) 60%),
+    /* magenta center-top accent */
+    radial-gradient(ellipse 36% 30% at 52% 8%, rgba(255, 100, 180, 0.32) 0%, rgba(0,0,0,0) 60%),
+    /* pink right-mid accent */
+    radial-gradient(ellipse 30% 28% at 96% 48%, rgba(255, 120, 220, 0.30) 0%, rgba(0,0,0,0) 60%),
+    /* green-cyan left-mid accent */
+    radial-gradient(ellipse 30% 28% at 4% 55%, rgba(80, 255, 200, 0.28) 0%, rgba(0,0,0,0) 60%),
+    /* warm amber floor spark */
+    radial-gradient(ellipse 40% 28% at 50% 95%, rgba(255, 160, 80, 0.18) 0%, rgba(0,0,0,0) 60%);
+  opacity: 1;
   /* Static: no animation. CSS transform loops on this kept pressuring
      the GPU compositor enough to stall video in other tabs. */
 }
@@ -105,30 +117,29 @@ body {
   margin-left: calc(var(--s) / -2);
   margin-top:  calc(var(--s) / -2);
   border-radius: 50%;
-  background: #cfe6ff;
+  background: var(--c, #eaf6ff);
+  box-shadow: 0 0 6px var(--c, #eaf6ff);
   opacity: 0;
-  /* Each speck moves outward along its own angle. Final translate
-     distance is large so it's guaranteed to fly past the viewport. */
-  transform: rotate(var(--a)) translateX(0) scale(0.1);
+  transform: rotate(var(--a)) translateX(0) scale(0.08);
   animation: star-fly var(--d) linear infinite;
   animation-delay: var(--delay);
 }
 @keyframes star-fly {
   0% {
-    transform: rotate(var(--a)) translateX(0) scale(0.1);
+    transform: rotate(var(--a)) translateX(0) scale(0.08);
     opacity: 0;
   }
-  6% {
-    opacity: 0.2;
+  4% {
+    opacity: 0.3;
   }
-  30% {
-    opacity: 0.8;
+  25% {
+    opacity: 1;
   }
   70% {
     opacity: 1;
   }
   100% {
-    transform: rotate(var(--a)) translateX(120vmax) scale(3.2);
+    transform: rotate(var(--a)) translateX(130vmax) scale(4);
     opacity: 0;
   }
 }
