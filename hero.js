@@ -133,27 +133,27 @@
         col.g = palette(fg + 0.05).g;
         col.b = palette(fb + 0.10).b;
 
-        // deep-space base + energy lift at high-density regions
+        // deep-space base + gentle energy lift
         float density = (fr + fg + fb) / 3.0;
-        col *= 0.35 + pow(density, 2.0) * 1.8;
+        col *= 0.08 + pow(density, 2.5) * 0.35;
 
-        // filaments: sharpen fine detail
-        float fil = smoothstep(0.55, 0.95, density);
-        col += fil * vec3(0.35, 0.55, 0.95) * 0.6;
+        // faint filaments only in the brightest pockets
+        float fil = smoothstep(0.75, 0.98, density);
+        col += fil * vec3(0.20, 0.35, 0.70) * 0.15;
 
-        // cursor halo
-        col += exp(-md * 4.5) * vec3(0.25, 0.55, 0.9) * 0.55;
+        // soft cursor halo
+        col += exp(-md * 5.5) * vec3(0.18, 0.32, 0.55) * 0.12;
 
-        // vignette
-        float vig = smoothstep(1.25, 0.25, length(p));
-        col *= mix(0.55, 1.0, vig);
+        // strong vignette to keep edges dark
+        float vig = smoothstep(1.10, 0.15, length(p));
+        col *= mix(0.25, 1.0, vig);
 
-        // subtle scanline + grain for texture
-        float grain = hash(gl_FragCoord.xy + uTime) * 0.04 - 0.02;
+        // subtle grain
+        float grain = hash(gl_FragCoord.xy + uTime) * 0.02 - 0.01;
         col += grain;
 
-        // deep base color mix
-        col = mix(vec3(0.015, 0.02, 0.04), col, 0.92);
+        // heavy mix toward deep base so it reads as "background"
+        col = mix(vec3(0.015, 0.02, 0.035), col, 0.55);
 
         // intro reveal
         col *= smoothstep(0.0, 1.0, uIntro);
@@ -173,7 +173,7 @@
   const fxCam = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
   fxCam.position.z = 520;
 
-  const COUNT = window.innerWidth < 700 ? 420 : 900;
+  const COUNT = window.innerWidth < 700 ? 180 : 380;
   const SPREAD = 700;
   const positions = new Float32Array(COUNT * 3);
   const colors    = new Float32Array(COUNT * 3);
@@ -202,7 +202,7 @@
     colors[i * 3 + 1] = 0.35 + 0.50 * Math.sin(6.28 * t + 1.2);
     colors[i * 3 + 2] = 0.85 + 0.15 * Math.sin(6.28 * t + 2.4);
 
-    sizes[i]  = 6 + Math.random() * 10;
+    sizes[i]  = 3 + Math.random() * 5;
     phases[i] = Math.random() * Math.PI * 2;
   }
 
@@ -254,7 +254,7 @@
   const lineMat = new THREE.LineBasicMaterial({
     vertexColors: true,
     transparent: true,
-    opacity: 0.35,
+    opacity: 0.12,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   });
