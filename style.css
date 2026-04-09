@@ -99,66 +99,74 @@ body {
        has an organic crown rather than a flat horizon line. Each
        repeating layer is at a slightly different angle so the rays
        look like they're swaying past each other. --- */
+/* --- Aurora borealis floor: a small number of tall thin elliptical
+       glows rising from the bottom of the viewport. Each ellipse has
+       an extreme vertical aspect ratio so it reads as a single soft
+       wisp (not a stripe), the radial gradient gives it a naturally
+       soft lateral edge, and varying widths/heights/colours/positions
+       avoid the regular-pattern look of a barcode. --- */
 .hero-aurora-floor {
   position: absolute;
-  left: -10%;
-  right: -10%;
+  left: 0;
+  right: 0;
   bottom: 0;
-  height: 62%;
+  height: 70%;
   pointer-events: none;
   background-image:
-    /* Tight bright vertical rays */
-    repeating-linear-gradient(91deg,
-      rgba(80, 255, 150, 0)    0px,
-      rgba(80, 255, 150, 0)    9px,
-      rgba(120, 255, 170, 0.55) 10px,
-      rgba(80, 255, 150, 0)    12px,
-      rgba(80, 255, 150, 0)    24px),
-    /* Medium teal rays leaning the other way */
-    repeating-linear-gradient(89deg,
-      rgba(60, 220, 180, 0)    0px,
-      rgba(60, 220, 180, 0)    18px,
-      rgba(80, 235, 200, 0.40) 19px,
-      rgba(60, 220, 180, 0)    21px,
-      rgba(60, 220, 180, 0)    44px),
-    /* Wide soft glow streaks */
-    repeating-linear-gradient(90.6deg,
-      rgba(140, 255, 170, 0)   0px,
-      rgba(140, 255, 170, 0.18) 36px,
-      rgba(140, 255, 170, 0)   38px,
-      rgba(140, 255, 170, 0)   90px),
-    /* Cyan accent rays leaning slightly */
-    repeating-linear-gradient(88deg,
-      rgba(120, 220, 240, 0)   0px,
-      rgba(120, 220, 240, 0)   55px,
-      rgba(120, 220, 240, 0.22) 57px,
-      rgba(120, 220, 240, 0)   60px,
-      rgba(120, 220, 240, 0)   140px),
-    /* Bright base glow at the foot of the curtain */
-    radial-gradient(ellipse 70% 35% at 50% 102%,
-      rgba(120, 255, 170, 0.55) 0%,
-      rgba(80, 220, 140, 0.28) 30%,
-      rgba(40, 160, 100, 0.10) 55%,
+    /* Wisp 1: tall narrow bright green left-of-center */
+    radial-gradient(ellipse 6% 90% at 28% 105%,
+      rgba(120, 255, 170, 0.85) 0%,
+      rgba(90, 230, 150, 0.30) 25%,
+      rgba(60, 200, 130, 0.08) 55%,
       rgba(0, 0, 0, 0) 80%),
-    /* Wider warm green base wash */
-    radial-gradient(ellipse 100% 60% at 50% 115%,
-      rgba(60, 200, 130, 0.35) 0%,
-      rgba(0, 0, 0, 0) 70%);
-  /* Wavy top edge mask: an SVG path drawn across the top of the layer
-     so the curtain doesn't terminate in a flat line. The bottom of the
-     mask stays solid so the floor stays fully painted. */
-  -webkit-mask-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='none'><path d='M 0 380 C 80 280 160 420 240 320 S 400 460 480 340 S 640 480 720 360 S 880 460 960 320 S 1120 440 1200 360 L 1200 800 L 0 800 Z' fill='white'/></svg>"),
-    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,1) 100%);
-  -webkit-mask-size: 100% 100%, 100% 100%;
-  -webkit-mask-repeat: no-repeat, no-repeat;
-  -webkit-mask-composite: source-in;
-          mask-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='none'><path d='M 0 380 C 80 280 160 420 240 320 S 400 460 480 340 S 640 480 720 360 S 880 460 960 320 S 1120 440 1200 360 L 1200 800 L 0 800 Z' fill='white'/></svg>"),
-    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,1) 100%);
-          mask-size: 100% 100%, 100% 100%;
-          mask-repeat: no-repeat, no-repeat;
-          mask-composite: intersect;
+    /* Wisp 2: wider softer central column */
+    radial-gradient(ellipse 11% 95% at 47% 108%,
+      rgba(80, 240, 150, 0.65) 0%,
+      rgba(70, 210, 140, 0.22) 30%,
+      rgba(0, 0, 0, 0) 70%),
+    /* Wisp 3: thin tall teal right of center */
+    radial-gradient(ellipse 5% 85% at 60% 105%,
+      rgba(100, 255, 200, 0.75) 0%,
+      rgba(80, 220, 180, 0.22) 28%,
+      rgba(0, 0, 0, 0) 65%),
+    /* Wisp 4: medium far-right column */
+    radial-gradient(ellipse 8% 80% at 78% 110%,
+      rgba(70, 230, 170, 0.55) 0%,
+      rgba(60, 200, 150, 0.18) 30%,
+      rgba(0, 0, 0, 0) 65%),
+    /* Wisp 5: thin far-left wisp */
+    radial-gradient(ellipse 4% 70% at 12% 108%,
+      rgba(140, 255, 180, 0.55) 0%,
+      rgba(0, 0, 0, 0) 65%),
+    /* Wisp 6: very thin pink-magenta accent */
+    radial-gradient(ellipse 3% 60% at 88% 108%,
+      rgba(180, 140, 255, 0.40) 0%,
+      rgba(0, 0, 0, 0) 60%),
+    /* Wisp 7: stray green near right edge */
+    radial-gradient(ellipse 4% 65% at 92% 110%,
+      rgba(110, 255, 170, 0.45) 0%,
+      rgba(0, 0, 0, 0) 65%),
+    /* Wisp 8: subtle cyan column */
+    radial-gradient(ellipse 5% 75% at 38% 108%,
+      rgba(110, 240, 220, 0.45) 0%,
+      rgba(0, 0, 0, 0) 65%),
+    /* Foot glow: a low warm green wash anchoring all the wisps */
+    radial-gradient(ellipse 90% 22% at 50% 105%,
+      rgba(60, 220, 140, 0.40) 0%,
+      rgba(40, 160, 100, 0.12) 40%,
+      rgba(0, 0, 0, 0) 80%);
+  /* Vertical fade: keep the foot fully painted but dissolve the tops
+     of the wisps into the rest of the hero so there's no hard edge */
+  -webkit-mask-image: linear-gradient(180deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.5) 30%,
+    rgba(0,0,0,0.95) 65%,
+    rgba(0,0,0,1) 100%);
+          mask-image: linear-gradient(180deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.5) 30%,
+    rgba(0,0,0,0.95) 65%,
+    rgba(0,0,0,1) 100%);
 }
 
 /* --- Subtle SVG grid overlay (static, no animation) --- */
