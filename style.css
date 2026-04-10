@@ -878,10 +878,48 @@ a.card-link::after {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 3.5rem;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  /* Left accent bar per card set via nth-child below */
+  border-left: 3px solid var(--card-accent, var(--border));
+}
+
+/* Industry keyword watermark */
+.client-card::before {
+  content: var(--card-label, '');
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.5rem;
+  font-family: 'Chakra Petch', 'Inter', system-ui, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--card-accent, rgba(120, 180, 255, 0.08));
+  opacity: 0.12;
+  pointer-events: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Per-card theme: accent colour + industry label */
+.client-card:nth-child(1) {
+  --card-accent: #4db8ff;
+  --card-label: 'RAIL & LOGISTICS';
+}
+.client-card:nth-child(2) {
+  --card-accent: #4de8b0;
+  --card-label: 'REAL ESTATE';
+}
+.client-card:nth-child(3) {
+  --card-accent: #c090ff;
+  --card-label: 'FINANCIAL CRM';
+}
+.client-card:nth-child(4) {
+  --card-accent: #ff7090;
+  --card-label: 'AI SURVEILLANCE';
 }
 
 .client-card:hover {
