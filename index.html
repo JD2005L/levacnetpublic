@@ -30,44 +30,24 @@
   <div id="hero-bg" aria-hidden="true">
     <div class="hero-mesh"></div>
     <div class="hero-grid"></div>
-    <!-- Flowing wave lines: 8 horizontal SVG paths that undulate
-         continuously via CSS transform, stacked at different vertical
-         positions with varying speeds and amplitudes. -->
+    <!-- Gentle flowing wave lines: smooth sine ripples in consistent
+         cyan, scrolling horizontally at different speeds. -->
     <svg class="hero-waves" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="wg1" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0"   stop-color="#00d4ff" stop-opacity="0"/>
-          <stop offset="0.2" stop-color="#00d4ff" stop-opacity="0.45"/>
-          <stop offset="0.5" stop-color="#80e8ff" stop-opacity="0.65"/>
-          <stop offset="0.8" stop-color="#00d4ff" stop-opacity="0.45"/>
-          <stop offset="1"   stop-color="#00d4ff" stop-opacity="0"/>
-        </linearGradient>
-        <linearGradient id="wg2" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0"   stop-color="#a080ff" stop-opacity="0"/>
-          <stop offset="0.25" stop-color="#a080ff" stop-opacity="0.35"/>
-          <stop offset="0.5" stop-color="#c0a0ff" stop-opacity="0.50"/>
-          <stop offset="0.75" stop-color="#a080ff" stop-opacity="0.35"/>
-          <stop offset="1"   stop-color="#a080ff" stop-opacity="0"/>
-        </linearGradient>
-        <linearGradient id="wg3" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0"   stop-color="#40e0c0" stop-opacity="0"/>
-          <stop offset="0.3" stop-color="#40e0c0" stop-opacity="0.30"/>
-          <stop offset="0.5" stop-color="#80ffd8" stop-opacity="0.45"/>
-          <stop offset="0.7" stop-color="#40e0c0" stop-opacity="0.30"/>
-          <stop offset="1"   stop-color="#40e0c0" stop-opacity="0"/>
+        <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0"    stop-color="#00d4ff" stop-opacity="0"/>
+          <stop offset="0.15" stop-color="#00d4ff" stop-opacity="0.35"/>
+          <stop offset="0.5"  stop-color="#60e8ff" stop-opacity="0.55"/>
+          <stop offset="0.85" stop-color="#00d4ff" stop-opacity="0.35"/>
+          <stop offset="1"    stop-color="#00d4ff" stop-opacity="0"/>
         </linearGradient>
       </defs>
-      <!-- Each wave is a wide cubic bezier path, translated horizontally
-           on a loop so it appears to flow endlessly. Doubled width (3200)
-           so the seamless tile scrolls without gaps. -->
-      <path class="wave wave-1" d="M -1600 580 C -1400 520 -1200 540 -800 460 C -400 480 -200 540 0 480 C 200 520 400 540 800 460 C 1200 480 1400 540 1600 480 C 1800 520 2000 540 2400 460 C 2800 480 3000 540 3200 480" stroke="url(#wg1)" stroke-width="1.5" fill="none"/>
-      <path class="wave wave-2" d="M -1600 620 C -1350 570 -1100 580 -700 510 C -300 540 -100 580 0 520 C 100 560 300 580 700 510 C 1100 540 1350 580 1600 520 C 1850 560 2100 580 2500 510 C 2900 540 3100 580 3200 520" stroke="url(#wg2)" stroke-width="1.2" fill="none"/>
-      <path class="wave wave-3" d="M -1600 660 C -1300 610 -1000 620 -600 550 C -200 580 0 620 200 560 C 400 600 600 620 1000 550 C 1400 580 1600 620 1800 560 C 2000 600 2200 620 2600 550 C 3000 580 3200 620 3200 560" stroke="url(#wg3)" stroke-width="1.0" fill="none"/>
-      <path class="wave wave-4" d="M -1600 540 C -1450 500 -1250 490 -900 430 C -550 470 -350 490 0 440 C 350 490 550 490 900 430 C 1250 470 1450 490 1600 440 C 1750 490 1950 490 2300 430 C 2650 470 2850 490 3200 440" stroke="url(#wg1)" stroke-width="0.8" fill="none" opacity="0.5"/>
-      <path class="wave wave-5" d="M -1600 700 C -1350 650 -1150 660 -750 590 C -350 620 -150 660 0 600 C 150 640 350 660 750 590 C 1150 620 1350 660 1600 600 C 1850 640 2050 660 2450 590 C 2850 620 3050 660 3200 600" stroke="url(#wg2)" stroke-width="0.8" fill="none" opacity="0.45"/>
-      <path class="wave wave-6" d="M -1600 500 C -1400 460 -1200 440 -800 390 C -400 440 -200 440 0 400 C 200 460 400 440 800 390 C 1200 440 1400 440 1600 400 C 1800 460 2000 440 2400 390 C 2800 440 3000 440 3200 400" stroke="url(#wg3)" stroke-width="0.6" fill="none" opacity="0.35"/>
-      <path class="wave wave-7" d="M -1600 750 C -1300 710 -1000 700 -600 640 C -200 680 0 700 200 650 C 400 700 600 700 1000 640 C 1400 680 1600 700 1800 650 C 2000 700 2200 700 2600 640 C 3000 680 3200 700 3200 650" stroke="url(#wg1)" stroke-width="0.6" fill="none" opacity="0.30"/>
-      <path class="wave wave-8" d="M -1600 450 C -1450 420 -1250 390 -900 350 C -550 410 -350 390 0 350 C 350 410 550 390 900 350 C 1250 410 1450 390 1600 350 C 1750 410 1950 390 2300 350 C 2650 410 2850 390 3200 350" stroke="url(#wg2)" stroke-width="0.5" fill="none" opacity="0.25"/>
+      <path class="wave wave-1" d="M-1600 620 Q-1400 600 -1200 620 Q-1000 640 -800 620 Q-600 600 -400 620 Q-200 640 0 620 Q200 600 400 620 Q600 640 800 620 Q1000 600 1200 620 Q1400 640 1600 620 Q1800 600 2000 620 Q2200 640 2400 620 Q2600 600 2800 620 Q3000 640 3200 620" stroke="url(#wg)" stroke-width="1.4" fill="none"/>
+      <path class="wave wave-2" d="M-1600 660 Q-1400 645 -1200 660 Q-1000 675 -800 660 Q-600 645 -400 660 Q-200 675 0 660 Q200 645 400 660 Q600 675 800 660 Q1000 645 1200 660 Q1400 675 1600 660 Q1800 645 2000 660 Q2200 675 2400 660 Q2600 645 2800 660 Q3000 675 3200 660" stroke="url(#wg)" stroke-width="1.2" fill="none" opacity="0.75"/>
+      <path class="wave wave-3" d="M-1600 700 Q-1400 682 -1200 700 Q-1000 718 -800 700 Q-600 682 -400 700 Q-200 718 0 700 Q200 682 400 700 Q600 718 800 700 Q1000 682 1200 700 Q1400 718 1600 700 Q1800 682 2000 700 Q2200 718 2400 700 Q2600 682 2800 700 Q3000 718 3200 700" stroke="url(#wg)" stroke-width="1.0" fill="none" opacity="0.55"/>
+      <path class="wave wave-4" d="M-1600 580 Q-1400 568 -1200 580 Q-1000 592 -800 580 Q-600 568 -400 580 Q-200 592 0 580 Q200 568 400 580 Q600 592 800 580 Q1000 568 1200 580 Q1400 592 1600 580 Q1800 568 2000 580 Q2200 592 2400 580 Q2600 568 2800 580 Q3000 592 3200 580" stroke="url(#wg)" stroke-width="0.8" fill="none" opacity="0.40"/>
+      <path class="wave wave-5" d="M-1600 740 Q-1400 725 -1200 740 Q-1000 755 -800 740 Q-600 725 -400 740 Q-200 755 0 740 Q200 725 400 740 Q600 755 800 740 Q1000 725 1200 740 Q1400 755 1600 740 Q1800 725 2000 740 Q2200 755 2400 740 Q2600 725 2800 740 Q3000 755 3200 740" stroke="url(#wg)" stroke-width="0.7" fill="none" opacity="0.35"/>
+      <path class="wave wave-6" d="M-1600 550 Q-1400 540 -1200 550 Q-1000 560 -800 550 Q-600 540 -400 550 Q-200 560 0 550 Q200 540 400 550 Q600 560 800 550 Q1000 540 1200 550 Q1400 560 1600 550 Q1800 540 2000 550 Q2200 560 2400 550 Q2600 540 2800 550 Q3000 560 3200 550" stroke="url(#wg)" stroke-width="0.6" fill="none" opacity="0.25"/>
     </svg>
   </div>
 
