@@ -70,23 +70,35 @@ body {
   inset: -10%;
   background-color: transparent;
   background-image:
-    /* cyan core-left */
-    radial-gradient(ellipse 55% 45% at 18% 28%, rgba(70, 180, 255, 0.30) 0%, rgba(0,0,0,0) 60%),
-    /* violet upper-right */
-    radial-gradient(ellipse 55% 50% at 82% 18%, rgba(170, 90, 255, 0.24) 0%, rgba(0,0,0,0) 60%),
-    /* teal lower-right */
-    radial-gradient(ellipse 48% 42% at 75% 72%, rgba(40, 220, 210, 0.22) 0%, rgba(0,0,0,0) 60%),
-    /* indigo lower-left */
-    radial-gradient(ellipse 50% 45% at 22% 78%, rgba(90, 130, 255, 0.20) 0%, rgba(0,0,0,0) 60%),
-    /* magenta center-top accent */
-    radial-gradient(ellipse 36% 30% at 52% 8%, rgba(255, 100, 180, 0.16) 0%, rgba(0,0,0,0) 60%),
-    /* pink right-mid accent */
-    radial-gradient(ellipse 30% 28% at 96% 48%, rgba(255, 120, 220, 0.15) 0%, rgba(0,0,0,0) 60%),
-    /* green-cyan left-mid accent */
-    radial-gradient(ellipse 30% 28% at 4% 55%, rgba(80, 255, 200, 0.14) 0%, rgba(0,0,0,0) 60%),
-    /* deep violet floor pool */
-    radial-gradient(ellipse 50% 30% at 50% 100%, rgba(80, 40, 160, 0.20) 0%, rgba(0,0,0,0) 65%);
+    /* cyan far upper-left corner */
+    radial-gradient(ellipse 50% 40% at 5% 12%, rgba(70, 180, 255, 0.34) 0%, rgba(0,0,0,0) 55%),
+    /* violet far upper-right corner */
+    radial-gradient(ellipse 50% 45% at 95% 6%, rgba(170, 90, 255, 0.28) 0%, rgba(0,0,0,0) 55%),
+    /* teal far lower-right corner */
+    radial-gradient(ellipse 46% 40% at 92% 88%, rgba(40, 220, 210, 0.26) 0%, rgba(0,0,0,0) 55%),
+    /* indigo far lower-left corner */
+    radial-gradient(ellipse 48% 42% at 8% 92%, rgba(90, 130, 255, 0.24) 0%, rgba(0,0,0,0) 55%),
+    /* magenta top-center edge accent */
+    radial-gradient(ellipse 28% 22% at 50% -5%, rgba(255, 100, 180, 0.18) 0%, rgba(0,0,0,0) 55%),
+    /* pink right-mid edge accent */
+    radial-gradient(ellipse 22% 22% at 102% 50%, rgba(255, 120, 220, 0.18) 0%, rgba(0,0,0,0) 55%),
+    /* green-cyan left-mid edge accent */
+    radial-gradient(ellipse 22% 22% at -2% 50%, rgba(80, 255, 200, 0.16) 0%, rgba(0,0,0,0) 55%),
+    /* deep violet floor pool below the viewport */
+    radial-gradient(ellipse 52% 26% at 50% 108%, rgba(80, 40, 160, 0.24) 0%, rgba(0,0,0,0) 60%);
   opacity: 0.85;
+  /* Carve a larger dark void behind the hero content by masking the
+     mesh to transparent in a wide central ellipse. */
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.15) 25%,
+      rgba(0,0,0,0.60) 50%,
+      rgba(0,0,0,1) 80%);
+          mask-image: radial-gradient(ellipse 60% 55% at 50% 50%,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.15) 25%,
+      rgba(0,0,0,0.60) 50%,
+      rgba(0,0,0,1) 80%);
   /* Static: no animation. CSS transform loops on this kept pressuring
      the GPU compositor enough to stall video in other tabs. */
 }
