@@ -69,11 +69,25 @@ body {
   position: absolute;
   inset: -10%;
   background-color: transparent;
+  /* Tall thin elliptical gradients read as vertical aurora curtains
+     rather than round spotlights. Each "curtain" is ~10-22% wide and
+     100-140% tall, anchored off the top or bottom edge so only the
+     bleeding middle shows, with classic aurora colours. */
   background-image:
-    radial-gradient(ellipse 45% 40% at 20% 30%, rgba(60, 140, 255, 0.32) 0%, rgba(0,0,0,0) 60%),
-    radial-gradient(ellipse 50% 45% at 80% 20%, rgba(140, 80, 255, 0.24) 0%, rgba(0,0,0,0) 60%),
-    radial-gradient(ellipse 40% 35% at 70% 70%, rgba(40, 200, 200, 0.22) 0%, rgba(0,0,0,0) 60%),
-    radial-gradient(ellipse 45% 40% at 25% 80%, rgba(80, 120, 255, 0.22) 0%, rgba(0,0,0,0) 60%);
+    /* bright green curtain just left of center */
+    radial-gradient(ellipse 14% 120% at 42% 110%, rgba(60, 230, 140, 0.26) 0%, rgba(0,0,0,0) 55%),
+    /* teal curtain further left */
+    radial-gradient(ellipse 16% 130% at 22% 115%, rgba(40, 210, 200, 0.22) 0%, rgba(0,0,0,0) 55%),
+    /* softer blue-green curtain far left */
+    radial-gradient(ellipse 18% 140% at 6% 110%, rgba(80, 190, 220, 0.18) 0%, rgba(0,0,0,0) 55%),
+    /* pink-violet accent right of center */
+    radial-gradient(ellipse 12% 115% at 58% 110%, rgba(200, 120, 230, 0.18) 0%, rgba(0,0,0,0) 55%),
+    /* violet curtain further right */
+    radial-gradient(ellipse 16% 125% at 78% 115%, rgba(140, 110, 230, 0.20) 0%, rgba(0,0,0,0) 55%),
+    /* cool blue curtain far right */
+    radial-gradient(ellipse 20% 135% at 94% 110%, rgba(90, 140, 230, 0.20) 0%, rgba(0,0,0,0) 55%),
+    /* wide low base glow anchoring the curtains to the horizon */
+    radial-gradient(ellipse 80% 25% at 50% 115%, rgba(60, 200, 150, 0.18) 0%, rgba(0,0,0,0) 70%);
   opacity: 0.9;
 }
 
