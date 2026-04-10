@@ -55,11 +55,23 @@
   const xStart = 0;
   const xEnd = 1600;
 
+  // Scale wavelengths up on narrow viewports so the waves don't bunch
+  // into too many peaks. At 1600px+ the base wavelengths are used as-is.
+  // At 375px (phone) they're roughly 3x longer so only a few gentle
+  // undulations are visible.
+  let wlScale = 1;
+  function updateScale() {
+    wlScale = Math.max(1, 1200 / window.innerWidth);
+  }
+  updateScale();
+  window.addEventListener('resize', updateScale);
+
   function buildPath(w, time) {
     const phase = time * w.speed;
+    const wl = w.wl * wlScale;
     let d = '';
     for (let x = xStart; x <= xEnd; x += step) {
-      const y = w.y + w.amp * Math.sin(TWO_PI * (x / w.wl) + phase);
+      const y = w.y + w.amp * Math.sin(TWO_PI * (x / wl) + phase);
       d += (x === xStart ? 'M' : 'L') + x + ' ' + y.toFixed(1);
     }
     return d;
