@@ -116,6 +116,8 @@ body {
 .wave-4 { animation: wave-scroll 34s linear infinite reverse; }
 .wave-5 { animation: wave-scroll 30s linear infinite; }
 .wave-6 { animation: wave-scroll 40s linear infinite reverse; }
+.wave-7 { animation: wave-scroll 26s linear infinite; }
+.wave-8 { animation: wave-scroll 36s linear infinite reverse; }
 
 @keyframes wave-scroll {
   0%   { transform: translateX(0); }
