@@ -114,13 +114,12 @@ body {
    imperfect tiling is invisible. The opacity drops to 0 for the
    last 4% of the animation, the position snaps during that invisible
    window, then fades back in at the start of the next cycle. */
-.wc-1 { animation: wave-flow 22s linear infinite; }
-.wc-2 { animation: wave-flow 36s linear infinite reverse; }
-.wc-3 { animation: wave-flow 25s linear infinite; }
-.wc-4 { animation: wave-flow 40s linear infinite reverse; }
-.wv-1 { animation: wave-flow 32s linear infinite reverse; }
-.wv-2 { animation: wave-flow 44s linear infinite; }
-.wv-3 { animation: wave-flow 24s linear infinite; }
+/* Slower, more graceful speeds. Each line drifts at its own pace. */
+.wc-1 { animation: wave-flow 40s linear infinite; }
+.wc-2 { animation: wave-flow 52s linear infinite reverse; }
+.wc-3 { animation: wave-flow 46s linear infinite; }
+.wv-1 { animation: wave-flow 58s linear infinite reverse; }
+.wv-2 { animation: wave-flow 64s linear infinite; }
 
 @keyframes wave-flow {
   0%   { transform: translateX(0);       opacity: 0; }
