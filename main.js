@@ -191,57 +191,50 @@ function runTerminalTyper() {
   const buckets = sections.filter((s) => s.length > 0);
   if (!buckets.length) return;
 
-  // For the cat specialties bucket (index 1, the one with 4 lines),
-  // leave the first 2 lines pre-filled so only lines 3-4 type live.
-  // This keeps the longest section from dragging while the others
-  // finish.
-  buckets.forEach((bucket, bi) => {
-    bucket.forEach((el, li) => {
-      if (bi === 1 && li < 2) {
-        // Pre-filled: leave text intact, mark so the typer skips it
-        el.dataset.prefilled = '1';
-      } else {
-        el.dataset.text = el.textContent;
-        el.textContent = '';
-      }
+  // All lines start blank. Calculate a per-char typing speed for each
+  // bucket so every section finishes in roughly the same window (~2.5s)
+  // regardless of total character count. Longer sections type faster.
+  const TARGET_MS = 2500;
+  buckets.forEach((bucket) => {
+    let totalChars = 0;
+    bucket.forEach((el) => {
+      el.dataset.text = el.textContent;
+      el.textContent = '';
+      totalChars += (el.dataset.text || '').length;
     });
+    // per-char base delay: target / chars, clamped 25-100ms
+    const interLinePause = bucket.length * 150;
+    const baseDelay = Math.max(25, Math.min(100, (TARGET_MS - interLinePause) / Math.max(totalChars, 1)));
+    bucket._baseDelay = baseDelay;
   });
 
   function runBucket(bucket, isFinal) {
     const cursor = document.createElement('span');
     cursor.className = 'typing-cursor';
+    const base = bucket._baseDelay || 55;
 
     function typeLine(i) {
       if (i >= bucket.length) {
-        // Section done. Non-final sections release their cursor so
-        // only the last section in the terminal keeps a persistent
-        // blinking cursor at the bottom.
         if (!isFinal && cursor.parentNode) cursor.parentNode.removeChild(cursor);
         return;
       }
       const el = bucket[i];
-      // Skip pre-filled lines (already visible, no typing needed)
-      if (el.dataset.prefilled === '1') {
-        typeLine(i + 1);
-        return;
-      }
       const text = el.dataset.text || '';
       el.appendChild(cursor);
       let pos = 0;
       function step() {
         if (pos >= text.length) {
-          // short pause, then advance to next line in this section
-          setTimeout(() => typeLine(i + 1), 140 + Math.random() * 200);
+          setTimeout(() => typeLine(i + 1), 100 + Math.random() * 140);
           return;
         }
         const ch = text.charAt(pos);
         cursor.insertAdjacentText('beforebegin', ch);
         pos++;
-        // realistic human cadence
-        let d = 30 + Math.random() * 55;
-        if (ch === ' ') d += 30 + Math.random() * 60;
-        else if (ch === '.' || ch === ',' || ch === '/' || ch === '-') d += 45 + Math.random() * 85;
-        if (Math.random() < 0.04) d += 90 + Math.random() * 140;
+        // variable delay scaled by the bucket's base speed
+        let d = base * (0.6 + Math.random() * 0.8);
+        if (ch === ' ') d += base * 0.5;
+        else if (ch === '.' || ch === ',' || ch === '/' || ch === '-') d += base * 0.7;
+        if (Math.random() < 0.04) d += base * 1.5;
         setTimeout(step, d);
       }
       step();
