@@ -70,53 +70,64 @@ function hyperspaceReveal() {
   const ctas      = ctaGroup ? Array.from(ctaGroup.querySelectorAll('a, button')) : [];
   const scrollInd = document.querySelector('.scroll-indicator');
 
-  const nameChars = splitIntoChars(nameEl, 'James Levac');
+  const mobile = window.innerWidth < 700;
+
+  // On mobile: animate the whole name as a single element (smooth)
+  // instead of 11 individual char spans (choppy on phone GPUs).
+  let nameChars;
+  if (mobile) {
+    nameEl.textContent = 'James Levac';
+  } else {
+    nameChars = splitIntoChars(nameEl, 'James Levac');
+    nameEl.classList.add('warping');
+  }
   nameEl.style.visibility = 'visible';
-  // Add the warping glow class now so the scaled-up letters start their
-  // trip with a thick halo that reads as motion blur. It stays on for
-  // most of the animation, then fades back to crisp text.
-  nameEl.classList.add('warping');
 
   const tl = gsap.timeline({
     onComplete: () => nameEl.classList.remove('warping'),
   });
 
-  // Tamer values on narrow viewports so letters don't fly off-screen
-  const mobile = window.innerWidth < 700;
-
   // eyebrow leads
   if (eyebrow) {
     tl.fromTo(eyebrow,
-      { opacity: 0, scale: mobile ? 2.5 : 5.5, y: mobile ? -12 : -30 },
+      { opacity: 0, scale: mobile ? 2 : 5.5, y: mobile ? -10 : -30 },
       { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: 'expo.out' },
       0);
   }
 
-  // name: each letter is its own projectile with random jitter
-  tl.fromTo(nameChars,
-    {
-      opacity: 0,
-      scale: () => mobile ? 2.5 + Math.random() * 2 : 8 + Math.random() * 5,
-      y: () => mobile ? -18 + Math.random() * 14 : -50 + Math.random() * 40,
-      x: () => (Math.random() - 0.5) * (mobile ? 20 : 60),
-      rotation: () => (Math.random() - 0.5) * (mobile ? 10 : 20),
-    },
-    {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      x: 0,
-      rotation: 0,
-      duration: mobile ? 1.0 : 1.35,
-      ease: 'expo.out',
-      stagger: { each: mobile ? 0.04 : 0.055, from: 'random' },
-    },
-    0.08);
+  if (mobile) {
+    // Single-element name reveal: clean scale + opacity zoom
+    tl.fromTo(nameEl,
+      { opacity: 0, scale: 2.8, y: -14 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'expo.out' },
+      0.06);
+  } else {
+    // Desktop: per-character projectiles with random jitter + halo
+    tl.fromTo(nameChars,
+      {
+        opacity: 0,
+        scale: () => 8 + Math.random() * 5,
+        y: () => -50 + Math.random() * 40,
+        x: () => (Math.random() - 0.5) * 60,
+        rotation: () => (Math.random() - 0.5) * 20,
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        x: 0,
+        rotation: 0,
+        duration: 1.35,
+        ease: 'expo.out',
+        stagger: { each: 0.055, from: 'random' },
+      },
+      0.08);
+  }
 
   // tagline arrives slightly after the name is mostly home
   if (tagline) {
     tl.fromTo(tagline,
-      { opacity: 0, scale: mobile ? 2 : 4.5, y: mobile ? 16 : 40 },
+      { opacity: 0, scale: mobile ? 1.8 : 4.5, y: mobile ? 12 : 40 },
       { opacity: 1, scale: 1, y: 0, duration: mobile ? 0.8 : 1.1, ease: 'expo.out' },
       0.55);
   }
@@ -128,18 +139,18 @@ function hyperspaceReveal() {
     tl.fromTo(ctas,
       {
         opacity: 0,
-        scale: () => mobile ? 2 + Math.random() * 1.5 : 5 + Math.random() * 3,
-        y: () => mobile ? 20 + Math.random() * 10 : 50 + Math.random() * 30,
-        x: () => (Math.random() - 0.5) * (mobile ? 14 : 40),
+        scale: () => mobile ? 1.6 : 5 + Math.random() * 3,
+        y: () => mobile ? 16 : 50 + Math.random() * 30,
+        x: () => (Math.random() - 0.5) * (mobile ? 8 : 40),
       },
       {
         opacity: 1,
         scale: 1,
         y: 0,
         x: 0,
-        duration: mobile ? 0.85 : 1.15,
+        duration: mobile ? 0.8 : 1.15,
         ease: 'expo.out',
-        stagger: { each: mobile ? 0.08 : 0.12, from: 'random' },
+        stagger: { each: mobile ? 0.06 : 0.12, from: 'random' },
       },
       0.7);
   }
