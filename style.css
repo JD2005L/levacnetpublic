@@ -88,53 +88,53 @@ body {
   background-size: 80px 80px;
 }
 
-/* --- Starfield: specks flying outward from screen center toward the
-       viewer, simulating forward travel through space. Each speck
-       starts at the center tiny and dim, then translates along its
-       --a angle while scaling up and brightening, exiting past the
-       viewport edge. Pure CSS keyframes, compositor-only. --- */
-.hero-starfield {
+/* --- Constellation network: static SVG nodes + connection lines with
+       a staggered breathing pulse on each node. Reads as a neural
+       network / data topology layer behind the hero content. --- */
+.hero-constellation {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.75;
 }
-.hero-starfield span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: var(--s);
-  height: var(--s);
-  margin-left: calc(var(--s) / -2);
-  margin-top:  calc(var(--s) / -2);
-  border-radius: 50%;
-  background: var(--c, #eaf6ff);
-  box-shadow: 0 0 6px var(--c, #eaf6ff);
-  opacity: 0;
-  transform: rotate(var(--a)) translateX(0) scale(0.08);
-  animation: star-fly var(--d) linear infinite;
-  animation-delay: var(--delay);
+
+.constellation-nodes circle {
+  fill: rgba(160, 210, 255, 0.85);
+  /* Each node breathes with a staggered delay based on --i */
+  animation: node-pulse 4.5s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i, 0) * -0.55s);
 }
-@keyframes star-fly {
+
+@keyframes node-pulse {
   0% {
-    transform: rotate(var(--a)) translateX(0) scale(0.08);
-    opacity: 0;
+    fill: rgba(140, 200, 255, 0.45);
+    r: attr(r);
   }
-  4% {
-    opacity: 0.3;
-  }
-  25% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 1;
+  50% {
+    fill: rgba(180, 230, 255, 1);
   }
   100% {
-    transform: rotate(var(--a)) translateX(130vmax) scale(4);
-    opacity: 0;
+    fill: rgba(140, 200, 255, 0.45);
   }
 }
 
-/* prefers-reduced-motion guard intentionally omitted: the starfield
-   is core to the hero visual language. */
+/* Data pulse traveling along each connection line via
+   stroke-dasharray/offset animation */
+.constellation-lines line {
+  stroke-dasharray: 8 200;
+  stroke-dashoffset: 208;
+  animation: line-pulse 6s linear infinite;
+}
+.constellation-lines line:nth-child(odd)  { animation-delay: -1.5s; animation-duration: 7s; }
+.constellation-lines line:nth-child(3n)   { animation-delay: -3.2s; animation-duration: 8s; }
+.constellation-lines line:nth-child(5n)   { animation-delay: -4.8s; animation-duration: 5.5s; }
+
+@keyframes line-pulse {
+  0%   { stroke-dashoffset: 208; stroke: rgba(120, 180, 255, 0.12); }
+  40%  { stroke: rgba(120, 200, 255, 0.40); }
+  100% { stroke-dashoffset: -208; stroke: rgba(120, 180, 255, 0.12); }
+}
 
 
 /* ===== NAV ===== */
