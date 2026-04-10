@@ -338,7 +338,10 @@ nav.scrolled {
 
 #hero-name {
   font-family: 'Chakra Petch', 'Inter', system-ui, sans-serif;
-  font-size: clamp(3.5rem, 9vw, 7rem);
+  /* min is deliberately low so the name can scale down on narrow
+     phones, and the clamp's vw middle stop is tight enough that
+     JAMES LEVAC fits on one line even around 320px viewports */
+  font-size: clamp(1.8rem, 12vw, 7rem);
   font-weight: 700;
   font-stretch: 100%;
   letter-spacing: 0.02em;
@@ -349,6 +352,7 @@ nav.scrolled {
   text-transform: uppercase;
   text-shadow: 0 0 28px rgba(120, 200, 255, 0.22), 0 0 72px rgba(60, 140, 255, 0.10);
   visibility: hidden;
+  white-space: nowrap;
 }
 
 /* Hyperspace-reveal characters: each letter is its own transform target.
