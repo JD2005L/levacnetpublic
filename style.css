@@ -115,14 +115,12 @@ body {
    last 4% of the animation, the position snaps during that invisible
    window, then fades back in at the start of the next cycle. */
 .wc-1 { animation: wave-flow 22s linear infinite; }
-.wc-2 { animation: wave-flow 28s linear infinite reverse; }
+.wc-2 { animation: wave-flow 36s linear infinite reverse; }
 .wc-3 { animation: wave-flow 25s linear infinite; }
-.wc-4 { animation: wave-flow 34s linear infinite reverse; }
-.wc-5 { animation: wave-flow 30s linear infinite; }
+.wc-4 { animation: wave-flow 40s linear infinite reverse; }
 .wv-1 { animation: wave-flow 32s linear infinite reverse; }
-.wv-2 { animation: wave-flow 20s linear infinite; }
-.wv-3 { animation: wave-flow 38s linear infinite reverse; }
-.wv-4 { animation: wave-flow 24s linear infinite; }
+.wv-2 { animation: wave-flow 44s linear infinite; }
+.wv-3 { animation: wave-flow 24s linear infinite; }
 
 @keyframes wave-flow {
   0%   { transform: translateX(0);       opacity: 0; }
