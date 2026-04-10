@@ -70,35 +70,23 @@ body {
   inset: -10%;
   background-color: transparent;
   background-image:
-    /* cyan far upper-left corner */
-    radial-gradient(ellipse 50% 40% at 5% 12%, rgba(70, 180, 255, 0.34) 0%, rgba(0,0,0,0) 55%),
-    /* violet far upper-right corner */
-    radial-gradient(ellipse 50% 45% at 95% 6%, rgba(170, 90, 255, 0.28) 0%, rgba(0,0,0,0) 55%),
-    /* teal far lower-right corner */
-    radial-gradient(ellipse 46% 40% at 92% 88%, rgba(40, 220, 210, 0.26) 0%, rgba(0,0,0,0) 55%),
-    /* indigo far lower-left corner */
-    radial-gradient(ellipse 48% 42% at 8% 92%, rgba(90, 130, 255, 0.24) 0%, rgba(0,0,0,0) 55%),
-    /* magenta top-center edge accent */
-    radial-gradient(ellipse 32% 26% at 50% 4%, rgba(255, 100, 180, 0.18) 0%, rgba(0,0,0,0) 55%),
-    /* pink right-mid edge accent */
-    radial-gradient(ellipse 26% 26% at 96% 50%, rgba(255, 120, 220, 0.18) 0%, rgba(0,0,0,0) 55%),
-    /* green-cyan left-mid edge accent */
-    radial-gradient(ellipse 26% 26% at 4% 50%, rgba(80, 255, 200, 0.16) 0%, rgba(0,0,0,0) 55%),
-    /* deep violet floor pool below the viewport */
-    radial-gradient(ellipse 52% 26% at 50% 108%, rgba(80, 40, 160, 0.24) 0%, rgba(0,0,0,0) 60%);
-  opacity: 0.85;
-  /* Carve a larger dark void behind the hero content by masking the
-     mesh to transparent in a wide central ellipse. */
-  -webkit-mask-image: radial-gradient(ellipse 42% 38% at 50% 50%,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.25) 30%,
-      rgba(0,0,0,0.75) 65%,
-      rgba(0,0,0,1) 95%);
-          mask-image: radial-gradient(ellipse 42% 38% at 50% 50%,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.25) 30%,
-      rgba(0,0,0,0.75) 65%,
-      rgba(0,0,0,1) 95%);
+    /* bright cyan core-left */
+    radial-gradient(ellipse 55% 45% at 18% 28%, rgba(70, 180, 255, 0.58) 0%, rgba(0,0,0,0) 60%),
+    /* violet upper-right */
+    radial-gradient(ellipse 55% 50% at 82% 18%, rgba(170, 90, 255, 0.48) 0%, rgba(0,0,0,0) 60%),
+    /* teal lower-right */
+    radial-gradient(ellipse 48% 42% at 75% 72%, rgba(40, 220, 210, 0.42) 0%, rgba(0,0,0,0) 60%),
+    /* indigo lower-left */
+    radial-gradient(ellipse 50% 45% at 22% 78%, rgba(90, 130, 255, 0.40) 0%, rgba(0,0,0,0) 60%),
+    /* magenta center-top accent */
+    radial-gradient(ellipse 36% 30% at 52% 8%, rgba(255, 100, 180, 0.32) 0%, rgba(0,0,0,0) 60%),
+    /* pink right-mid accent */
+    radial-gradient(ellipse 30% 28% at 96% 48%, rgba(255, 120, 220, 0.30) 0%, rgba(0,0,0,0) 60%),
+    /* green-cyan left-mid accent */
+    radial-gradient(ellipse 30% 28% at 4% 55%, rgba(80, 255, 200, 0.28) 0%, rgba(0,0,0,0) 60%),
+    /* deep violet floor pool */
+    radial-gradient(ellipse 50% 30% at 50% 100%, rgba(80, 40, 160, 0.35) 0%, rgba(0,0,0,0) 65%);
+  opacity: 1;
   /* Static: no animation. CSS transform loops on this kept pressuring
      the GPU compositor enough to stall video in other tabs. */
 }
@@ -131,7 +119,7 @@ body {
   background-size: 160% 100%;
   background-repeat: no-repeat;
   background-position: 0% bottom;
-  opacity: 0.45;
+  opacity: 0.80;
   /* Slow horizontal drift for organic colour movement. transform on a
      single static element is the cheap compositor path; no filter, no
      mix-blend-mode, no per-frame work beyond translate. */
@@ -196,8 +184,7 @@ body {
 }
 
 /* prefers-reduced-motion guard intentionally omitted: the starfield
-   and mesh are core to the hero visual language. Friend with
-   reduce-motion enabled reported the animation missing entirely. */
+   is core to the hero visual language. */
 
 
 /* ===== NAV ===== */
@@ -350,8 +337,7 @@ nav.scrolled {
 
 #hero-name {
   font-family: 'Chakra Petch', 'Inter', system-ui, sans-serif;
-  /* clamp scales the name down on narrow viewports so it always fits
-     alongside white-space: nowrap on a single line */
+  /* clamp so the name scales down on narrow viewports and stays on one line */
   font-size: clamp(1.8rem, 12vw, 7rem);
   font-weight: 700;
   font-stretch: 100%;
