@@ -110,21 +110,25 @@ body {
 
 /* Each wave scrolls left at a different speed for organic depth.
    Translate by -1600 (half of 3200) to loop seamlessly. */
-/* Cyan waves scroll at varied speeds */
-.wc-1 { animation: wave-scroll 22s linear infinite; }
-.wc-2 { animation: wave-scroll 28s linear infinite reverse; }
-.wc-3 { animation: wave-scroll 25s linear infinite; }
-.wc-4 { animation: wave-scroll 34s linear infinite reverse; }
-.wc-5 { animation: wave-scroll 30s linear infinite; }
-/* Violet waves: different speeds so they drift through the cyan set */
-.wv-1 { animation: wave-scroll 32s linear infinite reverse; }
-.wv-2 { animation: wave-scroll 20s linear infinite; }
-.wv-3 { animation: wave-scroll 38s linear infinite reverse; }
-.wv-4 { animation: wave-scroll 24s linear infinite; }
+/* Each wave scrolls and cross-fades at the loop boundary so any
+   imperfect tiling is invisible. The opacity drops to 0 for the
+   last 4% of the animation, the position snaps during that invisible
+   window, then fades back in at the start of the next cycle. */
+.wc-1 { animation: wave-flow 22s linear infinite; }
+.wc-2 { animation: wave-flow 28s linear infinite reverse; }
+.wc-3 { animation: wave-flow 25s linear infinite; }
+.wc-4 { animation: wave-flow 34s linear infinite reverse; }
+.wc-5 { animation: wave-flow 30s linear infinite; }
+.wv-1 { animation: wave-flow 32s linear infinite reverse; }
+.wv-2 { animation: wave-flow 20s linear infinite; }
+.wv-3 { animation: wave-flow 38s linear infinite reverse; }
+.wv-4 { animation: wave-flow 24s linear infinite; }
 
-@keyframes wave-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-1600px); }
+@keyframes wave-flow {
+  0%   { transform: translateX(0);       opacity: 0; }
+  3%   { transform: translateX(0);       opacity: 1; }
+  97%  { transform: translateX(-1600px); opacity: 1; }
+  100% { transform: translateX(-1600px); opacity: 0; }
 }
 
 /* ===== NAV ===== */
