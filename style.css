@@ -183,9 +183,9 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-mesh, .hero-starfield span { animation: none; }
-}
+/* prefers-reduced-motion guard intentionally omitted: the starfield
+   and mesh are core to the hero visual language. Friend with
+   reduce-motion enabled reported the animation missing entirely. */
 
 
 /* ===== NAV ===== */
