@@ -882,148 +882,68 @@ section {
 }
 
 /* ====================================================================
- * Client card HOLOGRAM POWER-ON animation
+ * Client card 3D FLIP-IN reveal
  *
- * Each card boots like a holographic credential display:
- *   1. Starts as a thin horizontal slit at the vertical centre
- *      (clip-path inset 49% top / 49% bottom), as if a hologram
- *      projector has just fired up its beam
- *   2. The slit unfolds vertically via clip-path to reveal the full
- *      card in one quick reveal frame (8% of the animation)
- *   3. The card immediately glitches: three fast horizontal shakes
- *      and a double RGB-split text-shadow on the client name, as if
- *      the signal is stabilizing
- *   4. Glitch resolves; border ignites with a cyan accent rim and
- *      outer glow, overlaid by a persistent scanline pattern that
- *      flickers through the rest of the reveal
- *   5. Scanline and rim fade out, leaving the card in its resting
- *      state
+ * Each card is standing nearly edge-on away from the viewer and
+ * rotates flat into place with a gentle overshoot, fading in as it
+ * goes. When it reaches the overshoot frame, the border ignites with
+ * a cyan accent glow that then decays back to the resting style.
+ * The whole row rotates in sequence left-to-right on a stagger.
  *
- * Cards 1..4 fire in sequence left-to-right so the whole row reads
- * as a progressive holographic power-up.
+ * Real 3D perspective via the parent .clients-grid perspective, no
+ * filter, no mix-blend, no expensive compositor effects.
  * ==================================================================== */
-.client-card.reveal {
-  opacity: 1;
-  transform: none;
-  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-  clip-path: inset(49% 0 49% 0);
+.clients-grid {
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
 }
 
-/* Holographic scanline overlay: thin repeating cyan stripes that flicker
-   across the card during the reveal, like old HUD UI signal bleed. */
-.client-card.reveal::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(0, 212, 255, 0)   0px,
-    rgba(0, 212, 255, 0.10) 1px,
-    rgba(0, 212, 255, 0)   2px,
-    rgba(0, 212, 255, 0)   4px);
-  mix-blend-mode: screen;
+.client-card.reveal {
   opacity: 0;
-  z-index: 3;
+  transform: rotateY(72deg) translate3d(-20px, 0, -60px);
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .client-card.reveal.in-view {
-  animation: client-hologram 1.7s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
-}
-.client-card.reveal.in-view::before {
-  animation: client-hologram-scan 1.7s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
-}
-.client-card.reveal.in-view .client-name {
-  animation: client-hologram-split 1.7s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+  animation: client-flipin 1.1s cubic-bezier(0.2, 0.75, 0.25, 1.05) forwards;
 }
 
-/* Left-to-right stagger across the row */
-.client-card.reveal.in-view:nth-child(2),
-.client-card.reveal.in-view:nth-child(2)::before,
-.client-card.reveal.in-view:nth-child(2) .client-name { animation-delay: 0.22s; }
-.client-card.reveal.in-view:nth-child(3),
-.client-card.reveal.in-view:nth-child(3)::before,
-.client-card.reveal.in-view:nth-child(3) .client-name { animation-delay: 0.44s; }
-.client-card.reveal.in-view:nth-child(4),
-.client-card.reveal.in-view:nth-child(4)::before,
-.client-card.reveal.in-view:nth-child(4) .client-name { animation-delay: 0.66s; }
+.client-card.reveal.in-view:nth-child(2) { animation-delay: 0.16s; }
+.client-card.reveal.in-view:nth-child(3) { animation-delay: 0.32s; }
+.client-card.reveal.in-view:nth-child(4) { animation-delay: 0.48s; }
 
-@keyframes client-hologram {
+@keyframes client-flipin {
   0% {
-    clip-path: inset(49% 0 49% 0);
-    border-color: rgba(0, 212, 255, 0.0);
-    box-shadow: 0 0 0 rgba(0, 212, 255, 0);
-    transform: translate3d(0, 0, 0);
+    opacity: 0;
+    transform: rotateY(72deg) translate3d(-20px, 0, -60px);
+    border-color: rgba(0, 212, 255, 0);
+    box-shadow: none;
   }
-  8% {
-    clip-path: inset(0);
-    border-color: rgba(0, 212, 255, 0.9);
+  55% {
+    opacity: 1;
+    transform: rotateY(-6deg) translate3d(0, 0, 20px);
+    border-color: rgba(0, 212, 255, 0.75);
     box-shadow:
-      0 0 0 1px rgba(0, 212, 255, 0.55),
-      0 0 38px rgba(0, 212, 255, 0.45);
-    transform: translate3d(0, 0, 0);
+      0 0 0 1px rgba(0, 212, 255, 0.45),
+      0 22px 48px rgba(0, 180, 255, 0.28),
+      0 0 34px rgba(0, 212, 255, 0.35);
   }
-  10% { transform: translate3d(-5px, 0, 0); }
-  12% { transform: translate3d( 4px, 0, 0); }
-  14% { transform: translate3d(-3px, 0, 0); }
-  16% { transform: translate3d( 0px, 0, 0); }
-  22% {
-    border-color: rgba(0, 212, 255, 0.8);
+  78% {
+    transform: rotateY(2deg) translate3d(0, 0, 6px);
+    border-color: rgba(0, 212, 255, 0.50);
     box-shadow:
-      0 0 0 1px rgba(0, 212, 255, 0.40),
-      0 0 26px rgba(0, 212, 255, 0.30);
-  }
-  85% {
-    border-color: rgba(0, 212, 255, 0.45);
-    box-shadow:
-      0 0 0 1px rgba(0, 212, 255, 0.18),
-      0 0 16px rgba(0, 212, 255, 0.12);
+      0 0 0 1px rgba(0, 212, 255, 0.22),
+      0 10px 28px rgba(0, 180, 255, 0.18),
+      0 0 18px rgba(0, 212, 255, 0.18);
   }
   100% {
-    clip-path: inset(0);
+    opacity: 1;
+    transform: rotateY(0) translate3d(0, 0, 0);
     border-color: var(--border);
     box-shadow: none;
-    transform: translate3d(0, 0, 0);
-  }
-}
-@keyframes client-hologram-scan {
-  0%   { opacity: 0; background-position: 0 0; }
-  6%   { opacity: 1; }
-  10%  { opacity: 0.5; }
-  13%  { opacity: 1; }
-  22%  { opacity: 0.85; }
-  40%  { opacity: 0.55; }
-  70%  { opacity: 0.30; }
-  100% { opacity: 0; background-position: 0 -24px; }
-}
-@keyframes client-hologram-split {
-  0% {
-    color: rgba(255, 255, 255, 0);
-    text-shadow: 0 0 rgba(0, 0, 0, 0);
-  }
-  8% {
-    color: #ffffff;
-    text-shadow:
-      -4px 0 0 rgba(255, 60, 120, 0.85),
-       4px 0 0 rgba(0, 240, 255, 0.85);
-  }
-  12% {
-    text-shadow:
-       3px 0 0 rgba(255, 60, 120, 0.85),
-      -3px 0 0 rgba(0, 240, 255, 0.85);
-  }
-  16% {
-    text-shadow:
-      -2px 0 0 rgba(255, 60, 120, 0.55),
-       2px 0 0 rgba(0, 240, 255, 0.55);
-  }
-  22% {
-    text-shadow:
-      0 0 12px rgba(0, 212, 255, 0.55);
-  }
-  100% {
-    color: var(--text);
-    text-shadow: none;
   }
 }
 
