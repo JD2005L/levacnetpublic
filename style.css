@@ -97,9 +97,10 @@ body {
        tile loops without gaps via translateX animation. --- */
 .hero-waves {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  right: 0;
+  bottom: -10%;
+  height: 70%;
   pointer-events: none;
 }
 
@@ -109,18 +110,23 @@ body {
 
 /* Each wave scrolls left at a different speed for organic depth.
    Translate by -1600 (half of 3200) to loop seamlessly. */
-.wave-1 { animation: wave-scroll 18s linear infinite; }
-.wave-2 { animation: wave-scroll 24s linear infinite reverse; }
-.wave-3 { animation: wave-scroll 21s linear infinite; }
-.wave-4 { animation: wave-scroll 30s linear infinite reverse; }
-.wave-5 { animation: wave-scroll 26s linear infinite; }
-.wave-6 { animation: wave-scroll 34s linear infinite reverse; }
-.wave-7 { animation: wave-scroll 28s linear infinite; }
-.wave-8 { animation: wave-scroll 38s linear infinite reverse; }
+.wave-1 { animation: wave-scroll 18s linear infinite, wave-glow 6s  ease-in-out infinite alternate; }
+.wave-2 { animation: wave-scroll 24s linear infinite reverse, wave-glow 8s  ease-in-out infinite alternate-reverse; }
+.wave-3 { animation: wave-scroll 21s linear infinite, wave-glow 7s  ease-in-out infinite alternate; animation-delay: 0s, -2s; }
+.wave-4 { animation: wave-scroll 30s linear infinite reverse, wave-glow 9s  ease-in-out infinite alternate-reverse; animation-delay: 0s, -4s; }
+.wave-5 { animation: wave-scroll 26s linear infinite, wave-glow 7.5s ease-in-out infinite alternate; animation-delay: 0s, -1s; }
+.wave-6 { animation: wave-scroll 34s linear infinite reverse, wave-glow 10s ease-in-out infinite alternate-reverse; animation-delay: 0s, -5s; }
+.wave-7 { animation: wave-scroll 28s linear infinite, wave-glow 8.5s ease-in-out infinite alternate; animation-delay: 0s, -3s; }
+.wave-8 { animation: wave-scroll 38s linear infinite reverse, wave-glow 11s ease-in-out infinite alternate-reverse; animation-delay: 0s, -6s; }
 
 @keyframes wave-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-1600px); }
+}
+
+@keyframes wave-glow {
+  0%   { opacity: var(--base-opacity, 0.45); stroke-width: var(--base-sw, 1); }
+  100% { opacity: 1; stroke-width: calc(var(--base-sw, 1) * 1.8); }
 }
 
 /* ===== NAV ===== */

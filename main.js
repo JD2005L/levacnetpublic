@@ -168,7 +168,7 @@ function hyperspaceReveal() {
 // === HERO ENTRANCE SEQUENCE ===
 function heroEntrance() {
   // Hyperspace exit fires as the constellation settles into its orbit.
-  gsap.delayedCall(1.4, hyperspaceReveal);
+  gsap.delayedCall(0.6, hyperspaceReveal);
 }
 
 // === TERMINAL TYPEWRITER ===
