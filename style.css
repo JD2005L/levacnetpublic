@@ -871,12 +871,108 @@ section {
   border-radius: 8px;
   padding: 1.5rem;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .client-card:hover {
   border-color: var(--border-hover);
   background: var(--bg-card-hover);
   box-shadow: 0 8px 30px rgba(0, 212, 255, 0.06);
+}
+
+/* ====================================================================
+ * Client card authentication scan animation
+ *
+ * On reveal, each card acts like a credential passing under a scanner:
+ *   1. A bright cyan horizontal laser line sweeps top -> bottom
+ *   2. A dark curtain overlay recedes behind the laser, progressively
+ *      exposing the card contents from the top down
+ *   3. As the laser exits, the whole card briefly flashes with a
+ *      cyan rim glow and the border settles into its resting state
+ *
+ * Each card kicks off with its own stagger so a scan wave crosses
+ * the row left-to-right, selling the "trust" / verification theme.
+ * ==================================================================== */
+.client-card.reveal {
+  opacity: 1;
+  transform: none;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* The scanner laser: a thin cyan line with a wide soft glow */
+.client-card.reveal::before {
+  content: '';
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: -6%;
+  height: 3px;
+  background: linear-gradient(90deg,
+    rgba(0, 212, 255, 0) 0%,
+    rgba(0, 212, 255, 0.9) 15%,
+    rgba(180, 240, 255, 1) 50%,
+    rgba(0, 212, 255, 0.9) 85%,
+    rgba(0, 212, 255, 0) 100%);
+  box-shadow:
+    0 0 12px rgba(0, 212, 255, 0.85),
+    0 0 28px rgba(0, 212, 255, 0.55),
+    0 0 60px rgba(0, 212, 255, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* The dark curtain that hides the card contents until the laser reveals them */
+.client-card.reveal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(4, 8, 16, 1) 0%,
+    rgba(4, 8, 16, 0.98) 90%,
+    rgba(0, 212, 255, 0.08) 100%);
+  pointer-events: none;
+  z-index: 2;
+  clip-path: inset(0 0 0 0);
+}
+
+.client-card.reveal.in-view::before {
+  animation: client-laser 1.35s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+}
+.client-card.reveal.in-view::after {
+  animation: client-curtain 1.35s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+}
+.client-card.reveal.in-view {
+  animation: client-rim-flash 1.35s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+}
+
+/* Stagger each card so the scan sweeps across the row in sequence */
+.client-card.reveal.in-view:nth-child(2)::before,
+.client-card.reveal.in-view:nth-child(2)::after,
+.client-card.reveal.in-view:nth-child(2) { animation-delay: 0.22s; }
+.client-card.reveal.in-view:nth-child(3)::before,
+.client-card.reveal.in-view:nth-child(3)::after,
+.client-card.reveal.in-view:nth-child(3) { animation-delay: 0.44s; }
+.client-card.reveal.in-view:nth-child(4)::before,
+.client-card.reveal.in-view:nth-child(4)::after,
+.client-card.reveal.in-view:nth-child(4) { animation-delay: 0.66s; }
+
+@keyframes client-laser {
+  0%   { top: -8%;  opacity: 0; }
+  4%   { top: -4%;  opacity: 1; }
+  90%  { top: 98%;  opacity: 1; }
+  100% { top: 108%; opacity: 0; }
+}
+@keyframes client-curtain {
+  0%   { clip-path: inset(0   0 0 0); }
+  100% { clip-path: inset(100% 0 0 0); }
+}
+@keyframes client-rim-flash {
+  0%   { border-color: rgba(0, 212, 255, 0);    box-shadow: none; }
+  5%   { border-color: rgba(0, 212, 255, 0.85); box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.35), 0 0 24px rgba(0, 212, 255, 0.35); }
+  85%  { border-color: rgba(0, 212, 255, 0.85); box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.35), 0 0 24px rgba(0, 212, 255, 0.35); }
+  100% { border-color: var(--border);           box-shadow: none; }
 }
 
 .client-name {
