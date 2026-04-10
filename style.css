@@ -886,21 +886,25 @@ a.card-link::after {
   border-left: 3px solid var(--card-accent, var(--border));
 }
 
-/* Industry keyword watermark */
+/* Industry keyword watermark - sized to fit inside the card */
 .client-card::before {
   content: var(--card-label, '');
   position: absolute;
-  right: 0.8rem;
-  bottom: 0.5rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0.6rem;
   font-family: 'Chakra Petch', 'Inter', system-ui, sans-serif;
-  font-size: 1.6rem;
+  font-size: clamp(0.65rem, 2.5vw, 1.1rem);
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  text-align: center;
   color: var(--card-accent, rgba(120, 180, 255, 0.08));
-  opacity: 0.12;
+  opacity: 0.18;
   pointer-events: none;
   line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
