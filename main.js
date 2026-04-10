@@ -191,11 +191,19 @@ function runTerminalTyper() {
   const buckets = sections.filter((s) => s.length > 0);
   if (!buckets.length) return;
 
-  // Snapshot each line's text and blank it out.
-  buckets.forEach((bucket) => {
-    bucket.forEach((el) => {
-      el.dataset.text = el.textContent;
-      el.textContent = '';
+  // For the cat specialties bucket (index 1, the one with 4 lines),
+  // leave the first 2 lines pre-filled so only lines 3-4 type live.
+  // This keeps the longest section from dragging while the others
+  // finish.
+  buckets.forEach((bucket, bi) => {
+    bucket.forEach((el, li) => {
+      if (bi === 1 && li < 2) {
+        // Pre-filled: leave text intact, mark so the typer skips it
+        el.dataset.prefilled = '1';
+      } else {
+        el.dataset.text = el.textContent;
+        el.textContent = '';
+      }
     });
   });
 
@@ -212,6 +220,11 @@ function runTerminalTyper() {
         return;
       }
       const el = bucket[i];
+      // Skip pre-filled lines (already visible, no typing needed)
+      if (el.dataset.prefilled === '1') {
+        typeLine(i + 1);
+        return;
+      }
       const text = el.dataset.text || '';
       el.appendChild(cursor);
       let pos = 0;
