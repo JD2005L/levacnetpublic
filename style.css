@@ -1060,8 +1060,12 @@ a.card-link::after {
 
 /* ===== CONTACT ===== */
 #contact {
-  background: linear-gradient(180deg, var(--bg) 0%, #0a0a14 100%);
+  /* Transparent so the fixed hero-bg (mesh + waves) shows through,
+     connecting the hero and contact areas visually. */
+  background: transparent;
   border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
 }
 
 .contact-grid {
