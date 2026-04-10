@@ -30,26 +30,34 @@
   <div id="hero-bg" aria-hidden="true">
     <div class="hero-mesh"></div>
     <div class="hero-grid"></div>
-    <!-- Gentle flowing wave lines: smooth sine ripples in consistent
-         cyan, scrolling horizontally at different speeds. -->
+    <!-- Flowing wave lines: cyan + violet with conflicting patterns.
+         Each path tiles seamlessly (start y = end y) so no snap. -->
     <svg class="hero-waves" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0"    stop-color="#00d4ff" stop-opacity="0"/>
+        <linearGradient id="wc" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#00d4ff" stop-opacity="0"/>
           <stop offset="0.15" stop-color="#00d4ff" stop-opacity="0.35"/>
-          <stop offset="0.5"  stop-color="#60e8ff" stop-opacity="0.55"/>
+          <stop offset="0.5" stop-color="#60e8ff" stop-opacity="0.50"/>
           <stop offset="0.85" stop-color="#00d4ff" stop-opacity="0.35"/>
-          <stop offset="1"    stop-color="#00d4ff" stop-opacity="0"/>
+          <stop offset="1" stop-color="#00d4ff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="wv" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#b060ff" stop-opacity="0"/>
+          <stop offset="0.15" stop-color="#b060ff" stop-opacity="0.28"/>
+          <stop offset="0.5" stop-color="#d0a0ff" stop-opacity="0.42"/>
+          <stop offset="0.85" stop-color="#b060ff" stop-opacity="0.28"/>
+          <stop offset="1" stop-color="#b060ff" stop-opacity="0"/>
         </linearGradient>
       </defs>
-      <path class="wave wave-1" d="M-1600 530 Q-1380 508 -1120 538 Q-860 564 -580 522 Q-340 498 -80 546 Q180 572 420 528 Q680 502 940 550 Q1180 574 1440 526 Q1660 504 1900 544 Q2120 568 2380 524 Q2600 500 2860 548 Q3060 570 3200 534" stroke="url(#wg)" stroke-width="1.4" fill="none"/>
-      <path class="wave wave-2" d="M-1600 580 Q-1440 564 -1200 588 Q-940 608 -700 572 Q-460 552 -240 594 Q40 614 260 578 Q520 558 740 596 Q1000 616 1220 580 Q1480 560 1700 598 Q1940 618 2160 582 Q2420 560 2640 592 Q2880 614 3080 576 Q3200 564 3200 584" stroke="url(#wg)" stroke-width="1.2" fill="none" opacity="0.70"/>
-      <path class="wave wave-3" d="M-1600 640 Q-1340 618 -1060 648 Q-780 672 -520 632 Q-300 610 -40 654 Q220 676 460 638 Q720 614 980 656 Q1220 678 1480 640 Q1700 620 1960 658 Q2180 680 2440 642 Q2660 618 2920 652 Q3100 672 3200 646" stroke="url(#wg)" stroke-width="1.0" fill="none" opacity="0.50"/>
-      <path class="wave wave-4" d="M-1600 470 Q-1460 458 -1240 478 Q-1000 494 -740 464 Q-540 450 -300 482 Q-60 496 180 466 Q400 452 640 486 Q880 498 1100 470 Q1340 456 1580 488 Q1800 500 2020 472 Q2260 456 2480 484 Q2720 498 2940 468 Q3120 454 3200 478" stroke="url(#wg)" stroke-width="0.8" fill="none" opacity="0.35"/>
-      <path class="wave wave-5" d="M-1600 700 Q-1320 678 -1060 712 Q-760 738 -500 694 Q-280 672 -20 716 Q240 740 480 698 Q740 674 1000 720 Q1260 742 1520 700 Q1740 680 2000 722 Q2240 744 2480 702 Q2720 678 2960 718 Q3120 738 3200 706" stroke="url(#wg)" stroke-width="0.7" fill="none" opacity="0.30"/>
-      <path class="wave wave-6" d="M-1600 420 Q-1480 410 -1260 426 Q-1040 438 -780 416 Q-580 404 -340 430 Q-100 440 140 418 Q360 406 600 434 Q840 444 1060 422 Q1300 408 1540 432 Q1760 442 1980 420 Q2220 406 2440 430 Q2680 440 2900 420 Q3100 408 3200 426" stroke="url(#wg)" stroke-width="0.6" fill="none" opacity="0.20"/>
-      <path class="wave wave-7" d="M-1600 760 Q-1360 742 -1100 770 Q-820 790 -560 752 Q-320 734 -60 768 Q200 792 440 754 Q700 736 960 772 Q1200 794 1460 756 Q1680 738 1940 774 Q2180 796 2420 758 Q2660 738 2920 768 Q3120 790 3200 762" stroke="url(#wg)" stroke-width="0.5" fill="none" opacity="0.18"/>
-      <path class="wave wave-8" d="M-1600 380 Q-1500 372 -1280 388 Q-1060 398 -800 376 Q-600 366 -360 390 Q-140 400 100 378 Q320 368 560 394 Q800 404 1040 382 Q1280 370 1520 392 Q1740 402 1960 380 Q2200 368 2420 390 Q2660 400 2880 380 Q3080 370 3200 386" stroke="url(#wg)" stroke-width="0.4" fill="none" opacity="0.14"/>
+      <path class="wave wc-1" d="M-1600 520 Q-1380 496 -1100 520 Q-820 548 -500 520 Q-220 496 0 520 Q220 548 500 520 Q780 496 1100 520 Q1380 548 1600 520 Q1820 496 2100 520 Q2380 548 2700 520 Q2980 496 3200 520" stroke="url(#wc)" stroke-width="1.4" fill="none"/>
+      <path class="wave wc-2" d="M-1600 580 Q-1340 558 -1060 580 Q-760 606 -440 580 Q-160 558 0 580 Q160 606 440 580 Q740 558 1060 580 Q1340 606 1600 580 Q1840 558 2140 580 Q2440 606 2760 580 Q3040 558 3200 580" stroke="url(#wc)" stroke-width="1.1" fill="none" opacity="0.65"/>
+      <path class="wave wc-3" d="M-1600 650 Q-1300 630 -980 650 Q-660 674 -340 650 Q-60 630 0 650 Q60 670 340 650 Q660 630 980 650 Q1300 674 1600 650 Q1900 630 2180 650 Q2460 674 2780 650 Q3060 630 3200 650" stroke="url(#wc)" stroke-width="0.9" fill="none" opacity="0.45"/>
+      <path class="wave wc-4" d="M-1600 460 Q-1420 448 -1180 460 Q-920 474 -640 460 Q-380 448 -120 460 Q120 474 380 460 Q620 448 880 460 Q1120 474 1380 460 Q1620 448 1880 460 Q2120 474 2380 460 Q2620 448 2880 460 Q3120 474 3200 460" stroke="url(#wc)" stroke-width="0.7" fill="none" opacity="0.28"/>
+      <path class="wave wc-5" d="M-1600 720 Q-1280 702 -940 720 Q-600 742 -260 720 Q80 702 400 720 Q720 742 1060 720 Q1380 702 1600 720 Q1820 742 2160 720 Q2480 702 2800 720 Q3080 742 3200 720" stroke="url(#wc)" stroke-width="0.5" fill="none" opacity="0.20"/>
+      <path class="wave wv-1" d="M-1600 560 Q-1300 530 -900 560 Q-500 594 -100 560 Q300 530 700 560 Q1100 594 1500 560 Q1900 530 2300 560 Q2700 594 3100 560 Q3200 548 3200 560" stroke="url(#wv)" stroke-width="1.2" fill="none"/>
+      <path class="wave wv-2" d="M-1600 620 Q-1250 598 -850 620 Q-450 646 -50 620 Q350 598 750 620 Q1150 646 1550 620 Q1950 598 2350 620 Q2750 646 3150 620 Q3200 610 3200 620" stroke="url(#wv)" stroke-width="0.9" fill="none" opacity="0.55"/>
+      <path class="wave wv-3" d="M-1600 490 Q-1350 470 -1000 490 Q-650 514 -300 490 Q50 470 400 490 Q750 514 1100 490 Q1450 470 1800 490 Q2150 514 2500 490 Q2850 470 3200 490" stroke="url(#wv)" stroke-width="0.7" fill="none" opacity="0.35"/>
+      <path class="wave wv-4" d="M-1600 690 Q-1200 668 -800 690 Q-400 716 0 690 Q400 668 800 690 Q1200 716 1600 690 Q2000 668 2400 690 Q2800 716 3200 690" stroke="url(#wv)" stroke-width="0.5" fill="none" opacity="0.22"/>
     </svg>
   </div>
 
