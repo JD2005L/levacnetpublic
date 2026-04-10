@@ -104,32 +104,8 @@ body {
   overflow: visible;
 }
 
-.wave {
-  will-change: transform;
-}
-
-/* Each wave scrolls left at a different speed for organic depth.
-   Translate by -1600 (half of 3200) to loop seamlessly. */
-/* Each wave scrolls and cross-fades at the loop boundary so any
-   imperfect tiling is invisible. The opacity drops to 0 for the
-   last 4% of the animation, the position snaps during that invisible
-   window, then fades back in at the start of the next cycle. */
-/* Cyan and violet waves at different speeds and directions so they
-   drift through each other, crossing and separating over time. */
-.wc-1 { animation: wave-flow 28s linear infinite; }
-.wc-2 { animation: wave-flow 22s linear infinite reverse; }
-.wc-3 { animation: wave-flow 34s linear infinite; }
-.wv-1 { animation: wave-flow 40s linear infinite reverse; }
-.wv-2 { animation: wave-flow 32s linear infinite; }
-.wv-3 { animation: wave-flow 48s linear infinite reverse; }
-.wv-4 { animation: wave-flow 36s linear infinite; }
-
-@keyframes wave-flow {
-  0%   { transform: translateX(0);       opacity: 0; }
-  3%   { transform: translateX(0);       opacity: 1; }
-  97%  { transform: translateX(-1600px); opacity: 1; }
-  100% { transform: translateX(-1600px); opacity: 0; }
-}
+/* Wave paths are animated by hero.js which updates the SVG d attribute
+   each frame so the waves genuinely undulate. No CSS keyframes needed. */
 
 /* ===== NAV ===== */
 nav {
