@@ -79,26 +79,26 @@ body {
     /* indigo far lower-left corner */
     radial-gradient(ellipse 48% 42% at 8% 92%, rgba(90, 130, 255, 0.24) 0%, rgba(0,0,0,0) 55%),
     /* magenta top-center edge accent */
-    radial-gradient(ellipse 28% 22% at 50% -5%, rgba(255, 100, 180, 0.18) 0%, rgba(0,0,0,0) 55%),
+    radial-gradient(ellipse 32% 26% at 50% 4%, rgba(255, 100, 180, 0.18) 0%, rgba(0,0,0,0) 55%),
     /* pink right-mid edge accent */
-    radial-gradient(ellipse 22% 22% at 102% 50%, rgba(255, 120, 220, 0.18) 0%, rgba(0,0,0,0) 55%),
+    radial-gradient(ellipse 26% 26% at 96% 50%, rgba(255, 120, 220, 0.18) 0%, rgba(0,0,0,0) 55%),
     /* green-cyan left-mid edge accent */
-    radial-gradient(ellipse 22% 22% at -2% 50%, rgba(80, 255, 200, 0.16) 0%, rgba(0,0,0,0) 55%),
+    radial-gradient(ellipse 26% 26% at 4% 50%, rgba(80, 255, 200, 0.16) 0%, rgba(0,0,0,0) 55%),
     /* deep violet floor pool below the viewport */
     radial-gradient(ellipse 52% 26% at 50% 108%, rgba(80, 40, 160, 0.24) 0%, rgba(0,0,0,0) 60%);
   opacity: 0.85;
   /* Carve a larger dark void behind the hero content by masking the
      mesh to transparent in a wide central ellipse. */
-  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%,
+  -webkit-mask-image: radial-gradient(ellipse 42% 38% at 50% 50%,
       rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.15) 25%,
-      rgba(0,0,0,0.60) 50%,
-      rgba(0,0,0,1) 80%);
-          mask-image: radial-gradient(ellipse 60% 55% at 50% 50%,
+      rgba(0,0,0,0.25) 30%,
+      rgba(0,0,0,0.75) 65%,
+      rgba(0,0,0,1) 95%);
+          mask-image: radial-gradient(ellipse 42% 38% at 50% 50%,
       rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.15) 25%,
-      rgba(0,0,0,0.60) 50%,
-      rgba(0,0,0,1) 80%);
+      rgba(0,0,0,0.25) 30%,
+      rgba(0,0,0,0.75) 65%,
+      rgba(0,0,0,1) 95%);
   /* Static: no animation. CSS transform loops on this kept pressuring
      the GPU compositor enough to stall video in other tabs. */
 }
