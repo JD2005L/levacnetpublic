@@ -81,24 +81,25 @@ function hyperspaceReveal() {
     onComplete: () => nameEl.classList.remove('warping'),
   });
 
+  // Tamer values on narrow viewports so letters don't fly off-screen
+  const mobile = window.innerWidth < 700;
+
   // eyebrow leads
   if (eyebrow) {
     tl.fromTo(eyebrow,
-      { opacity: 0, scale: 5.5, y: -30 },
+      { opacity: 0, scale: mobile ? 2.5 : 5.5, y: mobile ? -12 : -30 },
       { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: 'expo.out' },
       0);
   }
 
   // name: each letter is its own projectile with random jitter
-  // (No filter: blur - filter animations cause GPU-process pressure
-  // similar to WebGL and were stalling video decode in other tabs.)
   tl.fromTo(nameChars,
     {
       opacity: 0,
-      scale: () => 8 + Math.random() * 5,
-      y: () => -50 + Math.random() * 40,
-      x: () => (Math.random() - 0.5) * 60,
-      rotation: () => (Math.random() - 0.5) * 20,
+      scale: () => mobile ? 2.5 + Math.random() * 2 : 8 + Math.random() * 5,
+      y: () => mobile ? -18 + Math.random() * 14 : -50 + Math.random() * 40,
+      x: () => (Math.random() - 0.5) * (mobile ? 20 : 60),
+      rotation: () => (Math.random() - 0.5) * (mobile ? 10 : 20),
     },
     {
       opacity: 1,
@@ -106,17 +107,17 @@ function hyperspaceReveal() {
       y: 0,
       x: 0,
       rotation: 0,
-      duration: 1.35,
+      duration: mobile ? 1.0 : 1.35,
       ease: 'expo.out',
-      stagger: { each: 0.055, from: 'random' },
+      stagger: { each: mobile ? 0.04 : 0.055, from: 'random' },
     },
     0.08);
 
   // tagline arrives slightly after the name is mostly home
   if (tagline) {
     tl.fromTo(tagline,
-      { opacity: 0, scale: 4.5, y: 40 },
-      { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'expo.out' },
+      { opacity: 0, scale: mobile ? 2 : 4.5, y: mobile ? 16 : 40 },
+      { opacity: 1, scale: 1, y: 0, duration: mobile ? 0.8 : 1.1, ease: 'expo.out' },
       0.55);
   }
 
@@ -127,18 +128,18 @@ function hyperspaceReveal() {
     tl.fromTo(ctas,
       {
         opacity: 0,
-        scale: () => 5 + Math.random() * 3,
-        y: () => 50 + Math.random() * 30,
-        x: () => (Math.random() - 0.5) * 40,
+        scale: () => mobile ? 2 + Math.random() * 1.5 : 5 + Math.random() * 3,
+        y: () => mobile ? 20 + Math.random() * 10 : 50 + Math.random() * 30,
+        x: () => (Math.random() - 0.5) * (mobile ? 14 : 40),
       },
       {
         opacity: 1,
         scale: 1,
         y: 0,
         x: 0,
-        duration: 1.15,
+        duration: mobile ? 0.85 : 1.15,
         ease: 'expo.out',
-        stagger: { each: 0.12, from: 'random' },
+        stagger: { each: mobile ? 0.08 : 0.12, from: 'random' },
       },
       0.7);
   }
