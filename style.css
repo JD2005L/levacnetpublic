@@ -882,97 +882,149 @@ section {
 }
 
 /* ====================================================================
- * Client card authentication scan animation
+ * Client card HOLOGRAM POWER-ON animation
  *
- * On reveal, each card acts like a credential passing under a scanner:
- *   1. A bright cyan horizontal laser line sweeps top -> bottom
- *   2. A dark curtain overlay recedes behind the laser, progressively
- *      exposing the card contents from the top down
- *   3. As the laser exits, the whole card briefly flashes with a
- *      cyan rim glow and the border settles into its resting state
+ * Each card boots like a holographic credential display:
+ *   1. Starts as a thin horizontal slit at the vertical centre
+ *      (clip-path inset 49% top / 49% bottom), as if a hologram
+ *      projector has just fired up its beam
+ *   2. The slit unfolds vertically via clip-path to reveal the full
+ *      card in one quick reveal frame (8% of the animation)
+ *   3. The card immediately glitches: three fast horizontal shakes
+ *      and a double RGB-split text-shadow on the client name, as if
+ *      the signal is stabilizing
+ *   4. Glitch resolves; border ignites with a cyan accent rim and
+ *      outer glow, overlaid by a persistent scanline pattern that
+ *      flickers through the rest of the reveal
+ *   5. Scanline and rim fade out, leaving the card in its resting
+ *      state
  *
- * Each card kicks off with its own stagger so a scan wave crosses
- * the row left-to-right, selling the "trust" / verification theme.
+ * Cards 1..4 fire in sequence left-to-right so the whole row reads
+ * as a progressive holographic power-up.
  * ==================================================================== */
 .client-card.reveal {
   opacity: 1;
   transform: none;
   transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  clip-path: inset(49% 0 49% 0);
 }
 
-/* The scanner laser: a thin cyan line with a wide soft glow */
+/* Holographic scanline overlay: thin repeating cyan stripes that flicker
+   across the card during the reveal, like old HUD UI signal bleed. */
 .client-card.reveal::before {
   content: '';
   position: absolute;
-  left: -4%;
-  right: -4%;
-  top: -6%;
-  height: 3px;
-  background: linear-gradient(90deg,
-    rgba(0, 212, 255, 0) 0%,
-    rgba(0, 212, 255, 0.9) 15%,
-    rgba(180, 240, 255, 1) 50%,
-    rgba(0, 212, 255, 0.9) 85%,
-    rgba(0, 212, 255, 0) 100%);
-  box-shadow:
-    0 0 12px rgba(0, 212, 255, 0.85),
-    0 0 28px rgba(0, 212, 255, 0.55),
-    0 0 60px rgba(0, 212, 255, 0.25);
-  opacity: 0;
+  inset: 0;
   pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 212, 255, 0)   0px,
+    rgba(0, 212, 255, 0.10) 1px,
+    rgba(0, 212, 255, 0)   2px,
+    rgba(0, 212, 255, 0)   4px);
+  mix-blend-mode: screen;
+  opacity: 0;
   z-index: 3;
 }
 
-/* The dark curtain that hides the card contents until the laser reveals them */
-.client-card.reveal::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(4, 8, 16, 1) 0%,
-    rgba(4, 8, 16, 0.98) 90%,
-    rgba(0, 212, 255, 0.08) 100%);
-  pointer-events: none;
-  z-index: 2;
-  clip-path: inset(0 0 0 0);
-}
-
-.client-card.reveal.in-view::before {
-  animation: client-laser 1.35s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
-}
-.client-card.reveal.in-view::after {
-  animation: client-curtain 1.35s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
-}
 .client-card.reveal.in-view {
-  animation: client-rim-flash 1.35s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+  animation: client-hologram 1.7s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+.client-card.reveal.in-view::before {
+  animation: client-hologram-scan 1.7s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+.client-card.reveal.in-view .client-name {
+  animation: client-hologram-split 1.7s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
 }
 
-/* Stagger each card so the scan sweeps across the row in sequence */
+/* Left-to-right stagger across the row */
+.client-card.reveal.in-view:nth-child(2),
 .client-card.reveal.in-view:nth-child(2)::before,
-.client-card.reveal.in-view:nth-child(2)::after,
-.client-card.reveal.in-view:nth-child(2) { animation-delay: 0.22s; }
+.client-card.reveal.in-view:nth-child(2) .client-name { animation-delay: 0.22s; }
+.client-card.reveal.in-view:nth-child(3),
 .client-card.reveal.in-view:nth-child(3)::before,
-.client-card.reveal.in-view:nth-child(3)::after,
-.client-card.reveal.in-view:nth-child(3) { animation-delay: 0.44s; }
+.client-card.reveal.in-view:nth-child(3) .client-name { animation-delay: 0.44s; }
+.client-card.reveal.in-view:nth-child(4),
 .client-card.reveal.in-view:nth-child(4)::before,
-.client-card.reveal.in-view:nth-child(4)::after,
-.client-card.reveal.in-view:nth-child(4) { animation-delay: 0.66s; }
+.client-card.reveal.in-view:nth-child(4) .client-name { animation-delay: 0.66s; }
 
-@keyframes client-laser {
-  0%   { top: -8%;  opacity: 0; }
-  4%   { top: -4%;  opacity: 1; }
-  90%  { top: 98%;  opacity: 1; }
-  100% { top: 108%; opacity: 0; }
+@keyframes client-hologram {
+  0% {
+    clip-path: inset(49% 0 49% 0);
+    border-color: rgba(0, 212, 255, 0.0);
+    box-shadow: 0 0 0 rgba(0, 212, 255, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  8% {
+    clip-path: inset(0);
+    border-color: rgba(0, 212, 255, 0.9);
+    box-shadow:
+      0 0 0 1px rgba(0, 212, 255, 0.55),
+      0 0 38px rgba(0, 212, 255, 0.45);
+    transform: translate3d(0, 0, 0);
+  }
+  10% { transform: translate3d(-5px, 0, 0); }
+  12% { transform: translate3d( 4px, 0, 0); }
+  14% { transform: translate3d(-3px, 0, 0); }
+  16% { transform: translate3d( 0px, 0, 0); }
+  22% {
+    border-color: rgba(0, 212, 255, 0.8);
+    box-shadow:
+      0 0 0 1px rgba(0, 212, 255, 0.40),
+      0 0 26px rgba(0, 212, 255, 0.30);
+  }
+  85% {
+    border-color: rgba(0, 212, 255, 0.45);
+    box-shadow:
+      0 0 0 1px rgba(0, 212, 255, 0.18),
+      0 0 16px rgba(0, 212, 255, 0.12);
+  }
+  100% {
+    clip-path: inset(0);
+    border-color: var(--border);
+    box-shadow: none;
+    transform: translate3d(0, 0, 0);
+  }
 }
-@keyframes client-curtain {
-  0%   { clip-path: inset(0   0 0 0); }
-  100% { clip-path: inset(100% 0 0 0); }
+@keyframes client-hologram-scan {
+  0%   { opacity: 0; background-position: 0 0; }
+  6%   { opacity: 1; }
+  10%  { opacity: 0.5; }
+  13%  { opacity: 1; }
+  22%  { opacity: 0.85; }
+  40%  { opacity: 0.55; }
+  70%  { opacity: 0.30; }
+  100% { opacity: 0; background-position: 0 -24px; }
 }
-@keyframes client-rim-flash {
-  0%   { border-color: rgba(0, 212, 255, 0);    box-shadow: none; }
-  5%   { border-color: rgba(0, 212, 255, 0.85); box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.35), 0 0 24px rgba(0, 212, 255, 0.35); }
-  85%  { border-color: rgba(0, 212, 255, 0.85); box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.35), 0 0 24px rgba(0, 212, 255, 0.35); }
-  100% { border-color: var(--border);           box-shadow: none; }
+@keyframes client-hologram-split {
+  0% {
+    color: rgba(255, 255, 255, 0);
+    text-shadow: 0 0 rgba(0, 0, 0, 0);
+  }
+  8% {
+    color: #ffffff;
+    text-shadow:
+      -4px 0 0 rgba(255, 60, 120, 0.85),
+       4px 0 0 rgba(0, 240, 255, 0.85);
+  }
+  12% {
+    text-shadow:
+       3px 0 0 rgba(255, 60, 120, 0.85),
+      -3px 0 0 rgba(0, 240, 255, 0.85);
+  }
+  16% {
+    text-shadow:
+      -2px 0 0 rgba(255, 60, 120, 0.55),
+       2px 0 0 rgba(0, 240, 255, 0.55);
+  }
+  22% {
+    text-shadow:
+      0 0 12px rgba(0, 212, 255, 0.55);
+  }
+  100% {
+    color: var(--text);
+    text-shadow: none;
+  }
 }
 
 .client-name {
