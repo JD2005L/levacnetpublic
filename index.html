@@ -453,10 +453,18 @@
       <div class="section-label">// Contact</div>
       <h2 class="section-title">Let's Build Something</h2>
 
-      <div class="contact-grid">
+      <!-- ============================================================
+           Contact stage: layers .contact-grid and .contact-form-panel
+           in the same CSS grid cell. Default state shows the grid; the
+           .form-active class on .contact-stage slides the grid out to
+           the left and the form panel in from the right. See main.js
+           initContactForm() for the swap logic.
+           ============================================================ -->
+      <div class="contact-stage">
+        <div class="contact-grid">
 
         <div class="contact-items">
-          <a href="mailto:James@Levac.net" class="contact-item">
+          <a href="mailto:James@Levac.net" class="contact-item" data-contact-action="email-form">
             <div class="contact-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
@@ -476,7 +484,7 @@
             </div>
           </a>
 
-          <div class="contact-item" style="cursor:default;">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Edmonton%2C+AB%2C+Canada" target="_blank" rel="noopener" class="contact-item">
             <div class="contact-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
@@ -484,7 +492,7 @@
               <div class="contact-label">Location</div>
               <div class="contact-value">Edmonton, AB, Canada</div>
             </div>
-          </div>
+          </a>
 
           <a href="https://github.com/JD2005L" target="_blank" rel="noopener" class="contact-item">
             <div class="contact-icon">
@@ -505,6 +513,42 @@
           <p style="color: var(--text-muted); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;">// Available for contracts, consulting, and full builds.</p>
         </div>
 
+        </div>
+
+        <div class="contact-form-panel" aria-hidden="true">
+          <form class="contact-form" novalidate>
+            <div class="contact-form-header">
+              <button type="button" class="contact-form-back" aria-label="Back to contact options">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Back
+              </button>
+              <div class="contact-form-title">Send a message</div>
+            </div>
+
+            <label class="contact-form-field">
+              <span class="contact-form-label">Name</span>
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+
+            <label class="contact-form-field">
+              <span class="contact-form-label">Email</span>
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+
+            <label class="contact-form-field contact-form-field-grow">
+              <span class="contact-form-label">Message</span>
+              <textarea name="message" rows="5" required placeholder="What are you looking to build?"></textarea>
+            </label>
+
+            <div class="contact-form-footer">
+              <div class="contact-form-status" role="status" aria-live="polite"></div>
+              <button type="submit" class="contact-form-submit">
+                <span class="contact-form-submit-label">Send message</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>

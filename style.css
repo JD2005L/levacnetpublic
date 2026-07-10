@@ -1090,12 +1090,221 @@ a.card-link::after {
   z-index: 1;
 }
 
+/* Stage: layers .contact-grid and .contact-form-panel in the SAME
+   CSS-grid cell so they overlap without absolute positioning. The
+   cell's height is max(grid, form) — neither ever clips the other.
+   overflow-x hidden clips the sliding panels; overflow-y visible
+   keeps focus-ring highlights and any browser autofill dropdowns
+   from being cut off. */
+.contact-stage {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  margin-top: 3rem;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.contact-stage > .contact-grid,
+.contact-stage > .contact-form-panel {
+  grid-column: 1;
+  grid-row: 1;
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 0.35s ease;
+  will-change: transform, opacity;
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: start;
-  margin-top: 3rem;
+  /* margin-top handled by .contact-stage now that the grid lives
+     inside it. */
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.contact-stage.form-active > .contact-grid {
+  transform: translateX(-105%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Form panel starts offscreen to the right. .form-active on the
+   stage swaps the transforms so it slides in as the grid slides
+   out. pointer-events guards clicks landing on the hidden layer. */
+.contact-form-panel {
+  transform: translateX(105%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-stage.form-active > .contact-form-panel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.75rem 1.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 212, 255, 0.05);
+}
+
+.contact-form-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-form-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem 0.35rem 0.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.contact-form-back:hover {
+  color: var(--accent);
+  border-color: var(--border-hover);
+  background: var(--accent-dim);
+}
+
+.contact-form-title {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.contact-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.contact-form-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.contact-form-field input,
+.contact-form-field textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  background: rgba(4, 6, 12, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.contact-form-field textarea {
+  resize: vertical;
+  min-height: 6.5rem;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.contact-form-field input::placeholder,
+.contact-form-field textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.contact-form-field input:focus,
+.contact-form-field textarea:focus {
+  outline: none;
+  border-color: var(--border-hover);
+  background: rgba(4, 6, 12, 0.75);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.08);
+}
+
+.contact-form-field.invalid input,
+.contact-form-field.invalid textarea {
+  border-color: rgba(255, 90, 110, 0.55);
+  box-shadow: 0 0 0 3px rgba(255, 90, 110, 0.08);
+}
+
+.contact-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.contact-form-status {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  flex: 1;
+  min-height: 1.2em;
+}
+.contact-form-status.success { color: var(--accent); }
+.contact-form-status.error { color: #ff7a86; }
+
+.contact-form-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.1rem;
+  background: var(--accent);
+  color: #04060c;
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s, filter 0.2s, opacity 0.2s;
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.25);
+}
+.contact-form-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.35);
+}
+.contact-form-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.contact-form-submit.sending .contact-form-submit-label::after {
+  content: '…';
+}
+
+/* Respect user motion preferences: skip the slide, just cross-fade. */
+@media (prefers-reduced-motion: reduce) {
+  .contact-stage > .contact-grid,
+  .contact-stage > .contact-form-panel {
+    transition: opacity 0.2s ease;
+  }
+  .contact-stage.form-active > .contact-grid,
+  .contact-form-panel {
+    transform: none;
+  }
+  .contact-stage.form-active > .contact-form-panel {
+    transform: none;
+  }
 }
 
 .contact-items {

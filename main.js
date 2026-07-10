@@ -316,9 +316,123 @@ function initScrollAnimations() {
   targets.forEach((el) => io.observe(el));
 }
 
+// === CONTACT: EMAIL → INLINE FORM SWAP ===
+// Clicking the Email contact item slides the whole contact grid off
+// to the left and swaps in a form panel from the right. The mailto:
+// href stays on the anchor so that (a) no-JS users still get the
+// mail client, and (b) ctrl/cmd/middle-click keeps working. On
+// submit the form posts JSON to the n8n webhook and reports status
+// inline; no page navigation.
+const CONTACT_WEBHOOK_URL = 'https://hooks.levac.net/webhook/levacnet-contact';
+
+function initContactForm() {
+  const stage = document.querySelector('.contact-stage');
+  if (!stage) return;
+
+  const grid       = stage.querySelector('.contact-grid');
+  const panel      = stage.querySelector('.contact-form-panel');
+  const form       = stage.querySelector('.contact-form');
+  const emailLink  = stage.querySelector('[data-contact-action="email-form"]');
+  const backBtn    = stage.querySelector('.contact-form-back');
+  const status     = stage.querySelector('.contact-form-status');
+  const submitBtn  = stage.querySelector('.contact-form-submit');
+  if (!grid || !panel || !form || !emailLink || !backBtn || !status || !submitBtn) return;
+
+  function setStatus(msg, kind) {
+    status.textContent = msg || '';
+    status.classList.remove('success', 'error');
+    if (kind) status.classList.add(kind);
+  }
+
+  function showForm() {
+    stage.classList.add('form-active');
+    panel.setAttribute('aria-hidden', 'false');
+    grid.setAttribute('aria-hidden', 'true');
+    // Focus after the slide has committed so the caret doesn't
+    // scroll the page mid-animation.
+    setTimeout(() => {
+      const first = form.querySelector('input, textarea');
+      if (first) first.focus({ preventScroll: true });
+    }, 320);
+  }
+
+  function hideForm() {
+    stage.classList.remove('form-active');
+    panel.setAttribute('aria-hidden', 'true');
+    grid.setAttribute('aria-hidden', 'false');
+  }
+
+  emailLink.addEventListener('click', (e) => {
+    // Let modifier-clicks fall through to the native mailto: so power
+    // users can still hand it to their mail client / open in new tab.
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+    e.preventDefault();
+    showForm();
+  });
+
+  backBtn.addEventListener('click', hideForm);
+
+  // Escape while the form is open takes you back to the grid.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && stage.classList.contains('form-active')) hideForm();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const data = {
+      name:    form.name.value.trim(),
+      email:   form.email.value.trim(),
+      message: form.message.value.trim(),
+    };
+
+    // Clear per-field error state before revalidating.
+    form.querySelectorAll('.contact-form-field').forEach((f) => f.classList.remove('invalid'));
+
+    const missing = [];
+    if (!data.name)    missing.push('name');
+    if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) missing.push('email');
+    if (!data.message) missing.push('message');
+    if (missing.length) {
+      missing.forEach((name) => {
+        const field = form.querySelector(`[name="${name}"]`);
+        if (field) field.closest('.contact-form-field')?.classList.add('invalid');
+      });
+      setStatus('Please fill in name, a valid email, and a message.', 'error');
+      const firstBad = form.querySelector('.contact-form-field.invalid input, .contact-form-field.invalid textarea');
+      if (firstBad) firstBad.focus({ preventScroll: true });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('sending');
+    setStatus('Sending…');
+
+    try {
+      const res = await fetch(CONTACT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, source: 'levac.net contact form', ts: new Date().toISOString() }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      setStatus('Message sent — I\'ll get back to you soon.', 'success');
+      form.reset();
+      // Auto-return to the grid after a beat so the success line has
+      // time to register but the section doesn't feel stuck.
+      setTimeout(() => { hideForm(); setStatus(''); }, 2400);
+    } catch (err) {
+      setStatus('Couldn\'t send — email me directly at James@Levac.net.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('sending');
+    }
+  });
+}
+
 // === INIT ===
 document.addEventListener('DOMContentLoaded', () => {
   heroEntrance();
   initScrollAnimations();
   initNavSpy();
+  initContactForm();
 });
