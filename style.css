@@ -1292,20 +1292,10 @@ a.card-link::after {
   content: '…';
 }
 
-/* Respect user motion preferences: skip the slide, just cross-fade. */
-@media (prefers-reduced-motion: reduce) {
-  .contact-stage > .contact-grid,
-  .contact-stage > .contact-form-panel {
-    transition: opacity 0.2s ease;
-  }
-  .contact-stage.form-active > .contact-grid,
-  .contact-form-panel {
-    transform: none;
-  }
-  .contact-stage.form-active > .contact-form-panel {
-    transform: none;
-  }
-}
+/* NOTE: no prefers-reduced-motion guard on the slide — this site
+   intentionally ignores the OS animation-disable setting so the
+   design lands the way it was authored. Same stance as the card
+   flicker (see note above). */
 
 .contact-items {
   display: flex;
