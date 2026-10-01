@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy policy: GitHub Repo Navigator</title>
+  <meta name="description" content="Privacy policy for the GitHub Repo Navigator Chrome extension.">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./"><img src="icon.png" alt="">GitHub Repo Navigator</a>
+    <nav aria-label="Page">
+      <a href="./#features">Features</a>
+      <a href="./#setup">Setup</a>
+      <a href="./#support">Support</a>
+      <a href="privacy.html" aria-current="page">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="label">// Privacy policy</p>
+    <h1>Privacy policy: GitHub Repo Navigator</h1>
+    <p><em>Last updated: 2026-10-01</em></p>
+    <p class="lead">GitHub Repo Navigator is a Chrome extension that shows every GitHub repository you can access, organized into your own sections, in GitHub's ☰ menu and on the github.com dashboard. This policy explains what it handles and where that data goes.</p>
+    <p class="lead"><strong>In short:</strong> the extension has no server and sends nothing to its developer or any third party. It talks only to GitHub, with read-only access to repository metadata, and keeps its data in your own browser.</p>
+
+    <section>
+      <h2>What the extension accesses</h2>
+      <table>
+        <thead><tr><th>Data</th><th>Where it comes from</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Your GitHub login name</td><td>GitHub's API, after you connect</td><td>To show who is connected and to recognise your own account.</td></tr>
+          <tr><td>GitHub access and refresh tokens</td><td>GitHub's device-flow sign-in, which you start</td><td>To read your repository list.</td></tr>
+          <tr><td>Repository metadata: ID, owner, name, owner avatar URL, visibility, archived/fork flags, last push time</td><td>GitHub's API</td><td>To show and organize your repositories.</td></tr>
+          <tr><td>GitHub App installations: account name and type, whether all or selected repositories are shared</td><td>GitHub's API</td><td>To tell you which accounts the app can see and what to fix.</td></tr>
+          <tr><td>Repository descriptions, primary languages and topics</td><td>GitHub's API, <strong>only when you click "Suggest sections"</strong></td><td>To build the suggestion preview. Used once, never stored.</td></tr>
+          <tr><td>Your sections: names, order, collapsed state, and which repository IDs each holds</td><td>You</td><td>Your organization of the list.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:14px">The extension's GitHub access is <strong>read-only repository metadata</strong>. It cannot read code, issues, pull requests or any other content, and it cannot change anything on GitHub.</p>
+      <p>It does not read GitHub's web pages for data, does not use GitHub's cookies, and does not collect browsing history, analytics or usage statistics.</p>
+    </section>
+
+    <section>
+      <h2>Where data is stored</h2>
+      <ul>
+        <li><p><strong>This device only</strong> (<code>chrome.storage.local</code>, restricted to the extension's own pages and background worker): tokens, your login name, the repository list and its cache metadata. Content scripts running on github.com cannot read this area.</p></li>
+        <li><p><strong>Chrome Sync</strong> (<code>chrome.storage.sync</code>, only if you use Chrome Sync): your sections, their order and collapsed state, and the repository IDs in each. No tokens, names, descriptions or other repository details are synced. Chrome Sync is operated by Google under Google's privacy policy.</p></li>
+        <li><p><strong>Files you choose to export</strong> ("Export sections"): your sections plus each listed repository's ID and <code>owner/name</code>, saved where you choose.</p></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Where data is sent</h2>
+      <p>Only to GitHub (<code>github.com</code> for sign-in, <code>api.github.com</code> for the repository list), over HTTPS, as part of the features described above. The extension has no backend server, and no data is sent to the extension's developer or to any other party. Data is never sold or used for advertising, credit or any purpose unrelated to the extension's single purpose.</p>
+    </section>
+
+    <section>
+      <h2>Your control</h2>
+      <ul>
+        <li><p><strong>Disconnect</strong> (settings page) deletes the tokens and the cached repository list from that device.</p></li>
+        <li><p><strong>Revoke</strong> the extension's GitHub App at <a href="https://github.com/settings/apps/authorizations">github.com/settings/apps/authorizations</a> to invalidate its tokens everywhere.</p></li>
+        <li><p><strong>Reset sections</strong> (settings page) deletes your synced sections on every device.</p></li>
+        <li><p><strong>Uninstalling</strong> the extension makes Chrome delete its local data.</p></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Changes</h2>
+      <p>Changes to this policy are published on this page, with the date above updated.</p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a href="mailto:James@Levac.net?subject=GitHub%20Repo%20Navigator%20privacy">James@Levac.net</a>, or the <a href="/#contact">contact form</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    GitHub Repo Navigator by <a href="/">James Levac</a> · <a href="./">Home</a> · <a href="./#support">Support</a><br>
+    Not affiliated with or endorsed by GitHub, Inc.
+  </footer>
+</body>
+</html>

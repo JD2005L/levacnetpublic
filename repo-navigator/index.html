@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Repo Navigator: every repository, organized, in GitHub's menu</title>
+  <meta name="description" content="A Chrome extension that replaces GitHub's short Top repositories lists with every repository you can access, organized into your own synced sections.">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./"><img src="icon.png" alt="">GitHub Repo Navigator</a>
+    <nav aria-label="Page">
+      <a href="#features">Features</a>
+      <a href="#setup">Setup</a>
+      <a href="#support">Support</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <p class="label">// Chrome extension</p>
+        <h1>Every repository, right in GitHub's menu</h1>
+        <p class="lead">GitHub shows about ten "Top repositories" and hides the rest behind "Show more". Repo Navigator replaces that short list with every repository you can access, organized into your own sections.</p>
+        <p><span class="status">Coming soon to the Chrome Web Store</span></p>
+      </div>
+      <img src="images/menu-sections.png" width="440" height="744" alt="GitHub's menu showing the Repo Navigator list with sections such as Northwind platform and Client websites (sample data)">
+    </div>
+
+    <section id="where">
+      <p class="label">// What it changes</p>
+      <h2>Two places on GitHub, nothing else</h2>
+      <div class="grid">
+        <div class="card"><h3>The ☰ menu</h3><p>The button at the top-left of any github.com page. Its <strong>Top repositories</strong> section becomes your full, organized list.</p></div>
+        <div class="card"><h3>The dashboard sidebar</h3><p>On github.com's home page, the <strong>Top repositories</strong> list on the left becomes the same organized list.</p></div>
+      </div>
+      <p style="margin-top:14px">Both places show the same sections. If GitHub changes its page layout in a way the extension does not recognise, it steps aside and GitHub's own list stays in place.</p>
+    </section>
+
+    <section id="features">
+      <p class="label">// Features</p>
+      <h2>Built for people with a lot of repositories</h2>
+      <div class="grid">
+        <div class="card"><h3>Complete list</h3><p>Every repository you can reach, read from GitHub's official API: your own, your organizations' and ones you collaborate on.</p></div>
+        <div class="card"><h3>Your sections</h3><p>Create, rename, reorder and collapse sections. Drag repositories between them, or use the keyboard.</p></div>
+        <div class="card"><h3>Organize automatically</h3><p>"Suggest sections" groups repositories by name, owner, description and language. Preview, edit, apply, or undo.</p></div>
+        <div class="card"><h3>Instant filter</h3><p>Type a few letters to filter the whole list across every section. Enter opens the first match.</p></div>
+        <div class="card"><h3>Synced</h3><p>Your sections follow you to every Chrome where you use Chrome Sync. Export and import them as a file too.</p></div>
+        <div class="card"><h3>Read-only and private</h3><p>Read-only access to repository metadata. No server: it talks only to GitHub. Tokens never leave your device.</p></div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <p class="label">// Setup</p>
+      <h2>About three minutes, once</h2>
+      <p>The extension's settings page walks you through every step with a checklist that verifies each one.</p>
+      <ol class="steps">
+        <li><strong>Create your GitHub App.</strong> The extension signs in through a small GitHub App that you own, limited to read-only repository metadata. The settings page opens GitHub's form already filled in and tells you the one box to tick (<strong>Enable Device Flow</strong>). Paste the app's Client ID back.</li>
+        <li><strong>Connect.</strong> Click <strong>Connect GitHub</strong>, enter the short code it shows at github.com/login/device, and click <strong>Authorize</strong>.</li>
+        <li><strong>Install the app on your account</strong> with <strong>All repositories</strong>. The guide links straight to it and checks again when you come back.</li>
+        <li><strong>Open GitHub.</strong> Click ☰, or open the dashboard. Optionally click <strong>Suggest sections</strong>.</li>
+      </ol>
+    </section>
+
+    <section id="support">
+      <p class="label">// Support</p>
+      <h2>Getting help</h2>
+      <p>Most questions are answered on the extension's own settings page, which shows what it can see and what to fix. Common ones:</p>
+      <table>
+        <thead><tr><th>Symptom</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nothing looks different on GitHub</strong></td><td>The list is inside the <strong>☰ menu</strong> (top-left) and on the <strong>dashboard's left sidebar</strong>. Other pages are unchanged by design.</td></tr>
+          <tr><td><strong>"Only public repositories are showing"</strong></td><td>The GitHub App is not installed on your account yet. Click <strong>Finish setup</strong> and install it with <strong>All repositories</strong>.</td></tr>
+          <tr><td><strong>Organization repositories are missing</strong></td><td>Install the app on that organization with All repositories, or ask an owner (the setup guide has an install link to send). For SAML organizations, sign in to the organization on github.com, then reconnect.</td></tr>
+          <tr><td><strong>"Device flow is not enabled" or "client ID not recognised"</strong></td><td>The settings page shows exactly what to change in your GitHub App, with a link to it.</td></tr>
+          <tr><td><strong>Sections do not reach another device</strong></td><td>Check that Chrome Sync is on, including the Extensions toggle. Or use <strong>Export sections</strong> and <strong>Import sections</strong>.</td></tr>
+          <tr><td><strong>"Authorization expired"</strong></td><td>Settings, then <strong>Reconnect GitHub</strong>. Your saved list stays visible until then.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:18px">Still stuck, found a bug, or have an idea? Get in touch. Mention your Chrome version and what the settings page shows.</p>
+      <div class="contact">
+        <a class="button primary" href="mailto:James@Levac.net?subject=GitHub%20Repo%20Navigator%20support">Email James@Levac.net</a>
+        <a class="button" href="/#contact">Contact form</a>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <p class="label">// Privacy</p>
+      <h2>Private by design</h2>
+      <p>No server, no analytics, nothing sent to the developer. The extension talks only to GitHub, with read-only access to repository metadata, and keeps its data in your browser. <a href="privacy.html">Read the privacy policy</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    GitHub Repo Navigator by <a href="/">James Levac</a> · <a href="privacy.html">Privacy policy</a> · <a href="#support">Support</a><br>
+    Not affiliated with or endorsed by GitHub, Inc.
+  </footer>
+</body>
+</html>
