@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Actions Monitor: your CI status, live in the toolbar</title>
+  <meta name="description" content="A Chrome extension that turns its toolbar icon into a live GitHub Actions status light for your repositories: every workflow, live run timers, rate-limit-safe polling and alerts.">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./"><img src="icon.svg" alt="">GitHub Actions Monitor</a>
+    <nav aria-label="Page">
+      <a href="#features">Features</a>
+      <a href="#setup">Setup</a>
+      <a href="#support">Support</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <p class="label">// Chrome extension</p>
+        <h1>Your CI status, live in the toolbar</h1>
+        <p class="lead">Know the moment a build breaks, without keeping a GitHub tab open. The toolbar icon turns green, yellow or red for all the repositories you care about. Click it for every workflow, live run timers and one-click links to the runs.</p>
+        <div class="contact"><a class="button primary" href="https://chromewebstore.google.com/detail/github-actions-monitor/alipppinchgegflhlgogkhbjcigbkhkl" target="_blank" rel="noopener">Add to Chrome</a><a class="button" href="#setup">How to set it up</a></div>
+      </div>
+      <img src="images/popup.png" width="412" height="699" alt="The extension's popup listing repositories with each workflow's state and timing, under a toolbar whose extension icon is red (sample data)">
+    </div>
+
+    <section id="colors">
+      <p class="label">// At a glance</p>
+      <h2>One icon for all your repositories</h2>
+      <div class="grid">
+        <div class="card"><h3><span class="dot" style="background:#2da44e"></span>Green</h3><p>Every workflow's latest run passed.</p></div>
+        <div class="card"><h3><span class="dot" style="background:#fbbf24"></span>Yellow</h3><p>Something is queued or running. Checks speed up to every 5 seconds until it finishes.</p></div>
+        <div class="card"><h3><span class="dot" style="background:#ef4444"></span>Red</h3><p>Something failed. It flashes red and green when some repositories passed and others failed.</p></div>
+      </div>
+    </section>
+
+    <section id="features">
+      <p class="label">// Features</p>
+      <h2>Made for real projects</h2>
+      <div class="grid">
+        <div class="card"><h3>Every workflow counts</h3><p>The latest run of each workflow decides the status, so a failing CI is never hidden by a deploy that finished after it. Cancelled and skipped runs never raise false alarms.</p></div>
+        <div class="card"><h3>Live run timers</h3><p>Running workflows count up as they go; finished ones show how long they took. Click any workflow to open its run.</p></div>
+        <div class="card"><h3>Rate-limit safe</h3><p>When nothing changed, GitHub answers "not modified", which does not count against your API limit. The settings page shows live usage.</p></div>
+        <div class="card"><h3>Branches and pausing</h3><p>Watch all branches or a specific one, the same repository on several branches, and pause the ones you are not working on.</p></div>
+        <div class="card"><h3>Alerts</h3><p>Optional desktop notifications when a workflow starts, succeeds or fails. Click one to open the run.</p></div>
+        <div class="card"><h3>Read-only and private</h3><p>A read-only token is all it needs. It talks only to GitHub's API: no server, no analytics. Light and dark themes.</p></div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <p class="label">// Setup</p>
+      <h2>About two minutes</h2>
+      <ol class="steps">
+        <li><strong>Open the settings page:</strong> right-click the toolbar icon and choose <strong>Options</strong>, or click ⚙️ in the popup.</li>
+        <li><strong>Create a read-only token.</strong> Click <strong>Create a read-only token on GitHub</strong>. GitHub's form opens with the name, a 90-day expiry and <strong>Actions: Read-only</strong> already set. Under <strong>Repository access</strong> choose <strong>All repositories</strong> (or the ones to monitor), then <strong>Generate token</strong>.</li>
+        <li><strong>Paste it and click Save Token.</strong> The extension checks it right away: account, token type, how many repositories it can see, remaining API requests.</li>
+        <li><strong>Add repositories.</strong> Click the toolbar icon, start typing a repository name, pick a branch (or "All branches") and click <strong>Add Repo</strong>.</li>
+      </ol>
+      <p style="margin-top:14px">For an organization's repositories, choose the organization as the token's <strong>Resource owner</strong>. Some organizations must approve fine-grained tokens before they work.</p>
+    </section>
+
+    <section id="support">
+      <p class="label">// Support</p>
+      <h2>Getting help</h2>
+      <p>The settings page's <strong>Test Token</strong> button answers most questions: it shows what your token can see and whether it works. Common ones:</p>
+      <table>
+        <thead><tr><th>Symptom</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td><strong>"Bad token"</strong></td><td>The token expired or was revoked. Settings, then <strong>Create a read-only token on GitHub</strong> and save the new one.</td></tr>
+          <tr><td><strong>"Repo not found or no access"</strong></td><td>Check the <code>owner/repo</code> spelling, and that the token's <strong>Repository access</strong> includes that repository.</td></tr>
+          <tr><td><strong>Organization repositories missing</strong></td><td>Create the token with the organization as <strong>Resource owner</strong>; the organization may need to approve it.</td></tr>
+          <tr><td><strong>The icon stays gray</strong></td><td>No token yet, no repositories added, or none has workflow runs. Click <strong>Refresh Now</strong> in the popup.</td></tr>
+          <tr><td><strong>"Rate limited"</strong></td><td>The popup shows when checking resumes. Pause repositories you are not working on; the settings page shows live usage.</td></tr>
+          <tr><td><strong>No notifications</strong></td><td>Check they are on in the settings page, and that Chrome is allowed to show notifications in your operating system's settings.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:18px">Still stuck, found a bug, or have an idea? Get in touch. Mention your Chrome version and what the settings page shows.</p>
+      <div class="contact">
+        <a class="button primary" href="mailto:James@Levac.net?subject=GitHub%20Actions%20Monitor%20support">Email James@Levac.net</a>
+        <a class="button" href="/#contact">Contact form</a>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <p class="label">// Privacy</p>
+      <h2>Private by design</h2>
+      <p>No server, no analytics, nothing sent to the developer. The extension talks only to GitHub's API with your own token, and keeps its data in your browser. Your token stays on your device unless you choose to sync it. <a href="privacy.html">Read the privacy policy</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    GitHub Actions Monitor by <a href="/">James Levac</a> · <a href="privacy.html">Privacy policy</a> · <a href="#support">Support</a><br>
+    Not affiliated with or endorsed by GitHub, Inc.
+  </footer>
+</body>
+</html>
