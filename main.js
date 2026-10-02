@@ -7,12 +7,12 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // === NAV SCROLL-SPY (active link tracking) ===
-// A single IntersectionObserver watches the five main sections and
+// A single IntersectionObserver watches the six main sections and
 // marks the nav link whose section is currently closest to the
 // viewport centre as .active. Nothing runs on scroll - observer
 // callbacks only fire on threshold crossings.
 function initNavSpy() {
-  const sections = ['about', 'projects', 'clients', 'stack', 'contact']
+  const sections = ['about', 'projects', 'clients', 'stack', 'utilities', 'contact']
     .map((id) => document.getElementById(id))
     .filter(Boolean);
   const links = new Map();
