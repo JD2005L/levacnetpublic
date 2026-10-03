@@ -37,6 +37,7 @@
           <tr><td>Your GitHub personal access token</td><td>You paste it into the settings page</td><td>To read workflow runs from GitHub's API.</td></tr>
           <tr><td>Your GitHub login name</td><td>GitHub's API, when you test or save a token</td><td>To confirm which account the token belongs to.</td></tr>
           <tr><td>The repositories (and branches) you monitor</td><td>You</td><td>To know what to check.</td></tr>
+          <tr><td>Owner names you added repositories from, and the last owner used</td><td>You</td><td>To offer them in the popup's Owner field.</td></tr>
           <tr><td>Workflow run details: workflow names, status, conclusion, branch, commit title, run links, start and finish times</td><td>GitHub's API</td><td>To show status in the icon, popup and notifications.</td></tr>
           <tr><td>HTTP ETags and the last results</td><td>GitHub's API responses</td><td>To re-check with conditional requests, which do not use your API rate limit.</td></tr>
           <tr><td>Rate-limit counters</td><td>GitHub's API response headers</td><td>To show your remaining API requests on the settings page.</td></tr>
@@ -49,14 +50,14 @@
     <section>
       <h2>Where data is stored</h2>
       <ul>
-        <li><p><strong>Chrome Sync</strong> (<code>chrome.storage.sync</code>, only when you use Chrome Sync): the repository list, polling interval, notification preference and token-sync preference, so they follow you to your other Chrome devices. Your token is synced <strong>only</strong> if you turn on "Sync token across devices" (off by default). Chrome Sync is operated by Google under Google's privacy policy.</p></li>
+        <li><p><strong>Chrome Sync</strong> (<code>chrome.storage.sync</code>, only when you use Chrome Sync): the repository list, remembered owner names, polling interval, notification preference and token-sync preference, so they follow you to your other Chrome devices. Your token is synced <strong>only</strong> if you turn on "Sync token across devices" (off by default). Chrome Sync is operated by Google under Google's privacy policy.</p></li>
         <li><p><strong>This device</strong> (<code>chrome.storage.local</code>): your token (unless you sync it), the last results shown in the popup, the ETag cache and the rate-limit counters. This storage is not encrypted by Chrome; websites and other extensions cannot read it.</p></li>
       </ul>
     </section>
 
     <section>
       <h2>Where data is sent</h2>
-      <p>Only to GitHub's API (<code>api.github.com</code>) over HTTPS, with your token in the <code>Authorization</code> header, to read workflow runs, branches and the repositories your token can see. The extension has no backend server; no data is sent to its developer or to any other party. Data is never sold or used for advertising, credit or any purpose unrelated to the extension's single purpose. GitHub's privacy statement applies to data GitHub processes.</p>
+      <p>Only to GitHub's API (<code>api.github.com</code>) over HTTPS, with your token in the <code>Authorization</code> header, to read workflow runs, branches, the repositories your token can see and an owner's repository list when you pick that owner in the popup. The extension has no backend server; no data is sent to its developer or to any other party. Data is never sold or used for advertising, credit or any purpose unrelated to the extension's single purpose. GitHub's privacy statement applies to data GitHub processes.</p>
     </section>
 
     <section>
