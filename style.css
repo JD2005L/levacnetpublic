@@ -1566,3 +1566,20 @@ footer {
 #utilities .section-title { font-size: clamp(1.4rem, 2.6vw, 1.8rem); margin-bottom: 0.5rem; }
 #utilities .section-subtitle { font-size: 0.9rem; }
 #utilities .utilities-list { margin-top: 1.25rem; }
+
+
+/* Contact form honeypot: kept out of sight and out of the tab order. */
+.contact-form-hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Hero zoom-ins and the off-canvas contact panel extend past the viewport; never let that become sideways scrolling.
+   clip (not hidden) so position: sticky keeps working. */
+html,
+body {
+  overflow-x: clip;
+}

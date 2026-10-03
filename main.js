@@ -344,7 +344,12 @@ function initContactForm() {
     if (kind) status.classList.add(kind);
   }
 
+  // Spam guards: a honeypot field and a minimum time between opening the form and sending it.
+  const MIN_FILL_MS = 3000;
+  let openedAt = 0;
+
   function showForm() {
+    openedAt = Date.now();
     stage.classList.add('form-active');
     panel.setAttribute('aria-hidden', 'false');
     grid.setAttribute('aria-hidden', 'true');
@@ -379,6 +384,14 @@ function initContactForm() {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Bots fill the hidden field or submit instantly: look successful, send nothing.
+    if (form.website.value || Date.now() - openedAt < MIN_FILL_MS) {
+      setStatus("Message sent — I'll get back to you soon.", 'success');
+      form.reset();
+      setTimeout(() => { hideForm(); setStatus(''); }, 2400);
+      return;
+    }
 
     const data = {
       name:    form.name.value.trim(),
