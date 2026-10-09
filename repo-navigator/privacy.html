@@ -50,7 +50,7 @@
       <h2>Where data is stored</h2>
       <ul>
         <li><p><strong>This device only</strong> (<code>chrome.storage.local</code>, restricted to the extension's own pages and background worker): tokens, your login name, the repository list and its cache metadata. Content scripts running on github.com cannot read this area.</p></li>
-        <li><p><strong>Chrome Sync</strong> (<code>chrome.storage.sync</code>, only if you use Chrome Sync): your sections, their order and collapsed state, and the repository IDs in each. No tokens, names, descriptions or other repository details are synced. Chrome Sync is operated by Google under Google's privacy policy.</p></li>
+        <li><p><strong>Chrome Sync</strong> (<code>chrome.storage.sync</code>, only if you use Chrome Sync): your sections, their order and collapsed state, and the repository IDs in each; your GitHub App's client ID (a public identifier, not a secret) so another browser only has to connect; and whether you answered "How do you want to start?". No tokens, names, descriptions or other repository details are synced. Chrome Sync is operated by Google under Google's privacy policy.</p></li>
         <li><p><strong>Files you choose to export</strong> ("Export sections"): your sections plus each listed repository's ID and <code>owner/name</code>, saved where you choose.</p></li>
       </ul>
     </section>
