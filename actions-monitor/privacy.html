@@ -58,7 +58,7 @@
 
     <section>
       <h2>Where data is sent</h2>
-      <p>Only to GitHub's API (<code>api.github.com</code>) over HTTPS, with your token in the <code>Authorization</code> header, to read workflow runs, a failed run's jobs, branches, the repositories your token can see and an owner's repository list when you pick that owner in the popup. Only if you turn on run controls and click re-run or cancel does it ask GitHub to re-run or cancel that run. The extension has no backend server; no data is sent to its developer or to any other party. Data is never sold or used for advertising, credit or any purpose unrelated to the extension's single purpose. GitHub's privacy statement applies to data GitHub processes.</p>
+      <p>Only to GitHub's API (<code>api.github.com</code>) over HTTPS, with your token in the <code>Authorization</code> header, to read workflow runs, a failed run's jobs, branches, the repositories your token can see and an owner's repository list when you pick that owner in the popup. Only if you turn on run controls and click re-run or cancel does it ask GitHub to re-run or cancel that run. With run controls on, the settings page also checks that a fine-grained token can do this by asking GitHub to cancel a run that has already finished: GitHub declines, and its answer says whether the token has the permission. Nothing is cancelled. The extension has no backend server; no data is sent to its developer or to any other party. Data is never sold or used for advertising, credit or any purpose unrelated to the extension's single purpose. GitHub's privacy statement applies to data GitHub processes.</p>
     </section>
 
     <section>
