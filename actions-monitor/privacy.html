@@ -52,7 +52,7 @@
       <h2>Where data is stored</h2>
       <ul>
         <li><p><strong>Chrome Sync</strong> (<code>chrome.storage.sync</code>, only when you use Chrome Sync): the repository list (with the workflows you switched off), remembered owner names, list order, polling interval, badge, notification, run-control and token-sync preferences, so they follow you to your other Chrome devices. Your token is synced <strong>only</strong> if you turn on "Sync token across devices" (off by default). Chrome Sync is operated by Google under Google's privacy policy.</p></li>
-        <li><p><strong>This device</strong> (<code>chrome.storage.local</code>): your token (unless you sync it), the last results shown in the popup, which cards are expanded, the ETag cache, the failed job and step of failed runs, and the rate-limit counters. This storage is not encrypted by Chrome; websites and other extensions cannot read it.</p></li>
+        <li><p><strong>This device</strong> (<code>chrome.storage.local</code>): your token and whether it can re-run and cancel (unless you sync them), the last results shown in the popup, which cards are expanded, the ETag cache, the failed job and step of failed runs, and the rate-limit counters. This storage is not encrypted by Chrome; websites and other extensions cannot read it.</p></li>
       </ul>
     </section>
 
