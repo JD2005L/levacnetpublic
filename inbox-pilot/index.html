@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inbox Pilot: your ChatGPT at the controls of your Gmail</title>
+  <meta name="description" content="A Chrome extension that lets you ask ChatGPT about your Gmail from the search bar: find anything, read attachments, draft replies and tidy your inbox, on your own ChatGPT plan.">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./"><img src="icon.png" alt="">Inbox Pilot</a>
+    <nav aria-label="Page">
+      <a href="#features">Features</a>
+      <a href="#setup">Setup</a>
+      <a href="#support">Support</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero wide">
+      <div>
+        <p class="label">// Chrome extension</p>
+        <h1>Your ChatGPT, at the controls of your Gmail</h1>
+        <p class="lead">Type a question into Gmail's search bar and press Enter. ChatGPT searches your mailbox, reads what it needs (attachments included), answers with links to the exact emails, drafts replies, and tidies your inbox when you ask. It runs on your own ChatGPT plan, and it is not Gmail's built-in "Ask Gmail".</p>
+        <p><span class="status">Coming soon to the Chrome Web Store</span></p>
+      </div>
+      <img src="images/ask-from-search.png" width="1280" height="800" alt="Gmail with the Inbox Pilot answer panel under the search bar, answering when a flight leaves, with numbered source emails (sample mailbox)">
+    </div>
+
+    <section id="ask">
+      <p class="label">// What you can ask</p>
+      <h2>Plain English, straight from the search bar</h2>
+      <ul class="examples">
+        <li>When does my flight to Calgary leave, and what's the confirmation number?</li>
+        <li>How much is the plumber's invoice and when is it due? <span class="note">(reads the PDF)</span></li>
+        <li>Summarize this email and tell me what they need from me <span class="note">(uses the email you have open)</span></li>
+        <li>Draft a reply saying Thursday works <span class="note">(saves a draft; never sends)</span></li>
+        <li>Archive the promotions older than two weeks <span class="note">(shows you the list first; Undo afterwards)</span></li>
+        <li>Show me everything from the school this month <span class="note">(runs the search in Gmail)</span></li>
+      </ul>
+      <p style="margin-top:14px">Ordinary searches like <code>from:bob invoice</code> still search Gmail exactly as before. A small chip in the search bar always shows whether Enter will search or ask, and one click flips it.</p>
+    </section>
+
+    <section id="features">
+      <p class="label">// Features</p>
+      <h2>An assistant for your inbox, not just a chat box</h2>
+      <div class="grid">
+        <div class="card"><h3>Find</h3><p>Questions become precise Gmail searches, retried and broadened until it finds the answer, with numbered links to the emails it used.</p></div>
+        <div class="card"><h3>Read</h3><p>Whole threads and attachments: PDF, Word, Excel, PowerPoint, text and CSV. "This email" means the one you have open.</p></div>
+        <div class="card"><h3>Draft</h3><p>Replies threaded into the conversation, or new emails, saved as drafts and opened for you. It has no way to send.</p></div>
+        <div class="card"><h3>Organize</h3><p>Archive, mark read, star, label, move to inbox or Trash, always after you review and confirm the list, with Undo.</p></div>
+        <div class="card"><h3>Looks like Gmail</h3><p>The answer drops down under the search bar like Gmail's own suggestions, in Gmail's light or dark theme. Expand for long conversations.</p></div>
+        <div class="card"><h3>Your ChatGPT plan</h3><p>Signs in with your ChatGPT account (Plus or higher, with Codex). No API key, and your plan's own models to choose from.</p></div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <p class="label">// Setup</p>
+      <h2>About ten minutes, once</h2>
+      <p>The extension's settings page walks you through every step and checks each one for you.</p>
+      <ol class="steps">
+        <li><strong>Connect ChatGPT.</strong> Click <strong>Connect ChatGPT</strong>, enter the short code on OpenAI's page, and approve <strong>Codex</strong> (the part of ChatGPT the extension signs in through).</li>
+        <li><strong>Create your own Google app.</strong> Free, no credit card. Five ticked-off parts with direct links: a Google Cloud project, the Gmail API, the app's name, yourself as a test user, and a sign-in client whose ID you paste back. Nobody else's app ever touches your mail.</li>
+        <li><strong>Connect Gmail.</strong> Pick your account, click <strong>Continue</strong> on "Google hasn't verified this app" (it is your own app), and tick the Gmail boxes.</li>
+        <li><strong>Ask.</strong> Type a question into Gmail's search bar and press Enter.</li>
+      </ol>
+    </section>
+
+    <section id="support">
+      <p class="label">// Support</p>
+      <h2>Getting help</h2>
+      <p>The settings page shows what is connected and the exact fix for every error Google or OpenAI can show. Common ones:</p>
+      <table>
+        <thead><tr><th>Symptom</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td><strong>"Device code sign-in is turned off"</strong></td><td>In ChatGPT: Settings, Security, turn on <strong>Enable device code sign-in for Codex</strong>, then connect again. Workspace accounts need their admin to allow it.</td></tr>
+          <tr><td><strong>"Access blocked: … has not completed the Google verification process"</strong></td><td>Your Gmail address is not a test user of your Google app yet. Add it under Google Auth Platform, Audience, Test users.</td></tr>
+          <tr><td><strong>"Error 400: redirect_uri_mismatch"</strong></td><td>Your OAuth client's redirect URI must match the one the settings page shows exactly, including the slash at the end.</td></tr>
+          <tr><td><strong>Drafts or organizing say "read-only"</strong></td><td>Settings, <strong>Allow drafts &amp; organizing</strong>, and tick both Gmail boxes on Google's screen.</td></tr>
+          <tr><td><strong>"Usage limit reached"</strong></td><td>Your ChatGPT plan's Codex limit for now. It resets on its own; the message says when.</td></tr>
+          <tr><td><strong>Nothing changes in Gmail</strong></td><td>Reload the Gmail tab after installing or updating. Type a question and look for the <strong>Ask ChatGPT ↵</strong> chip in the search bar.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:18px">Still stuck, found a bug, or have an idea? Get in touch. Mention your Chrome version and what the settings page shows.</p>
+      <div class="contact">
+        <a class="button primary" href="mailto:James@Levac.net?subject=Inbox%20Pilot%20support">Email James@Levac.net</a>
+        <a class="button" href="/#contact">Contact form</a>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <p class="label">// Privacy</p>
+      <h2>Private by design</h2>
+      <p>No Inbox Pilot server, no analytics, nothing sent to the developer. The extension talks only to Google (your Gmail, through a Google app you own) and OpenAI (your ChatGPT account), and conversations live only in the Gmail tab you asked in. <a href="privacy.html">Read the privacy policy</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    Inbox Pilot by <a href="/">James Levac</a> · <a href="privacy.html">Privacy policy</a> · <a href="#support">Support</a><br>
+    Not affiliated with or endorsed by Google or OpenAI. Gmail is a trademark of Google LLC; ChatGPT is a trademark of OpenAI.
+  </footer>
+</body>
+</html>
