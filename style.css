@@ -35,7 +35,8 @@ body {
 
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
+/* The track starts below the fixed nav, so the thumb never draws over the header (Chromium honors track margins). */
+::-webkit-scrollbar-track { background: var(--bg); margin-top: 68px; }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
 /* ===== CANVAS (Three.js) ===== */
@@ -1415,6 +1416,9 @@ footer {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
+  /* The nav is shorter here (smaller padding). */
+  ::-webkit-scrollbar-track { margin-top: 62px; }
+
   .about-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
