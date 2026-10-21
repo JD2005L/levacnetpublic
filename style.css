@@ -36,7 +36,7 @@ body {
 /* ===== SCROLLBAR =====
    The native scroll bar is hidden and drawn as .scroll-thumb (main.js) instead: the browser paints its own scroll
    bar above everything on the page, so it could never pass under the translucent nav. The thumb sits one layer
-   below the nav (z-index 99 vs 100), so the nav tints it as it slides up. */
+   below the nav and footer (z-index 99 vs 100), so they tint it as it slides under them. */
 html { scrollbar-width: none; }
 ::-webkit-scrollbar { display: none; }
 
@@ -1388,10 +1388,12 @@ a.card-link::after {
 }
 
 /* ===== FOOTER ===== */
+/* Above the scroll thumb (z-index 99) and as translucent as the scrolled nav, so the thumb slides under the footer
+   at the bottom of the page the way it does under the nav at the top. */
 footer {
   position: relative;
-  z-index: 2;
-  background: var(--bg);
+  z-index: 100;
+  background: rgba(10, 10, 15, 0.92);
   border-top: 1px solid rgba(0, 212, 255, 0.06);
   padding: 2rem;
   text-align: center;
