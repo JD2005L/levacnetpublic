@@ -6,6 +6,55 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 }, { passive: true });
 
+// === SCROLL THUMB ===
+// Stands in for the native scroll bar (hidden in style.css) so it can slide under the translucent nav. Same size and
+// position a scroll bar thumb would have, and it drags like one.
+(() => {
+  const thumb = document.createElement('div');
+  thumb.className = 'scroll-thumb';
+  thumb.setAttribute('aria-hidden', 'true');
+  document.body.append(thumb);
+
+  const metrics = () => {
+    const view = window.innerHeight;
+    const total = document.documentElement.scrollHeight;
+    return { view, total, height: Math.max(32, (view * view) / total) };
+  };
+
+  const place = () => {
+    const { view, total, height } = metrics();
+    thumb.hidden = total <= view;
+    if (thumb.hidden) return;
+    thumb.style.height = `${height}px`;
+    thumb.style.transform = `translateY(${((view - height) * window.scrollY) / (total - view)}px)`;
+  };
+  window.addEventListener('scroll', place, { passive: true });
+  window.addEventListener('resize', place);
+  // The page grows as fonts, images and revealed sections settle.
+  new ResizeObserver(place).observe(document.body);
+  place();
+
+  let drag = null;
+  thumb.addEventListener('pointerdown', (e) => {
+    drag = { y: e.clientY, scroll: window.scrollY };
+    thumb.setPointerCapture(e.pointerId);
+    thumb.classList.add('dragging');
+    e.preventDefault();
+  });
+  thumb.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    const { view, total, height } = metrics();
+    // 'instant': the page's smooth scroll-behavior would make the thumb lag the pointer.
+    window.scrollTo({ top: drag.scroll + ((e.clientY - drag.y) * (total - view)) / (view - height), behavior: 'instant' });
+  });
+  const end = () => {
+    drag = null;
+    thumb.classList.remove('dragging');
+  };
+  thumb.addEventListener('pointerup', end);
+  thumb.addEventListener('pointercancel', end);
+})();
+
 // === NAV SCROLL-SPY (active link tracking) ===
 // A single IntersectionObserver watches the six main sections and
 // marks the nav link whose section is currently closest to the

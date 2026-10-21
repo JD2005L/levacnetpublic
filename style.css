@@ -33,11 +33,36 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 4px; }
-/* The track starts below the fixed nav, so the thumb never draws over the header (Chromium honors track margins). */
-::-webkit-scrollbar-track { background: var(--bg); margin-top: 68px; }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+/* ===== SCROLLBAR =====
+   The native scroll bar is hidden and drawn as .scroll-thumb (main.js) instead: the browser paints its own scroll
+   bar above everything on the page, so it could never pass under the translucent nav. The thumb sits one layer
+   below the nav (z-index 99 vs 100), so the nav tints it as it slides up. */
+html { scrollbar-width: none; }
+::-webkit-scrollbar { display: none; }
+
+.scroll-thumb {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+  z-index: 99;
+  cursor: grab;
+  touch-action: none;
+  will-change: transform;
+}
+
+/* A wider grab area than the 4px it shows. */
+.scroll-thumb::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 -8px;
+}
+
+.scroll-thumb.dragging {
+  cursor: grabbing;
+}
 
 /* ===== CANVAS (Three.js) ===== */
 /* ===================================================================
@@ -1416,9 +1441,6 @@ footer {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
-  /* The nav is shorter here (smaller padding). */
-  ::-webkit-scrollbar-track { margin-top: 62px; }
-
   .about-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
