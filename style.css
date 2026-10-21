@@ -1511,9 +1511,15 @@ footer {
 }
 
 .utility-name {
+  display: block;
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--text);
+  text-decoration: none;
+}
+
+a.utility-name:hover {
+  color: var(--accent);
 }
 
 .utility-desc {
