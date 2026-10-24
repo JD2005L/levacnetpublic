@@ -343,7 +343,7 @@ function initScrollAnimations() {
   const targets = document.querySelectorAll(
     '.section-label, .section-title, .section-subtitle, ' +
     '.about-text, ' +
-    '.project-card, .client-card, .stack-pill, ' +
+    '.project-card, .client-card, .stack-domain, .stat, ' +
     '.contact-item, .contact-note'
   );
   targets.forEach((el) => el.classList.add('reveal'));
@@ -436,7 +436,7 @@ function initContactForm() {
 
     // Bots fill the hidden field or submit instantly: look successful, send nothing.
     if (form.website.value || Date.now() - openedAt < MIN_FILL_MS) {
-      setStatus("Message sent — I'll get back to you soon.", 'success');
+      setStatus("Message sent. I'll get back to you soon.", 'success');
       form.reset();
       setTimeout(() => { hideForm(); setStatus(''); }, 2400);
       return;
@@ -477,18 +477,58 @@ function initContactForm() {
         body: JSON.stringify({ ...data, source: 'levac.net contact form', ts: new Date().toISOString() }),
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      setStatus('Message sent — I\'ll get back to you soon.', 'success');
+      setStatus('Message sent. I\'ll get back to you soon.', 'success');
       form.reset();
       // Auto-return to the grid after a beat so the success line has
       // time to register but the section doesn't feel stuck.
       setTimeout(() => { hideForm(); setStatus(''); }, 2400);
     } catch (err) {
-      setStatus('Couldn\'t send — email me directly at James@Levac.net.', 'error');
+      setStatus('Couldn\'t send. Email me directly at James@Levac.net.', 'error');
     } finally {
       submitBtn.disabled = false;
       submitBtn.classList.remove('sending');
     }
   });
+}
+
+// === STATS COUNT-UP ===
+// Each number counts up from zero the first time the band scrolls into view.
+function initStats() {
+  const values = document.querySelectorAll('.stat-value[data-count]');
+  if (!values.length || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      io.unobserve(entry.target);
+      const el = entry.target;
+      const target = Number(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const started = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - started) / 1400);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3))) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      el.textContent = '0' + suffix;
+      requestAnimationFrame(tick);
+    }
+  }, { threshold: 0.6 });
+  values.forEach((el) => io.observe(el));
+}
+
+// === CARD SPOTLIGHT ===
+// A soft cyan light follows the pointer across a card. One delegated listener; the position goes to CSS variables.
+function initSpotlight() {
+  const selector = '.project-card, .stack-domain, .client-card, .utility, .contact-item';
+  document.querySelectorAll(selector).forEach((el) => el.classList.add('spotlight'));
+  document.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    const card = e.target instanceof Element ? e.target.closest('.spotlight') : null;
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    card.style.setProperty('--my', `${e.clientY - r.top}px`);
+  }, { passive: true });
 }
 
 // === INIT ===
@@ -497,4 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initNavSpy();
   initContactForm();
+  initStats();
+  initSpotlight();
 });

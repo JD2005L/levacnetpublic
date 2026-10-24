@@ -125,6 +125,16 @@
     </div>
   </section>
 
+  <!-- ===== STATS ===== -->
+  <section id="stats" aria-label="At a glance">
+    <div class="stats-band">
+      <div class="stat"><span class="stat-value" data-count="20" data-suffix="+">20+</span><span class="stat-label">Years shipping software</span></div>
+      <div class="stat"><span class="stat-value" data-count="6">6</span><span class="stat-label">Production systems featured</span></div>
+      <div class="stat"><span class="stat-value" data-count="4">4</span><span class="stat-label">Industries served</span></div>
+      <div class="stat"><span class="stat-value" data-count="3">3</span><span class="stat-label">Chrome Web Store extensions</span></div>
+    </div>
+  </section>
+
   <!-- ===== ABOUT ===== -->
   <section id="about">
     <div class="section-inner">
@@ -214,6 +224,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
+          <p class="card-outcome">Every inquiry is classified and lands with the right account owner, with no one triaging an inbox.</p>
+          <div class="card-flow" aria-label="How it works: Contact form then n8n then Classify then Account owner"><span class="flow-step" style="--i:0">Contact form</span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:1">n8n</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:2">Classify</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:3">Account owner</span></span></div>
           <p class="card-desc">Marketing and lead-capture site for a leading Edmonton real estate development company. Built on .NET 8 Razor Pages with an MSSQL backend and an n8n contact-form workflow that classifies inquiries and routes them to the right account owner automatically.</p>
           <div class="card-tags">
             <span class="tag">.NET 8</span>
@@ -236,6 +248,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
+          <p class="card-outcome">Tenant issues reach every responsible manager in seconds, already summarized, with no dispatcher.</p>
+          <div class="card-flow" aria-label="How it works: QR code then Tenant form then LLM triage then Managers notified"><span class="flow-step" style="--i:0">QR code</span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:1">Tenant form</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:2">LLM triage</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:3">Managers notified</span></span></div>
           <p class="card-desc">Property management platform for a multi-building rental portfolio. Each building exposes a QR code that opens a tenant message form; an n8n + LLM workflow categorizes the message, summarizes it, and dispatches notifications to every property, maintenance, and security manager whose responsibility the issue touches - one of my flagship n8n AI routing pipelines. Built on .NET 8 Razor Pages with an MSSQL backend.</p>
           <div class="card-tags">
             <span class="tag">.NET 8</span>
@@ -259,6 +273,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
+          <p class="card-outcome">Customers administer their own surveillance services while alerts and reports produce themselves.</p>
+          <div class="card-flow" aria-label="How it works: Camera events then n8n then Alerts &amp; reports then Client Portal"><span class="flow-step" style="--i:0">Camera events</span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:1">n8n</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:2">Alerts &amp; reports</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:3">Client Portal</span></span></div>
           <p class="card-desc">Two-part build for a commercial AI-surveillance company: a public marketing site at provisioni.ca, plus a full Client Portal where customers log in to view, configure and administer their surveillance services. The portal is .NET 8 Razor Pages on MSSQL with n8n workflows automating event processing, alerting, and reporting across multiple sites.</p>
           <div class="card-tags">
             <span class="tag">.NET 8</span>
@@ -272,11 +288,22 @@
 
         <!-- LeadsManager CRM -->
         <div class="project-card">
-          <div class="card-media-placeholder"></div>
+          <div class="card-media-placeholder mock" aria-hidden="true">
+            <div class="mock-window">
+              <div class="mock-bar"><i></i><i></i><i></i><span>Team dashboard</span></div>
+              <div class="mock-kpis"><div><b>Pipeline</b><em style="--w:70%"></em></div><div><b>New leads</b><em style="--w:45%"></em></div><div><b>Close rate</b><em style="--w:58%"></em></div></div>
+              <div class="mock-body">
+                <div class="mock-bars"><span style="--h:42%"></span><span style="--h:60%"></span><span style="--h:51%"></span><span style="--h:74%"></span><span style="--h:66%"></span><span style="--h:88%"></span><span style="--h:79%"></span></div>
+                <div class="mock-rows"><span style="--w:90%"></span><span style="--w:72%"></span><span style="--w:84%"></span><span style="--w:64%"></span><span style="--w:78%"></span></div>
+              </div>
+            </div>
+          </div>
           <div class="card-head">
             <h3 class="card-title">LeadsManager CRM</h3>
             <div class="card-link card-link-static">Pellegrini Team Consulting</div>
           </div>
+          <p class="card-outcome">One platform serving many financial teams, each isolated, with every feature switchable per tenant.</p>
+          <div class="card-flow" aria-label="How it works: Tenant then Roles then Feature flags then Dashboards"><span class="flow-step" style="--i:0">Tenant</span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:1">Roles</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:2">Feature flags</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:3">Dashboards</span></span></div>
           <p class="card-desc">Enterprise multi-tenant CRM for financial services teams. Glass-morphism design system, V2 analytics dashboard, team management with role-based admin controls, comprehensive reporting suite, client merge handling, and feature-flag architecture. Hosted on Azure with an Azure SQL backend.</p>
           <div class="card-tags">
             <span class="tag">.NET 8</span>
@@ -300,6 +327,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
+          <p class="card-outcome">Clients book online and staff run the whole business from the same application.</p>
+          <div class="card-flow" aria-label="How it works: Online booking then Appointments then Staff roles then Packages"><span class="flow-step" style="--i:0">Online booking</span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:1">Appointments</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:2">Staff roles</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:3">Packages</span></span></div>
           <p class="card-desc">Esthetics website, online booking, and combined business operations backend in one. Built on .NET 8 Razor Pages with a SQLite database and Identity-based authentication for staff and admin roles, plus package, service, and appointment management.</p>
           <div class="card-tags">
             <span class="tag">.NET 8</span>
@@ -313,11 +342,24 @@
 
         <!-- Fraser Car Wash -->
         <div class="project-card">
-          <div class="card-media-placeholder"></div>
+          <div class="card-media-placeholder mock" aria-hidden="true">
+            <div class="mock-window">
+              <div class="mock-bar"><i></i><i></i><i></i><span>Ask your numbers</span></div>
+              <div class="mock-chat">
+                <div class="mock-q">How did Saturday compare with last Saturday?</div>
+                <div class="mock-a">
+                  <span class="mock-line" style="--w:80%"></span>
+                  <svg class="mock-chart" viewBox="0 0 200 60" preserveAspectRatio="none"><polyline points="0,48 25,40 50,44 75,30 100,34 125,20 150,26 175,12 200,16" /><polyline class="prev" points="0,52 25,48 50,50 75,42 100,44 125,36 150,40 175,30 200,34" /></svg>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="card-head">
             <h3 class="card-title">Fraser Car Wash Analytics</h3>
             <div class="card-link card-link-static">Fraser Car Wash</div>
           </div>
+          <p class="card-outcome">Operators ask about their numbers in plain English and get answers from live data.</p>
+          <div class="card-flow" aria-label="How it works: Question then LLM then SQL then Answer + chart"><span class="flow-step" style="--i:0">Question</span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:1">LLM</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:2">SQL</span></span><span class="flow-hop"><span class="flow-arrow" aria-hidden="true">→</span><span class="flow-step" style="--i:3">Answer + chart</span></span></div>
           <p class="card-desc">A specialized analytics module inside the ProVisionI Client Portal serving Fraser Car Wash. Tracks operational and revenue metrics, surfaces them as live report charts in the portal, and pairs them with an AI-powered database chatbot that lets operators query their numbers in plain English.</p>
           <div class="card-tags">
             <span class="tag">.NET 8</span>
@@ -375,146 +417,125 @@
   <section id="stack">
     <div class="section-inner">
       <div class="section-label">// Stack</div>
-      <h2 class="section-title">Tools & Technologies</h2>
-      <p class="section-subtitle">What I reach for when I need to ship something real.</p>
+      <h2 class="section-title">Architecture to Infrastructure</h2>
+      <p class="section-subtitle">Most engineers own one layer. I design the platform, write the code, and run the servers it lives on, so the pieces fit and nothing is lost in hand-offs.</p>
 
-      <div class="stack-categories">
+      <div class="stack-domains">
 
-        <div class="stack-category">
-          <div class="stack-category-label">AI &amp; Agentic Systems</div>
+        <article class="stack-domain">
+          <div class="stack-category-label"><span class="stack-index">01</span>SaaS &amp; Platform Architecture</div>
+          <h3 class="stack-domain-title">Multi-tenant platforms built to grow</h3>
+          <p class="stack-domain-desc">Tenant-isolated data, role-based access and feature flags that let one codebase serve many customers safely. Client portals with per-customer configuration and admin controls, and APIs defined by OpenAPI contracts from day one.</p>
+          <p class="stack-proof"><span>Proven in</span> LeadsManager CRM · ProVisionI Client Portal</p>
+          <div class="stack-pills">
+            <div class="stack-pill"><span class="pill-dot"></span>Multi-Tenant Architecture</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Role-Based Access Control</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Feature-Flag Rollouts</div>
+            <div class="stack-pill"><span class="pill-dot"></span>ASP.NET Core Identity</div>
+            <div class="stack-pill"><span class="pill-dot"></span>REST &amp; OpenAPI</div>
+            <div class="stack-pill"><span class="pill-dot"></span>SignalR Real-Time</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Event-Driven Architecture</div>
+          </div>
+        </article>
+
+        <article class="stack-domain">
+          <div class="stack-category-label"><span class="stack-index">02</span>Application Development</div>
+          <h3 class="stack-domain-title">Production .NET, TypeScript and Python</h3>
+          <p class="stack-domain-desc">Twenty years shipping software businesses run on every day: .NET backends with clean domain layers, fast server-rendered interfaces, React where it earns its place, and Python where its ecosystem is stronger. Three extensions published on the Chrome Web Store.</p>
+          <p class="stack-proof"><span>Proven in</span> Harmani Rentals · SkynDeep Esthetics · Helpful Tools</p>
+          <div class="stack-pills">
+            <div class="stack-pill"><span class="pill-dot"></span>C# · .NET 8 / 9 / 10</div>
+            <div class="stack-pill"><span class="pill-dot"></span>ASP.NET Core (Razor Pages, Web API, Blazor)</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Entity Framework Core</div>
+            <div class="stack-pill"><span class="pill-dot"></span>TypeScript &amp; React (Vite, Tailwind)</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Python (FastAPI, Pydantic)</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Node.js / Express</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Chrome Extensions (Manifest V3)</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Chart.js / Recharts</div>
+          </div>
+        </article>
+
+        <article class="stack-domain">
+          <div class="stack-category-label"><span class="stack-index">03</span>AI &amp; Agentic Systems</div>
+          <h3 class="stack-domain-title">AI that does real work, with guardrails</h3>
+          <p class="stack-domain-desc">LLMs wired into business processes: classifying and routing inbound messages, answering questions over live databases in plain English, and agents that act only through scoped, logged tools. Models chosen on cost, privacy and latency, from frontier APIs to local models on owned GPUs.</p>
+          <p class="stack-proof"><span>Proven in</span> Harmani AI routing · Fraser Car Wash NL-to-SQL · Inbox Pilot</p>
           <div class="stack-pills">
             <div class="stack-pill"><span class="pill-dot"></span>Anthropic Claude API</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Claude Code</div>
+            <div class="stack-pill"><span class="pill-dot"></span>OpenAI (ChatGPT, Codex)</div>
             <div class="stack-pill"><span class="pill-dot"></span>Google Gemini API</div>
             <div class="stack-pill"><span class="pill-dot"></span>Model Context Protocol (MCP)</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Local LLMs (Ollama)</div>
             <div class="stack-pill"><span class="pill-dot"></span>Multi-Agent Orchestration</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Natural-Language-to-SQL</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Claude Code</div>
             <div class="stack-pill"><span class="pill-dot"></span>Retrieval-Augmented Generation</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Natural-Language-to-SQL</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Local LLMs (Ollama)</div>
             <div class="stack-pill"><span class="pill-dot"></span>On-Device Speech (ONNX Runtime)</div>
             <div class="stack-pill"><span class="pill-dot"></span>Prompt Engineering</div>
           </div>
-        </div>
+        </article>
 
-        <div class="stack-category">
-          <div class="stack-category-label">Languages</div>
+        <article class="stack-domain">
+          <div class="stack-category-label"><span class="stack-index">04</span>Data &amp; Reporting</div>
+          <h3 class="stack-domain-title">Data models built for the questions a business asks</h3>
+          <p class="stack-domain-desc">Relational schemas designed for integrity and for reporting, migrations managed in code, and pipelines that turn operational data into live dashboards, PDF reports and Excel exports people actually open.</p>
+          <p class="stack-proof"><span>Proven in</span> Fraser Car Wash Analytics · LeadsManager reporting</p>
           <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>C#</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Python</div>
-            <div class="stack-pill"><span class="pill-dot"></span>TypeScript</div>
-            <div class="stack-pill"><span class="pill-dot"></span>JavaScript</div>
-            <div class="stack-pill"><span class="pill-dot"></span>SQL (T-SQL)</div>
-            <div class="stack-pill"><span class="pill-dot"></span>C++ (ESP32)</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Bash</div>
-            <div class="stack-pill"><span class="pill-dot"></span>PowerShell</div>
-          </div>
-        </div>
-
-        <div class="stack-category">
-          <div class="stack-category-label">Backend &amp; APIs</div>
-          <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>.NET 8 / 9 / 10</div>
-            <div class="stack-pill"><span class="pill-dot"></span>ASP.NET Core</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Razor Pages</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Web API</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Blazor</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Entity Framework Core</div>
-            <div class="stack-pill"><span class="pill-dot"></span>ASP.NET Core Identity</div>
-            <div class="stack-pill"><span class="pill-dot"></span>SignalR</div>
-            <div class="stack-pill"><span class="pill-dot"></span>FastAPI</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Pydantic</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Node.js / Express</div>
-            <div class="stack-pill"><span class="pill-dot"></span>REST &amp; OpenAPI (Swagger)</div>
-          </div>
-        </div>
-
-        <div class="stack-category">
-          <div class="stack-category-label">Frontend</div>
-          <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>React</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Vite</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Tailwind CSS</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Chrome Extensions (Manifest V3)</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Chart.js / Recharts</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Responsive HTML &amp; CSS</div>
-          </div>
-        </div>
-
-        <div class="stack-category">
-          <div class="stack-category-label">Data</div>
-          <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>SQL Server</div>
+            <div class="stack-pill"><span class="pill-dot"></span>SQL Server / T-SQL</div>
             <div class="stack-pill"><span class="pill-dot"></span>Azure SQL</div>
             <div class="stack-pill"><span class="pill-dot"></span>PostgreSQL</div>
             <div class="stack-pill"><span class="pill-dot"></span>SQLite</div>
             <div class="stack-pill"><span class="pill-dot"></span>Azure Cosmos DB</div>
-            <div class="stack-pill"><span class="pill-dot"></span>SQLAlchemy &amp; Alembic</div>
             <div class="stack-pill"><span class="pill-dot"></span>Data Modeling</div>
-            <div class="stack-pill"><span class="pill-dot"></span>PDF &amp; Excel Reporting (QuestPDF, EPPlus)</div>
+            <div class="stack-pill"><span class="pill-dot"></span>SQLAlchemy &amp; Alembic</div>
+            <div class="stack-pill"><span class="pill-dot"></span>ETL Pipelines</div>
+            <div class="stack-pill"><span class="pill-dot"></span>QuestPDF &amp; EPPlus Reporting</div>
           </div>
-        </div>
+        </article>
 
-        <div class="stack-category">
-          <div class="stack-category-label">Cloud &amp; Infrastructure</div>
+        <article class="stack-domain">
+          <div class="stack-category-label"><span class="stack-index">05</span>Infrastructure &amp; Networking</div>
+          <h3 class="stack-domain-title">I run what I build</h3>
+          <p class="stack-domain-desc">Hypervisor clusters, firewalls and multi-site networks operated hands-on, not just deployed to: Proxmox virtualization, OPNsense perimeter and segmentation, zero-trust overlay networking for remote sites, GPU servers for video AI at the edge, and Azure for managed cloud workloads.</p>
+          <p class="stack-proof"><span>Proven in</span> ProVisionI multi-site surveillance network · self-hosted Proxmox platform</p>
           <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>Microsoft Azure (App Service, Azure SQL, Application Insights, Blob Storage)</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Cloudflare</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Linux</div>
-            <div class="stack-pill"><span class="pill-dot"></span>nginx</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Docker</div>
             <div class="stack-pill"><span class="pill-dot"></span>Proxmox VE</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Linux</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Docker &amp; Container Orchestration</div>
             <div class="stack-pill"><span class="pill-dot"></span>OPNsense</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Zero-Trust Networking</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Cloudflare</div>
+            <div class="stack-pill"><span class="pill-dot"></span>nginx</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Microsoft Azure (App Service, Application Insights, Blob Storage)</div>
             <div class="stack-pill"><span class="pill-dot"></span>IIS &amp; Web Deploy</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Bash &amp; PowerShell</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Edge AI Video Analytics</div>
+            <div class="stack-pill"><span class="pill-dot"></span>ESP32 Firmware (C++)</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Home Assistant</div>
           </div>
-        </div>
+        </article>
 
-        <div class="stack-category">
-          <div class="stack-category-label">DevOps &amp; Quality</div>
+        <article class="stack-domain">
+          <div class="stack-category-label"><span class="stack-index">06</span>Delivery, Reliability &amp; Automation</div>
+          <h3 class="stack-domain-title">Shipped continuously, observed in production</h3>
+          <p class="stack-domain-desc">Automated tests at every layer, CI/CD pipelines that gate each release, structured logs and metrics that surface problems before users do, and workflow automation that replaces the manual glue between systems.</p>
+          <p class="stack-proof"><span>Proven in</span> Every project on this page</p>
           <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>Git &amp; GitHub</div>
-            <div class="stack-pill"><span class="pill-dot"></span>GitHub Actions (CI/CD)</div>
+            <div class="stack-pill"><span class="pill-dot"></span>GitHub Actions CI/CD</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Test-Driven Development</div>
             <div class="stack-pill"><span class="pill-dot"></span>Playwright</div>
             <div class="stack-pill"><span class="pill-dot"></span>Vitest</div>
             <div class="stack-pill"><span class="pill-dot"></span>pytest</div>
-            <div class="stack-pill"><span class="pill-dot"></span>ESLint</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Ruff &amp; mypy</div>
+            <div class="stack-pill"><span class="pill-dot"></span>ESLint · Ruff · mypy</div>
             <div class="stack-pill"><span class="pill-dot"></span>Serilog</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Application Insights</div>
             <div class="stack-pill"><span class="pill-dot"></span>Prometheus</div>
-          </div>
-        </div>
-
-        <div class="stack-category">
-          <div class="stack-category-label">Automation &amp; Integration</div>
-          <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>n8n</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Webhooks</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Google APIs (Gmail, Calendar)</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Email &amp; Calendar Integration</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Event-Driven Architecture</div>
+            <div class="stack-pill"><span class="pill-dot"></span>n8n Workflows</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Webhooks &amp; Event Integration</div>
+            <div class="stack-pill"><span class="pill-dot"></span>Google Workspace APIs (Gmail, Calendar, Drive)</div>
             <div class="stack-pill"><span class="pill-dot"></span>Scheduled Jobs &amp; Pipelines</div>
-            <div class="stack-pill"><span class="pill-dot"></span>ETL Pipelines</div>
           </div>
-        </div>
-
-        <div class="stack-category">
-          <div class="stack-category-label">Practices</div>
-          <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>Test-Driven Development</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Continuous Delivery</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Object-Oriented Design</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Container Orchestration</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Zero-Trust Networking</div>
-          </div>
-        </div>
-
-        <div class="stack-category">
-          <div class="stack-category-label">IoT &amp; Edge</div>
-          <div class="stack-pills">
-            <div class="stack-pill"><span class="pill-dot"></span>ESP32 Firmware (C++)</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Home Assistant Integrations</div>
-            <div class="stack-pill"><span class="pill-dot"></span>Edge AI Video Analytics</div>
-          </div>
-        </div>
+        </article>
 
       </div>
     </div>

@@ -491,12 +491,12 @@ nav.scrolled {
   align-items: center;
   gap: 0.5rem;
   padding: 0.8rem 2rem;
-  background: transparent;
-  color: var(--text-dim);
+  background: rgba(0, 212, 255, 0.04);
+  color: var(--text);
   font-weight: 600;
   font-size: 0.9rem;
   border-radius: 4px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-hover);
   text-decoration: none;
   letter-spacing: 0.05em;
   transition: all 0.2s ease;
@@ -783,15 +783,15 @@ section {
 
 .card-head {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 0.2rem;
   margin-bottom: 0.75rem;
 }
 
 .card-head .card-title {
   margin-bottom: 0;
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   min-width: 0;
 }
 
@@ -806,7 +806,6 @@ section {
   font-family: 'JetBrains Mono', monospace;
   flex: 0 0 auto;
   white-space: nowrap;
-  padding-top: 0.35rem;
   /* Stretched link: the ::after covers the whole card so clicking
      anywhere on the card follows the link, not just the URL text. */
   position: static;
@@ -823,8 +822,6 @@ a.card-link::after {
   pointer-events: none;
   /* Allow long client labels to wrap rather than overlap the title */
   white-space: normal;
-  text-align: right;
-  max-width: 45%;
   line-height: 1.35;
 }
 
@@ -904,7 +901,7 @@ a.card-link::after {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 1.5rem 1.5rem 3.5rem;
+  padding: 1.5rem 1.5rem 2.75rem;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -916,17 +913,17 @@ a.card-link::after {
 .client-card::before {
   content: var(--card-label, '');
   position: absolute;
-  left: 1rem;
+  left: 1.5rem;
   right: 1rem;
-  bottom: 0.6rem;
-  font-family: 'Chakra Petch', 'Inter', system-ui, sans-serif;
-  font-size: clamp(0.65rem, 2.5vw, 1.1rem);
-  font-weight: 700;
+  bottom: 1.1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  text-align: center;
-  color: var(--card-accent, rgba(120, 180, 255, 0.08));
-  opacity: 0.18;
+  text-align: left;
+  color: var(--card-accent, var(--accent));
+  opacity: 0.85;
   pointer-events: none;
   line-height: 1;
   overflow: hidden;
@@ -1042,11 +1039,82 @@ a.card-link::after {
   background: var(--bg);
 }
 
-.stack-categories {
+/* Six capability areas: what each delivers, where it was proven, then the tools. */
+.stack-domains {
   margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.stack-domain {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stack-domain:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 32px rgba(0, 212, 255, 0.06);
+}
+
+.stack-index {
+  color: var(--text-muted);
+}
+
+.stack-domain-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+
+.stack-domain-desc {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.stack-proof {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-bottom: 1.25rem;
+}
+
+.stack-proof span {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-right: 0.4rem;
+}
+
+.stack-domain .stack-pills {
+  gap: 0.45rem;
+}
+
+.stack-domain .stack-pill {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.78rem;
+  white-space: normal;
+}
+
+@media (max-width: 900px) {
+  .stack-domains {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .stack-domain {
+    padding: 1.35rem;
+  }
 }
 
 .stack-category-label {
@@ -1636,4 +1704,294 @@ a.utility-name:hover {
 html,
 body {
   overflow-x: clip;
+}
+
+/* ===== STATS BAND ===== */
+#stats {
+  position: relative;
+  z-index: 2;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-band {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.75rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.stat + .stat {
+  border-left: 1px solid var(--border);
+}
+
+.stat-value {
+  font-family: 'Chakra Petch', 'Inter', system-ui, sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  text-shadow: 0 0 24px var(--accent-glow);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+@media (max-width: 700px) {
+  .stats-band {
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem 1rem;
+    gap: 1.75rem 1rem;
+  }
+  .stat:nth-child(3) {
+    border-left: none;
+  }
+}
+
+/* ===== PROJECT OUTCOME + FLOW ===== */
+.card-outcome {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.55;
+  margin-bottom: 0.9rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--accent);
+}
+
+/* The steps light up in order, like a request travelling through the system. */
+.card-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+}
+
+.flow-step {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-dim);
+  background: rgba(0, 212, 255, 0.03);
+  animation: flow-pulse 4.8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.6s);
+}
+
+.flow-hop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.flow-arrow {
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+@keyframes flow-pulse {
+  0%, 22%, 100% { border-color: var(--border); color: var(--text-dim); box-shadow: none; }
+  8% { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(0, 212, 255, 0.25); }
+}
+
+/* ===== ILLUSTRATED PREVIEWS (projects without public screenshots) ===== */
+.card-media-placeholder.mock {
+  padding: 1.1rem 1.4rem 0;
+  align-items: flex-end;
+}
+
+.mock-window {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 15, 26, 0.85);
+  border: 1px solid var(--border-hover);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -10px 40px rgba(0, 212, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .mock-window {
+  transform: translateY(-4px);
+}
+
+.mock-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--text-muted);
+}
+
+.mock-bar i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.3);
+}
+
+.mock-bar span {
+  margin-left: 0.4rem;
+}
+
+.mock-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  padding: 0.55rem 0.6rem 0;
+}
+
+.mock-kpis div {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.35rem 0.45rem;
+  background: rgba(0, 212, 255, 0.03);
+}
+
+.mock-kpis b {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+
+.mock-kpis em,
+.mock-rows span,
+.mock-line {
+  display: block;
+  height: 6px;
+  width: var(--w);
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(0, 212, 255, 0.55), rgba(0, 212, 255, 0.15));
+}
+
+.mock-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  min-height: 0;
+}
+
+.mock-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mock-bars span {
+  flex: 1;
+  height: var(--h);
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, rgba(0, 212, 255, 0.7), rgba(0, 212, 255, 0.12));
+}
+
+.mock-rows {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.mock-rows span {
+  height: 5px;
+  background: rgba(148, 163, 184, 0.22);
+}
+
+.mock-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.6rem 0.7rem;
+  min-height: 0;
+}
+
+.mock-q {
+  align-self: flex-end;
+  max-width: 80%;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px 10px 2px 10px;
+  background: rgba(0, 212, 255, 0.16);
+  border: 1px solid var(--border-hover);
+  color: var(--text);
+  font-size: 0.62rem;
+}
+
+.mock-a {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 88%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 10px 10px 10px 2px;
+  border: 1px solid var(--border);
+  background: rgba(15, 15, 26, 0.9);
+  min-height: 0;
+}
+
+.mock-chart {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+.mock-chart polyline {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.mock-chart polyline.prev {
+  stroke: rgba(148, 163, 184, 0.45);
+  stroke-dasharray: 4 3;
+}
+
+/* ===== CARD SPOTLIGHT (pointer-following light, set by main.js) ===== */
+.spotlight {
+  --mx: -600px;
+  --my: -600px;
+}
+
+.project-card.spotlight,
+.stack-domain.spotlight,
+.client-card.spotlight,
+.utility.spotlight,
+.contact-item.spotlight {
+  background-image: radial-gradient(420px circle at var(--mx) var(--my), rgba(0, 212, 255, 0.075), transparent 45%);
 }
