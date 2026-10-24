@@ -1576,6 +1576,23 @@ a.utility-name:hover {
   text-decoration: underline;
 }
 
+/* The install link is the invitation: teal and boxed so it reads before Details and Source. */
+.utility-links a.utility-install {
+  color: #2ee6c9;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  margin-right: -0.5rem;
+  border: 1px solid rgba(46, 230, 201, 0.45);
+  border-radius: 4px;
+  background: rgba(46, 230, 201, 0.1);
+}
+
+.utility-links a.utility-install:hover {
+  text-decoration: none;
+  background: rgba(46, 230, 201, 0.2);
+  border-color: #2ee6c9;
+}
+
 .utility-soon {
   color: var(--text-muted);
 }
@@ -1592,6 +1609,9 @@ a.utility-name:hover {
     gap: 1rem;
     width: 100%;
     padding-left: calc(40px + 1rem);
+  }
+  .utility-links a.utility-install {
+    margin-right: 0;
   }
 }
 
