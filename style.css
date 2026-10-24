@@ -1982,10 +1982,15 @@ body {
   stroke-dasharray: 4 3;
 }
 
-/* ===== CARD SPOTLIGHT (pointer-following light, set by main.js) ===== */
+/* ===== CARD SPOTLIGHT (pointer-following haze, animated by main.js) =====
+   Three soft wisps of light that trail the pointer, each with its own position (--wNx/--wNy) and size
+   (--wNrx/--wNry). --glow fades the whole haze in and out; at 0 nothing paints. Each wisp falls off through a
+   middle stop so it has no visible rim. */
 .spotlight {
-  --mx: -600px;
-  --my: -600px;
+  --glow: 0;
+  --w0x: -600px; --w0y: -600px; --w0rx: 210px; --w0ry: 145px;
+  --w1x: -600px; --w1y: -600px; --w1rx: 150px; --w1ry: 220px;
+  --w2x: -600px; --w2y: -600px; --w2rx: 290px; --w2ry: 200px;
 }
 
 .project-card.spotlight,
@@ -1993,5 +1998,11 @@ body {
 .client-card.spotlight,
 .utility.spotlight,
 .contact-item.spotlight {
-  background-image: radial-gradient(420px circle at var(--mx) var(--my), rgba(0, 212, 255, 0.075), transparent 45%);
+  background-image:
+    radial-gradient(var(--w0rx) var(--w0ry) at var(--w0x) var(--w0y),
+      rgba(0, 212, 255, calc(var(--glow) * 0.04)), rgba(0, 212, 255, calc(var(--glow) * 0.014)) 50%, transparent),
+    radial-gradient(var(--w1rx) var(--w1ry) at var(--w1x) var(--w1y),
+      rgba(0, 212, 255, calc(var(--glow) * 0.032)), rgba(0, 212, 255, calc(var(--glow) * 0.011)) 50%, transparent),
+    radial-gradient(var(--w2rx) var(--w2ry) at var(--w2x) var(--w2y),
+      rgba(0, 212, 255, calc(var(--glow) * 0.026)), rgba(0, 212, 255, calc(var(--glow) * 0.009)) 50%, transparent);
 }

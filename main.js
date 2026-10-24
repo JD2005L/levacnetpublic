@@ -517,17 +517,90 @@ function initStats() {
 }
 
 // === CARD SPOTLIGHT ===
-// A soft cyan light follows the pointer across a card. One delegated listener; the position goes to CSS variables.
+// A soft cyan haze follows the pointer across a card. It is three wisps (soft ellipses) that trail the pointer at
+// different speeds, wander around it and slowly change shape, so it reads as drifting light, not a circle. When the
+// pointer leaves, the haze loosens and fades over about two seconds instead of parking at the card's edge.
+// One delegated listener, and an animation loop that only runs while some card is lit; the shape goes to CSS
+// variables (style.css paints it).
 function initSpotlight() {
   const selector = '.project-card, .stack-domain, .client-card, .utility, .contact-item';
   document.querySelectorAll(selector).forEach((el) => el.classList.add('spotlight'));
+  // follow: how quickly a wisp catches the pointer (per second). drift: how far it wanders around it (px).
+  // rx/ry: its resting size (px), which slowly breathes between wider and taller.
+  const WISPS = [
+    { follow: 9, drift: 22, speed: 0.8, phase: 0, rx: 210, ry: 145 },
+    { follow: 3.5, drift: 44, speed: 0.55, phase: 2.1, rx: 150, ry: 220 },
+    { follow: 1.6, drift: 66, speed: 0.35, phase: 4.2, rx: 290, ry: 200 },
+  ];
+  const lit = new Map(); // card -> { px, py, on, glow, wisps: [{ x, y }] }
+  let active = null;
+  let pointer = null;
+  let frame = 0;
+  let then = 0;
+
+  const tick = (now) => {
+    const dt = Math.min(0.05, (now - then) / 1000);
+    const t = now / 1000;
+    then = now;
+    for (const [card, s] of lit) {
+      // Rises in a fraction of a second, fades slowly; a fading haze also spreads out as it thins.
+      s.glow += ((s.on ? 1 : 0) - s.glow) * (1 - Math.exp(-dt * (s.on ? 6 : 1.5)));
+      const spread = 1 + (1 - s.glow) * 0.5;
+      WISPS.forEach((w, i) => {
+        const p = s.wisps[i];
+        const k = 1 - Math.exp(-dt * w.follow);
+        p.x += (s.px + Math.sin(t * w.speed + w.phase) * w.drift * spread - p.x) * k;
+        p.y += (s.py + Math.cos(t * w.speed * 1.3 + w.phase) * w.drift * spread - p.y) * k;
+        const morph = Math.sin(t * w.speed * 0.7 + w.phase * 1.7) * 0.2;
+        card.style.setProperty(`--w${i}x`, `${p.x.toFixed(1)}px`);
+        card.style.setProperty(`--w${i}y`, `${p.y.toFixed(1)}px`);
+        card.style.setProperty(`--w${i}rx`, `${(w.rx * (1 + morph) * spread).toFixed(1)}px`);
+        card.style.setProperty(`--w${i}ry`, `${(w.ry * (1 - morph) * spread).toFixed(1)}px`);
+      });
+      card.style.setProperty('--glow', s.glow.toFixed(3));
+      if (!s.on && s.glow < 0.004) {
+        card.style.setProperty('--glow', '0');
+        lit.delete(card);
+      }
+    }
+    frame = lit.size ? requestAnimationFrame(tick) : 0;
+  };
+
+  const aim = (card, x, y) => {
+    if (active && active !== card) lit.get(active).on = false;
+    active = card;
+    if (card) {
+      const r = card.getBoundingClientRect();
+      let s = lit.get(card);
+      if (!s) {
+        s = { glow: 0, wisps: WISPS.map(() => ({ x: 0, y: 0 })) };
+        lit.set(card, s);
+      }
+      s.px = x - r.left;
+      s.py = y - r.top;
+      s.on = true;
+      // Lighting up from dark: start the wisps under the pointer rather than sweeping in from where they faded.
+      if (s.glow < 0.02) s.wisps.forEach((p) => { p.x = s.px; p.y = s.py; });
+    }
+    if (!frame && lit.size) {
+      then = performance.now();
+      frame = requestAnimationFrame(tick);
+    }
+  };
+
   document.addEventListener('pointermove', (e) => {
     if (e.pointerType !== 'mouse') return;
-    const card = e.target instanceof Element ? e.target.closest('.spotlight') : null;
-    if (!card) return;
-    const r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-    card.style.setProperty('--my', `${e.clientY - r.top}px`);
+    pointer = { x: e.clientX, y: e.clientY };
+    aim(e.target instanceof Element ? e.target.closest('.spotlight') : null, e.clientX, e.clientY);
+  }, { passive: true });
+  // Leaving the window, or scrolling a different card under a still pointer, moves the light too.
+  document.addEventListener('pointerout', (e) => {
+    if (!e.relatedTarget) aim(null, 0, 0);
+  });
+  window.addEventListener('scroll', () => {
+    if (!pointer || !active) return;
+    const hit = document.elementFromPoint(pointer.x, pointer.y);
+    aim(hit ? hit.closest('.spotlight') : null, pointer.x, pointer.y);
   }, { passive: true });
 }
 
